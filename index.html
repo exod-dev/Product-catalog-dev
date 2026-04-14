@@ -642,6 +642,12 @@
       font-size: 0.92rem;
     }
 
+    .stock-chip.incoming-chip {
+      background: rgba(217, 119, 6, 0.08);
+      color: #9a5a05;
+      border-color: rgba(217, 119, 6, 0.12);
+    }
+
     .micro-tag {
       background: rgba(15,23,42,0.05);
       color: var(--muted);
@@ -655,6 +661,19 @@
       color: #0b7a55;
       border-color: rgba(15, 159, 110, 0.16);
       font-weight: 700;
+    }
+
+    .channel-chip-row + .secondary-list {
+      margin-top: 12px;
+    }
+
+    .channel-status-item strong.is-listed {
+      color: #0b7a55;
+    }
+
+    .channel-status-item strong.is-not-listed {
+      color: var(--muted-soft);
+      font-weight: 600;
     }
 
     .section-block {
@@ -1523,14 +1542,19 @@
     function formatMetric(value) {
       const raw = String(value ?? "").trim();
       if (raw === "") return "--";
-      const numeric = Number(String(raw).replace(/,/g, ""));
-      if (Number.isFinite(numeric)) {
-        return new Intl.NumberFormat("en-US", {
-          minimumFractionDigits: numeric % 1 === 0 ? 0 : 2,
-          maximumFractionDigits: 2
-        }).format(numeric);
+      const cleaned = raw.replace(/[$,%]/g, "").replace(/,/g, "").trim();
+      const match = cleaned.match(/-?\d+(?:\.\d+)?/);
+      if (match) {
+        const numeric = Number(match[0]);
+        if (Number.isFinite(numeric)) {
+          return new Intl.NumberFormat("en-US", {
+            minimumFractionDigits: numeric % 1 === 0 ? 0 : 2,
+            maximumFractionDigits: 2
+          }).format(numeric);
+        }
       }
-      return raw;
+      const plain = raw.replace(/\$/g, "").trim();
+      return plain || "--";
     }
 
     function buildEndpoints() {
@@ -1661,12 +1685,17 @@
         { label: "Pink", value: parseNumber(pinkPriceRaw), raw: pinkPriceRaw }
       ].filter((item) => isMeaningful(item.raw));
 
-      const channels = [
+      const channelPresence = [
         { label: "Walmart", value: getValue(record, "walmart") },
         { label: "Holt", value: getValue(record, "holt") },
         { label: "SDM", value: getValue(record, "sdm") },
         { label: "T&T", value: getValue(record, "tnt") }
-      ].filter((entry) => isMeaningful(entry.value));
+      ].map((entry) => ({
+        ...entry,
+        listed: isMeaningful(entry.value)
+      }));
+
+      const channels = channelPresence.filter((entry) => entry.listed);
 
       const product = {
         id: "product-" + index,
@@ -1713,6 +1742,7 @@
         heightRaw,
         extraPrices,
         channels,
+        channelPresence,
         raw: record
       };
 
@@ -2008,9 +2038,11 @@
             }).join('') + '</div>'
           : '';
 
-        const etaBanner = product.status === "incoming" || product.onOrderTotal > 0 || product.etaSummary
-          ? '<div class="eta-banner"><span>ETA ' + escapeHtml(product.etaSummary || 'Pending') + '</span><small>On order ' + escapeHtml(formatNumber(product.onOrderTotal)) + '</small></div>'
-          : '';
+        const etaBanner = product.etaSummary
+          ? '<div class="eta-banner"><span>ETA ' + escapeHtml(product.etaSummary) + '</span><small>Incoming stock</small></div>'
+          : (product.onOrderTotal > 0
+              ? '<div class="eta-banner"><span>ETA Pending</span><small>Incoming stock</small></div>'
+              : '');
 
         const productLink = hasValue(product.link)
           ? '<a class="ghost-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Open product</a>'
@@ -2026,43 +2058,43 @@
               '<span class="tag brand">' + escapeHtml(product.brand) + '</span>' +
               '<span class="tag category">' + escapeHtml(product.category) + '</span>' +
             '</div>' +
-            channelTags +
             '<div class="title-wrap">' +
               '<h2>' + escapeHtml(product.name) + '</h2>' +
               '<div class="subline">' +
                 '<span>SKU ' + escapeHtml(product.sku || "--") + '</span>' +
                 (hasValue(product.stockLocator) ? '<span>Stock locator ' + escapeHtml(product.stockLocator) + '</span>' : '') +
-                (isMeaningful(product.weight) ? '<span>Weight ' + escapeHtml(product.weight) + '</span>' : '') +
-                (hasValue(product.upc) ? '<span>Barcode ' + escapeHtml(product.upc) + '</span>' : '') +
               '</div>' +
             '</div>' +
             '<div class="section-block">' +
               '<div class="section-heading">Pricing</div>' +
               '<div class="price-grid">' +
-                '<div class="price-card featured"><span>Retail</span><strong>' + escapeHtml(formatCurrency(product.retail, product.retailRaw)) + '</strong></div>' +
+                '<div class="price-card featured"><span>Cost</span><strong>' + escapeHtml(formatCurrency(product.cost, product.costRaw)) + '</strong></div>' +
                 '<div class="price-card"><span>Wholesale</span><strong>' + escapeHtml(formatCurrency(product.wholesale, product.wholesaleRaw)) + '</strong></div>' +
-                '<div class="price-card"><span>Cost</span><strong>' + escapeHtml(formatCurrency(product.cost, product.costRaw)) + '</strong></div>' +
+                '<div class="price-card"><span>Retail</span><strong>' + escapeHtml(formatCurrency(product.retail, product.retailRaw)) + '</strong></div>' +
               '</div>' +
               extraPriceTags +
             '</div>' +
-            '<div class="section-divider"></div>' +
             '<div class="section-block">' +
               '<div class="section-heading">Stock</div>' +
               '<div class="stock-chip-row">' +
                 '<span class="stock-chip">TOR <strong>' + escapeHtml(formatNumber(product.availableTor)) + '</strong></span>' +
                 '<span class="stock-chip">VAN <strong>' + escapeHtml(formatNumber(product.availableVan)) + '</strong></span>' +
                 '<span class="stock-chip">ESNA <strong>' + escapeHtml(formatNumber(product.availableEsna)) + '</strong></span>' +
+                '<span class="stock-chip incoming-chip">On order <strong>' + escapeHtml(formatNumber(product.onOrderTotal)) + '</strong></span>' +
               '</div>' +
               etaBanner +
             '</div>' +
-            '<div class="section-divider"></div>' +
+            '<div class="section-block">' +
+              '<div class="section-heading">Channels</div>' +
+              renderChannelPresenceGrid(product) +
+            '</div>' +
             '<div class="section-block">' +
               '<div class="section-heading">Metrics</div>' +
               '<div class="secondary-list">' +
                 '<div class="secondary-item"><span>Barcode</span><strong>' + escapeHtml(product.upc || "--") + '</strong></div>' +
+                '<div class="secondary-item"><span>Weight</span><strong>' + escapeHtml(product.weight || "--") + '</strong></div>' +
                 '<div class="secondary-item"><span>Last 4 month</span><strong>' + escapeHtml(formatMetric(product.last4MonthRaw)) + '</strong></div>' +
                 '<div class="secondary-item"><span>Last 12 month</span><strong>' + escapeHtml(formatMetric(product.last12MonthRaw)) + '</strong></div>' +
-                '<div class="secondary-item"><span>On order</span><strong>' + escapeHtml(formatNumber(product.onOrderTotal)) + '</strong></div>' +
               '</div>' +
             '</div>' +
           '</div>' +
@@ -2278,8 +2310,30 @@
 
     function renderKeyValues(items) {
       return items.map((item) => {
-        return "<div class=\"kv-item\"><span>" + escapeHtml(item.label) + "</span><strong>" + escapeHtml(item.value || "--") + "</strong></div>";
-      }).join("");
+        return '<div class="kv-item"><span>' + escapeHtml(item.label) + '</span><strong>' + escapeHtml(item.value || '--') + '</strong></div>';
+      }).join('');
+    }
+
+    function formatChannelPresenceStatus(entry) {
+      const raw = String(entry?.value ?? "").trim();
+      const normalized = raw.toLowerCase();
+
+      if (!raw || ["0", "no", "n", "false", "not listed", "-", "--"].includes(normalized)) {
+        return { label: "Not listed", className: "is-not-listed" };
+      }
+
+      if (["1", "yes", "y", "true", "listed", "x", "o"].includes(normalized)) {
+        return { label: "Listed", className: "is-listed" };
+      }
+
+      return { label: raw, className: "is-listed" };
+    }
+
+    function renderChannelPresenceGrid(product) {
+      return '<div class="secondary-list">' + product.channelPresence.map((item) => {
+        const status = formatChannelPresenceStatus(item);
+        return '<div class="secondary-item channel-status-item"><span>' + escapeHtml(item.label) + '</span><strong class="' + escapeHtml(status.className) + '">' + escapeHtml(status.label) + '</strong></div>';
+      }).join('') + '</div>';
     }
 
     function openModal(productId) {
@@ -2313,9 +2367,9 @@
       ];
 
       const detailItems = [
-        { label: "Retail", value: formatCurrency(product.retail, product.retailRaw) },
-        { label: "Wholesale", value: formatCurrency(product.wholesale, product.wholesaleRaw) },
         { label: "Cost", value: formatCurrency(product.cost, product.costRaw) },
+        { label: "Wholesale", value: formatCurrency(product.wholesale, product.wholesaleRaw) },
+        { label: "Retail", value: formatCurrency(product.retail, product.retailRaw) },
         { label: "Dimensions", value: [product.lengthRaw, product.widthRaw, product.heightRaw].filter(isMeaningful).join(" x ") || "--" },
         { label: "External ID", value: product.externalId || "--" },
         { label: "Discontinued", value: product.discontinued ? "Yes" : (product.discontinuedRaw || "No") },
@@ -2329,11 +2383,9 @@
           }))) + '</div></div>'
         : '';
 
-      const channels = product.channels.length
-        ? '<div class="detail-card"><h4>Channels</h4><div class="channel-chip-row">' + product.channels.map((item) => {
-            return '<span class="channel-chip">' + escapeHtml(item.label) + '</span>';
-          }).join('') + '</div></div>'
-        : '';
+      const channels = '<div class="detail-card"><h4>Channels</h4>' +
+        renderChannelPresenceGrid(product) +
+      '</div>';
 
       const productLinkAction = hasValue(product.link)
         ? '<a class="card-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Open product page</a>'
