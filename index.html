@@ -214,7 +214,7 @@
 
     .toolbar-grid {
       display: grid;
-      grid-template-columns: 1.7fr repeat(4, minmax(0, 1fr)) auto auto;
+      grid-template-columns: 1.7fr repeat(4, minmax(0, 1fr)) auto;
       gap: 12px;
       align-items: end;
     }
@@ -258,6 +258,7 @@
     .toolbar-actions {
       display: flex;
       gap: 6px;
+      justify-content: flex-end;
       align-items: stretch;
     }
 
@@ -388,7 +389,7 @@
       border: 1px solid var(--border);
       background: #fff;
       color: var(--text);
-      font-weight: 700;
+      font-weight: 650;
       cursor: pointer;
       transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
     }
@@ -410,7 +411,7 @@
       text-align: center;
       color: var(--muted);
       font-size: 0.88rem;
-      font-weight: 700;
+      font-weight: 650;
     }
 
 
@@ -445,6 +446,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      justify-content: flex-end;
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 999px;
@@ -549,10 +551,11 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      justify-content: flex-end;
       padding: 8px 12px;
       border-radius: 999px;
       font-size: 0.84rem;
-      font-weight: 700;
+      font-weight: 650;
       backdrop-filter: blur(14px);
       background: rgba(255,255,255,0.92);
       border: 1px solid rgba(255,255,255,0.9);
@@ -579,7 +582,8 @@
     .card-body {
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 6px;
+      justify-content: flex-end;
       padding: 18px;
       flex: 1;
     }
@@ -600,8 +604,9 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      justify-content: flex-end;
       border-radius: 999px;
-      padding: 7px 10px;
+      padding: 6px 9px;
       font-size: 0.8rem;
       line-height: 1;
       border: 1px solid transparent;
@@ -646,7 +651,7 @@
       background: rgba(15, 159, 110, 0.1);
       color: #0b7a55;
       border-color: rgba(15, 159, 110, 0.16);
-      font-weight: 700;
+      font-weight: 650;
     }
 
     .channel-chip-row + .secondary-list {
@@ -670,7 +675,7 @@
     .info-box {
       border: 1px solid rgba(15, 23, 42, 0.08);
       border-radius: 18px;
-      padding: 8px 10px;
+      padding: 7px 9px;
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(15, 23, 42, 0.02));
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
     }
@@ -681,14 +686,14 @@
 
     .info-rows {
       display: grid;
-      gap: 3px;
+      gap: 2px;
     }
 
     .info-row {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      gap: 7px;
+      gap: 6px;
     }
 
     .info-row-label {
@@ -700,20 +705,38 @@
     .info-row-value {
       color: var(--text);
       font-size: 0.89rem;
-      font-weight: 800;
+      font-weight: 650;
       text-align: right;
       word-break: break-word;
     }
 
     .price-box-grid .info-rows {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 4px 10px;
+      gap: 3px 12px;
     }
 
     .price-box-grid .info-row,
     .price-box-grid .info-row-label,
     .price-box-grid .info-row-value {
       white-space: nowrap;
+    }
+
+    .price-box-grid .info-row {
+      align-items: flex-start;
+    }
+
+    .price-box-grid .info-row--stacked {
+      align-items: center;
+    }
+
+    .price-box-grid .info-row--stacked .info-row-label {
+      text-align: center;
+      white-space: normal;
+    }
+
+    .price-box-grid .info-row--stacked .info-row-value {
+      min-width: 52px;
+      text-align: center;
     }
 
     .availability-grid {
@@ -737,6 +760,7 @@
       display: flex;
       align-items: baseline;
       gap: 6px;
+      justify-content: flex-end;
       color: var(--muted);
       font-size: 0.92rem;
     }
@@ -761,7 +785,68 @@
 
     .eta-strip strong {
       color: var(--text);
-      font-weight: 800;
+      font-weight: 650;
+    }
+
+    .stock-table-wrap {
+      overflow-x: auto;
+    }
+
+    .stock-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .stock-table th,
+    .stock-table td {
+      padding: 5px 4px;
+      font-size: 0.78rem;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .stock-table thead th {
+      color: var(--muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .stock-table thead th:first-child,
+    .stock-table tbody th {
+      text-align: left;
+      width: 34%;
+    }
+
+    .stock-table tbody th {
+      color: var(--muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .stock-table td {
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .stock-table td strong {
+      font-weight: 650;
+    }
+
+    .stock-table tbody tr + tr {
+      border-top: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    .stock-table--compact th,
+    .stock-table--compact td {
+      padding: 4px 3px;
+      font-size: 0.76rem;
+    }
+
+    .stock-table--detail th,
+    .stock-table--detail td {
+      padding: 7px 6px;
+      font-size: 0.84rem;
     }
 
     .title-wrap h2 {
@@ -802,14 +887,14 @@
       display: inline-flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 6px;
+      gap: 5px;
       width: 100%;
     }
 
     .copy-button {
-      width: 22px;
-      height: 22px;
-      border-radius: 7px;
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
       border: 1px solid rgba(15, 23, 42, 0.08);
       background: #fff;
       color: var(--muted);
@@ -823,8 +908,8 @@
     }
 
     .copy-button svg {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       stroke: currentColor;
       fill: none;
       stroke-width: 1.8;
@@ -863,7 +948,7 @@
       min-height: 44px;
       border-radius: 14px;
       border: 1px solid var(--border);
-      font-weight: 700;
+      font-weight: 650;
       cursor: pointer;
       transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
       flex: 1;
@@ -1003,7 +1088,7 @@
       background: transparent;
       color: var(--muted);
       font-size: 0.9rem;
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: 0.01em;
       text-align: right;
       white-space: nowrap;
@@ -1012,7 +1097,7 @@
 
     .detail-sku strong {
       color: var(--text);
-      font-weight: 800;
+      font-weight: 650;
       margin-left: 6px;
     }
 
@@ -1047,6 +1132,7 @@
       display: block;
       font-size: 0.97rem;
       line-height: 1.4;
+      font-weight: 650;
       word-break: break-word;
     }
 
@@ -1205,8 +1291,11 @@
       }
 
       .info-row {
-        gap: 12px;
-      }
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px;
+    }
 
       .info-row-label,
       .info-row-value,
@@ -1317,13 +1406,7 @@
           </select>
         </div>
 
-        <label class="inline-toggle" for="stockOnlyToggle">
-          <input id="stockOnlyToggle" type="checkbox" />
-          Available only
-        </label>
-
         <div class="toolbar-actions">
-          <button type="button" id="refreshButton" class="primary-action">Refresh</button>
           <button type="button" id="resetButton" class="secondary-action">Reset</button>
         </div>
       </div>
@@ -1417,9 +1500,20 @@
       average: ["average"],
       supplierCode: ["supplierproductcode", "supplier code"],
       reserve: ["reserve"],
+      stockReserved: ["stockreserved", "stock reserved"],
       weight: ["weight"],
+      onHandTor: ["onhandtor", "on hand (tor)", "on hand tor"],
+      onHandVan: ["onhandvan", "on hand (van)", "on hand van"],
+      onHandEsna: ["onhandesna", "on hand (esna)", "on hand esna"],
+      onHandNew: ["onhandnew", "on hand (new)", "on hand new"],
       availableTor: ["availabletor", "available (tor)", "available tor"],
       availableVan: ["availablevan", "available (van)", "available van"],
+      availableEsna: ["availableesna", "available (esna)", "available esna"],
+      availableNew: ["availablenew", "available (new)", "available new"],
+      reserveTor: ["reservetor", "reserve (tor)", "reserve tor", "reservedtor", "reserved (tor)", "reserved tor"],
+      reserveVan: ["reservevan", "reserve (van)", "reserve van", "reservedvan", "reserved (van)", "reserved van"],
+      reserveEsna: ["reserveesna", "reserve (esna)", "reserve esna", "reservedesna", "reserved (esna)", "reserved esna"],
+      reserveNew: ["reservenew", "reserve (new)", "reserve new", "reservednew", "reserved (new)", "reserved new"],
       discontinued: ["discontinued"],
       last4Month: ["last4month", "last 4 month"],
       last12Month: ["last12month", "last 12 month", "12 month", "12month"],
@@ -1429,9 +1523,12 @@
       tnt: ["tandt", "tt", "t&t"],
       onOrderTor: ["onordertor", "on order (tor)", "on order tor"],
       onOrderVan: ["onordervan", "on order (van)", "on order van"],
+      onOrderEsna: ["onorderesna", "on order (esna)", "on order esna"],
+      onOrderNew: ["onordernew", "on order (new)", "on order new"],
       etaTor: ["etator", "eta(tor)", "eta tor"],
       etaVan: ["etavan", "eta(van)", "eta van"],
-      availableEsna: ["availableesna", "available (esna)", "available esna"],
+      etaEsna: ["etaesna", "eta(esna)", "eta esna"],
+      etaNew: ["etanew", "eta(new)", "eta new"],
       length: ["length"],
       width: ["width"],
       height: ["height"],
@@ -1469,10 +1566,7 @@
       categoryFilter: document.getElementById("categoryFilter"),
       brandFilter: document.getElementById("brandFilter"),
       statusFilter: document.getElementById("statusFilter"),
-      sortSelect: document.getElementById("sortSelect"),
-      stockOnlyToggle: document.getElementById("stockOnlyToggle"),
-      refreshButton: document.getElementById("refreshButton"),
-      resetButton: document.getElementById("resetButton"),
+      sortSelect: document.getElementById("sortSelect"),      resetButton: document.getElementById("resetButton"),
       categoryChips: document.getElementById("categoryChips"),
       resultsTitle: document.getElementById("resultsTitle"),
       resultsSubtitle: document.getElementById("resultsSubtitle"),
@@ -1653,6 +1747,54 @@
       return hasValue(value) ? String(value).trim() : "--";
     }
 
+    function formatEtaList(value) {
+      const raw = String(value ?? "").trim();
+      if (!hasValue(raw)) return "--";
+      const isoDates = Array.from(new Set((raw.match(/\\d{4}-\\d{2}-\\d{2}/g) || [])));
+      if (isoDates.length) {
+        return isoDates.map((item) => {
+          const parts = item.split("-");
+          return parts.length === 3 ? (parts[1] + "-" + parts[2] + " / " + parts[0]) : item;
+        }).join(" | ");
+      }
+      return raw;
+    }
+
+    function renderChannelChips(product) {
+      if (!product.channels.length) return "";
+      return '<div class="channel-chip-row">' + product.channels.map((item) => {
+        return '<span class="channel-chip">' + escapeHtml(item.label) + '</span>';
+      }).join("") + '</div>';
+    }
+
+    function renderStockTable(product, variant = "") {
+      const tableClass = ["stock-table", variant].filter(Boolean).join(" ");
+      const rows = [
+        { label: "On hand", values: [product.onHandTor, product.onHandVan, product.onHandEsna].map((value) => formatNumber(value)) },
+        { label: "Available", values: [product.availableTor, product.availableVan, product.availableEsna].map((value) => formatNumber(value)) },
+        { label: "Reserved", values: [product.reserveTor, product.reserveVan, product.reserveEsna].map((value) => formatNumber(value)) },
+        { label: "On order", values: [product.onOrderTor, product.onOrderVan, product.onOrderEsna].map((value) => formatNumber(value)) },
+        { label: "ETA", values: [formatEtaList(product.etaTorRaw), formatEtaList(product.etaVanRaw), formatEtaList(product.etaEsnaRaw)], isEta: true }
+      ];
+
+      return '<div class="stock-table-wrap"><table class="' + escapeHtml(tableClass) + '">' +
+        '<thead><tr><th></th><th>Tor</th><th>Van</th><th>Esna</th></tr></thead>' +
+        '<tbody>' + rows.map((row) => {
+          return '<tr><th scope="row">' + escapeHtml(row.label) + '</th>' + row.values.map((value) => {
+            return row.isEta ? '<td>' + escapeHtml(value || "--") + '</td>' : '<td><strong>' + escapeHtml(value) + '</strong></td>';
+          }).join("") + '</tr>';
+        }).join("") + '</tbody></table></div>';
+    }
+
+    function isDisplayableProduct(product) {
+      const sku = String(product.sku || "").trim().toLowerCase();
+      const name = String(product.name || "").trim().toLowerCase();
+      if (!sku || !name) return false;
+      if (sku.includes("#num!") || name.includes("#num!")) return false;
+      if (name === "unnamed product") return false;
+      return true;
+    }
+
     function formatSize(product) {
       const parts = [
         { value: product.lengthRaw, suffix: "(L)" },
@@ -1672,8 +1814,10 @@
       return '<div class="info-rows">' + items.map((item) => {
         const value = item.value || "--";
         const renderedValue = item.isHtml ? value : escapeHtml(value);
-        return '<div class="info-row">' +
-          '<span class="info-row-label">' + escapeHtml(item.label) + '</span>' +
+        const renderedLabel = item.isLabelHtml ? item.label : escapeHtml(item.label);
+        const rowClass = item.rowClass ? ' info-row--' + item.rowClass : "";
+        return '<div class="info-row' + rowClass + '">' +
+          '<span class="info-row-label">' + renderedLabel + '</span>' +
           '<strong class="info-row-value">' + renderedValue + '</strong>' +
         '</div>';
       }).join('') + '</div>';
@@ -1776,31 +1920,55 @@
       const retailRaw = getValue(record, "retail");
       const misshaPriceRaw = getValue(record, "misshaPrice");
       const pinkPriceRaw = getValue(record, "pinkPrice");
+      const onHandTorRaw = getValue(record, "onHandTor");
+      const onHandVanRaw = getValue(record, "onHandVan");
+      const onHandEsnaRaw = getValue(record, "onHandEsna");
+      const onHandNewRaw = getValue(record, "onHandNew");
       const availableTorRaw = getValue(record, "availableTor");
       const availableVanRaw = getValue(record, "availableVan");
       const availableEsnaRaw = getValue(record, "availableEsna");
+      const availableNewRaw = getValue(record, "availableNew");
+      const reserveTorRaw = getValue(record, "stockReserved") || getValue(record, "reserveTor") || getValue(record, "reserve");
+      const reserveVanRaw = "0";
+      const reserveEsnaRaw = "0";
+      const reserveNewRaw = "0";
       const onOrderTorRaw = getValue(record, "onOrderTor");
       const onOrderVanRaw = getValue(record, "onOrderVan");
+      const onOrderEsnaRaw = getValue(record, "onOrderEsna");
+      const onOrderNewRaw = getValue(record, "onOrderNew");
       const etaTorRaw = getValue(record, "etaTor");
       const etaVanRaw = getValue(record, "etaVan");
+      const etaEsnaRaw = getValue(record, "etaEsna");
+      const etaNewRaw = getValue(record, "etaNew");
       const discontinuedRaw = getValue(record, "discontinued");
       const last4MonthRaw = getValue(record, "last4Month");
       const lengthRaw = getValue(record, "length");
       const widthRaw = getValue(record, "width");
       const heightRaw = getValue(record, "height");
 
+      const onHandTor = parseNumber(onHandTorRaw);
+      const onHandVan = parseNumber(onHandVanRaw);
+      const onHandEsna = parseNumber(onHandEsnaRaw);
+      const onHandNew = parseNumber(onHandNewRaw);
       const availableTor = parseNumber(availableTorRaw);
       const availableVan = parseNumber(availableVanRaw);
       const availableEsna = parseNumber(availableEsnaRaw);
+      const availableNew = parseNumber(availableNewRaw);
+      const reserveTor = parseNumber(reserveTorRaw);
+      const reserveVan = parseNumber(reserveVanRaw);
+      const reserveEsna = parseNumber(reserveEsnaRaw);
+      const reserveNew = parseNumber(reserveNewRaw);
       const onOrderTor = parseNumber(onOrderTorRaw);
       const onOrderVan = parseNumber(onOrderVanRaw);
+      const onOrderEsna = parseNumber(onOrderEsnaRaw);
+      const onOrderNew = parseNumber(onOrderNewRaw);
       const totalAvailable = availableTor + availableVan + availableEsna;
-      const onOrderTotal = onOrderTor + onOrderVan;
+      const onOrderTotal = onOrderTor + onOrderVan + onOrderEsna;
       const discontinued = /discontinued/i.test(String(discontinuedRaw || ""));
 
-      const etaSummary = Array.from(new Set([etaTorRaw, etaVanRaw].map(extractIsoDate).filter(Boolean)))
-        .sort((a, b) => a.localeCompare(b))
-        .map((value) => formatDate(value))
+      const etaSummary = [etaTorRaw, etaVanRaw, etaEsnaRaw]
+        .map((value) => formatEtaList(value))
+        .filter((value) => value && value !== "--")
         .join(" / ");
 
       const extraPrices = [
@@ -1844,20 +2012,28 @@
         wholesaleRaw,
         retail: parseNumber(retailRaw),
         retailRaw,
+        onHandTor,
+        onHandVan,
+        onHandEsna,
+        onHandNew,
         availableTor,
         availableVan,
         availableEsna,
+        availableNew,
+        reserveTor,
+        reserveVan,
+        reserveEsna,
+        reserveNew,
         onOrderTor,
         onOrderVan,
-        availableTorRaw,
-        availableVanRaw,
-        availableEsnaRaw,
-        onOrderTorRaw,
-        onOrderVanRaw,
+        onOrderEsna,
+        onOrderNew,
         totalAvailable,
         onOrderTotal,
         etaTorRaw,
         etaVanRaw,
+        etaEsnaRaw,
+        etaNewRaw,
         etaSummary,
         discontinued,
         discontinuedRaw,
@@ -1929,8 +2105,7 @@
         const matchesCategory = state.category === "all" || product.category === state.category;
         const matchesBrand = state.brand === "all" || product.brand === state.brand;
         const matchesStatus = state.status === "all" || product.status === state.status;
-        const matchesStockOnly = !state.stockOnly || product.totalAvailable > 0;
-        return matchesQuery && matchesCategory && matchesBrand && matchesStatus && matchesStockOnly;
+        return matchesQuery && matchesCategory && matchesBrand && matchesStatus;
       });
 
       state.filtered = sortProducts(filtered);
@@ -2066,7 +2241,7 @@
       const plainValue = hasValue(value) ? String(value).trim() : "--";
       const copyButton = renderCopyButton(value, label);
       if (!copyButton) return escapeHtml(plainValue);
-      return '<span class="copy-inline"><span>' + escapeHtml(plainValue) + '</span>' + copyButton + '</span>';
+      return '<span class="copy-inline">' + copyButton + '<span>' + escapeHtml(plainValue) + '</span></span>';
     }
 
     function updateResultsMeta() {
@@ -2087,9 +2262,7 @@
       if (state.search) pills.push("Search: " + state.search);
       if (state.category !== "all") pills.push("Category: " + state.category);
       if (state.brand !== "all") pills.push("Brand: " + state.brand);
-      if (state.status !== "all") pills.push("Status: " + prettyStatus(state.status));
-      if (state.stockOnly) pills.push("Available only");
-      if (state.sort !== "name-asc") {
+      if (state.status !== "all") pills.push("Status: " + prettyStatus(state.status));      if (state.sort !== "name-asc") {
         const sortLabelMap = {
           "name-asc": "Name A-Z",
           "price-asc": "Retail low-high",
@@ -2162,18 +2335,19 @@
         elements.productGrid.classList.add("hidden");
         elements.paginationBar.classList.add("hidden");
         elements.stateCard.classList.remove("hidden");
-        elements.stateCard.innerHTML = "<strong>No products match the current filters.</strong>Try clearing search terms or switching category, brand, and stock filters.";
+        elements.stateCard.innerHTML = "<strong>No products match the current filters.</strong>Try clearing search terms or switching category, brand, or status filters.";
         return;
       }
 
       const visibleProducts = getVisibleProducts();
       const html = visibleProducts.map((product) => {
         const pinkPrice = product.extraPrices.find((item) => String(item.label).toLowerCase() === "pink");
+        const channelChips = renderChannelChips(product);
         const specBox = '<div class="info-box">' + renderInfoRows([
           { label: "SKU", value: formatPlainValue(product.sku) },
           { label: "Barcode", value: renderValueWithCopy(product.upc, "barcode"), isHtml: true },
           { label: "Loc", value: formatPlainValue(product.stockLocator) },
-          { label: "Reserve", value: formatPlainValue(product.reserveRaw) }
+          { label: "Weight", value: formatPlainValue(product.weight) }
         ]) + '</div>';
 
         const priceBox = '<div class="info-box"><div class="price-box-grid">' +
@@ -2181,33 +2355,13 @@
             { label: "Cost", value: formatCurrency(product.cost, product.costRaw) },
             { label: "Wholesale", value: formatCurrency(product.wholesale, product.wholesaleRaw) },
             { label: "Retail", value: formatCurrency(product.retail, product.retailRaw) },
-            { label: "Pink", value: pinkPrice ? formatCurrency(pinkPrice.value, pinkPrice.raw) : "--" }
+            { label: "Pink", value: pinkPrice ? formatCurrency(pinkPrice.value, pinkPrice.raw) : "--" },
+            { label: "Last 4<br>month", value: formatMetric(product.last4MonthRaw), isLabelHtml: true, rowClass: "stacked" },
+            { label: "Last 12<br>month", value: formatMetric(product.last12MonthRaw), isLabelHtml: true, rowClass: "stacked" }
           ]) +
         '</div></div>';
 
-        const stockBox = '<div class="info-box">' +
-          '<div class="availability-grid">' +
-            '<div class="availability-city">' +
-              '<div class="availability-city-title">Toronto</div>' +
-              '<div class="availability-line"><span>ON :</span><strong>' + escapeHtml(formatNumber(product.onOrderTor)) + '</strong></div>' +
-              '<div class="availability-line"><span>Ava :</span><strong>' + escapeHtml(formatNumber(product.availableTor)) + '</strong></div>' +
-            '</div>' +
-            '<div class="availability-city">' +
-              '<div class="availability-city-title">Vancouver</div>' +
-              '<div class="availability-line"><span>ON :</span><strong>' + escapeHtml(formatNumber(product.onOrderVan)) + '</strong></div>' +
-              '<div class="availability-line"><span>Ava :</span><strong>' + escapeHtml(formatNumber(product.availableVan)) + '</strong></div>' +
-            '</div>' +
-            '<div class="availability-city">' +
-              '<div class="availability-city-title">Esna</div>' +
-              '<div class="availability-line"><span>Ava :</span><strong>' + escapeHtml(formatNumber(product.availableEsna)) + '</strong></div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="eta-strip">' +
-            '<span>ETA(Tor) : <strong>' + escapeHtml(formatDate(product.etaTorRaw) || "--") + '</strong></span>' +
-            '<span>|</span>' +
-            '<span>ETA(Van) : <strong>' + escapeHtml(formatDate(product.etaVanRaw) || "--") + '</strong></span>' +
-          '</div>' +
-        '</div>';
+        const stockBox = '<div class="info-box">' + renderStockTable(product, 'stock-table--compact') + '</div>';
 
         const productLink = hasValue(product.link)
           ? '<a class="ghost-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Open product</a>'
@@ -2226,12 +2380,13 @@
             '<div class="title-wrap">' +
               '<h2>' + escapeHtml(product.name) + '</h2>' +
             '</div>' +
+            channelChips +
             specBox +
             priceBox +
             stockBox +
           '</div>' +
           '<div class="card-footer">' +
-            '<button type="button" class="card-action" data-open-product="' + escapeHtml(product.id) + '">Quick view</button>' +
+            '<button type="button" class="card-action primary-action" data-open-product="' + escapeHtml(product.id) + '">Quick view</button>' +
             productLink +
           '</div>' +
         '</article>';
@@ -2314,7 +2469,7 @@
           .slice(3)
           .map((row, index) => buildRecord(row, state.columns, index))
           .map((record, index) => transformProduct(record, index))
-          .filter((product) => /^[1-9]/.test(String(product.sku || "").trim()));
+          .filter((product) => isDisplayableProduct(product));
 
         state.products = products;
         state.lastSync = new Date();
@@ -2348,9 +2503,7 @@
       elements.categoryFilter.value = "all";
       elements.brandFilter.value = "all";
       elements.statusFilter.value = "all";
-      elements.sortSelect.value = "name-asc";
-      elements.stockOnlyToggle.checked = false;
-      renderAll();
+      elements.sortSelect.value = "name-asc";      renderAll();
     }
 
     function attachEventListeners() {
@@ -2382,15 +2535,7 @@
         state.sort = event.target.value;
         state.currentPage = 1;
         renderAll();
-      });
-
-      elements.stockOnlyToggle.addEventListener("change", (event) => {
-        state.stockOnly = event.target.checked;
-        state.currentPage = 1;
-        renderAll();
-      });
-
-      elements.pageSizeSelect.addEventListener("change", (event) => {
+      });      elements.pageSizeSelect.addEventListener("change", (event) => {
         state.pageSize = Number(event.target.value) || 20;
         state.currentPage = 1;
         renderAll();
@@ -2412,8 +2557,6 @@
       });
 
       elements.resetButton.addEventListener("click", resetFilters);
-      elements.refreshButton.addEventListener("click", loadData);
-
       elements.categoryChips.addEventListener("click", (event) => {
         const target = event.target.closest("[data-category-chip]");
         if (!target) return;
@@ -2502,10 +2645,7 @@
     }
 
     function renderChannelPresenceGrid(product) {
-      return '<div class="secondary-list">' + product.channelPresence.map((item) => {
-        const status = formatChannelPresenceStatus(item);
-        return '<div class="secondary-item channel-status-item"><span>' + escapeHtml(item.label) + '</span><strong class="' + escapeHtml(status.className) + '">' + escapeHtml(status.label) + '</strong></div>';
-      }).join('') + '</div>';
+      return renderChannelChips(product);
     }
 
     function openModal(productId) {
@@ -2516,6 +2656,7 @@
       elements.modalTitle.textContent = product.name;
       elements.modalSubtitle.textContent = product.brand + " / " + product.category + " / " + prettyStatus(product.status);
 
+      const pinkPrice = product.extraPrices.find((item) => String(item.label).toLowerCase() === "pink");
       const overviewItems = [
         { label: "Barcode", value: product.upc || "--" },
         { label: "Stock location", value: product.stockLocator || "--" },
@@ -2523,42 +2664,21 @@
         { label: "Weight", value: product.weight || "--" },
         { label: "Supplier", value: product.supplier || "--" },
         { label: "Supplier code", value: product.supplierCode || "--" },
-        { label: "Last 4 month", value: formatMetric(product.last4MonthRaw) },
-        { label: "Last 12 month", value: formatMetric(product.last12MonthRaw) }
-      ];
-
-      const availabilityItems = [
-        { label: "Available - Toronto", value: formatNumber(product.availableTor) },
-        { label: "Available - Vancouver", value: formatNumber(product.availableVan) },
-        { label: "Available - Esna", value: formatNumber(product.availableEsna) },
-        { label: "ETA - Toronto", value: formatDate(product.etaTorRaw) || "--" },
-        { label: "ETA - Vancouver", value: formatDate(product.etaVanRaw) || "--" },
-        { label: "On order - Toronto", value: formatNumber(product.onOrderTor) },
-        { label: "On order - Vancouver", value: formatNumber(product.onOrderVan) },
-        { label: "Status", value: prettyStatus(product.status) }
+        { label: "Last 4<br>month", value: formatMetric(product.last4MonthRaw), isLabelHtml: true, rowClass: "stacked" },
+        { label: "Last 12<br>month", value: formatMetric(product.last12MonthRaw), isLabelHtml: true, rowClass: "stacked" }
       ];
 
       const detailItems = [
         { label: "Cost", value: formatCurrency(product.cost, product.costRaw) },
         { label: "Wholesale", value: formatCurrency(product.wholesale, product.wholesaleRaw) },
         { label: "Retail", value: formatCurrency(product.retail, product.retailRaw) },
-        { label: "Dimensions", value: [product.lengthRaw, product.widthRaw, product.heightRaw].filter(isMeaningful).join(" x ") || "--" },
+        { label: "Pink", value: pinkPrice ? formatCurrency(pinkPrice.value, pinkPrice.raw) : "--" },
         { label: "External ID", value: product.externalId || "--" },
-        { label: "Discontinued", value: product.discontinued ? "Yes" : (product.discontinuedRaw || "No") },
-        { label: "ETA summary", value: product.etaSummary || "--" }
+        { label: "Discontinued", value: product.discontinued ? "Yes" : (product.discontinuedRaw || "No") }
       ];
 
-      const extraPrices = product.extraPrices.length
-        ? '<div class="detail-card"><h4>Extra price tiers</h4><div class="kv-grid">' + renderKeyValues(product.extraPrices.map((item) => ({
-            label: item.label,
-            value: formatCurrency(item.value, item.raw)
-          }))) + '</div></div>'
-        : '';
-
       const channels = product.channels.length
-        ? '<div class="detail-card"><h4>Channels</h4>' +
-            renderChannelPresenceGrid(product) +
-          '</div>'
+        ? '<div class="detail-card"><h4>Channels</h4>' + renderChannelPresenceGrid(product) + '</div>'
         : '';
 
       const productLinkAction = hasValue(product.link)
@@ -2584,14 +2704,13 @@
           channels +
           '<div class="detail-card">' +
             '<h4>Availability</h4>' +
-            '<div class="kv-grid">' + renderKeyValues(availabilityItems) + '</div>' +
+            renderStockTable(product, 'stock-table--detail') +
           '</div>' +
           '<div class="detail-card">' +
             '<h4>Pricing and details</h4>' +
             '<div class="kv-grid">' + renderKeyValues(detailItems) + '</div>' +
             '<div class="detail-actions">' + productLinkAction + '</div>' +
           '</div>' +
-          extraPrices +
         '</div>';
 
       elements.modalLayer.classList.add("open");
