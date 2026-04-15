@@ -72,7 +72,7 @@
       background: linear-gradient(135deg, #0f172a 0%, #12213c 48%, #1d4ed8 100%);
       color: #fff;
       border-radius: 28px;
-      padding: 22px 24px;
+      padding: 18px 22px;
       box-shadow: var(--shadow);
     }
 
@@ -89,8 +89,8 @@
     .hero-top {
       display: flex;
       justify-content: space-between;
-      gap: 18px;
-      align-items: flex-start;
+      gap: 10px;
+      align-items: center;
       flex-wrap: wrap;
       position: relative;
       z-index: 1;
@@ -105,69 +105,55 @@
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.16);
       color: rgba(255, 255, 255, 0.86);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       backdrop-filter: blur(8px);
-      margin-bottom: 14px;
+      margin-bottom: 0;
     }
 
     .hero h1 {
       margin: 0;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.05;
+      font-size: clamp(1.8rem, 3vw, 2.45rem);
+      line-height: 1.08;
       letter-spacing: -0.03em;
-      max-width: 10ch;
+      max-width: none;
+      white-space: nowrap;
     }
 
     .hero p {
-      margin: 10px 0 0;
-      max-width: 60ch;
-      color: rgba(255, 255, 255, 0.82);
-      line-height: 1.55;
-      font-size: 0.98rem;
+      display: none;
     }
 
     .hero-meta {
-      display: grid;
-      gap: 10px;
-      min-width: min(100%, 280px);
+      display: none;
     }
 
     .hero-meta-card {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 18px;
-      padding: 14px 16px;
-      backdrop-filter: blur(12px);
+      display: none;
     }
 
     .hero-meta-card span {
-      display: block;
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.72);
-      margin-bottom: 6px;
+      display: none;
     }
 
     .hero-meta-card strong {
-      font-size: 1rem;
-      font-weight: 600;
-      word-break: break-word;
+      display: none;
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 22px;
+      gap: 12px;
+      margin-top: 18px;
     }
 
     .stat-card {
       background: var(--panel);
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
-      border-radius: 20px;
-      padding: 18px;
+      border-radius: 18px;
+      padding: 15px 16px;
       backdrop-filter: blur(14px);
-      min-height: 112px;
+      min-height: 98px;
       text-align: left;
     }
 
@@ -196,21 +182,21 @@
     .stat-card span {
       display: block;
       color: var(--muted);
-      font-size: 0.88rem;
-      margin-bottom: 14px;
+      font-size: 0.84rem;
+      margin-bottom: 10px;
     }
 
     .stat-card strong {
       display: block;
-      font-size: clamp(1.35rem, 2vw, 1.85rem);
+      font-size: clamp(1.18rem, 1.8vw, 1.6rem);
       letter-spacing: -0.03em;
     }
 
     .stat-card small {
       display: block;
-      margin-top: 8px;
+      margin-top: 6px;
       color: var(--muted-soft);
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       line-height: 1.4;
     }
 
@@ -271,7 +257,7 @@
 
     .toolbar-actions {
       display: flex;
-      gap: 10px;
+      gap: 6px;
       align-items: stretch;
     }
 
@@ -336,7 +322,7 @@
       padding: 10px 14px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
     }
 
@@ -349,7 +335,7 @@
     .results-head {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 16px;
+      gap: 10px;
       align-items: center;
       margin-top: 20px;
     }
@@ -365,7 +351,7 @@
 
     .results-meta span {
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
     }
 
     .results-actions {
@@ -423,7 +409,7 @@
       min-width: 108px;
       text-align: center;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 700;
     }
 
@@ -442,7 +428,7 @@
       gap: 14px;
       flex-wrap: wrap;
       margin-top: 22px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       border-radius: 20px;
       border: 1px solid var(--border);
       background: var(--panel-solid);
@@ -451,7 +437,7 @@
 
     .pagination-summary {
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       line-height: 1.5;
     }
 
@@ -488,8 +474,8 @@
     .product-grid {
       margin-top: 18px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
     }
 
     .product-card {
@@ -593,7 +579,7 @@
     .card-body {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 9px;
       padding: 18px;
       flex: 1;
     }
@@ -616,7 +602,7 @@
       gap: 6px;
       border-radius: 999px;
       padding: 7px 10px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       line-height: 1;
       border: 1px solid transparent;
     }
@@ -639,7 +625,7 @@
     }
 
     .stock-chip strong {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
     }
 
     .stock-chip.incoming-chip {
@@ -681,81 +667,107 @@
       gap: 10px;
     }
 
-    .section-heading {
+    .info-box {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 18px;
+      padding: 8px 10px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(15, 23, 42, 0.02));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+    }
+
+    .info-box + .info-box {
+      margin-top: 1px;
+    }
+
+    .info-rows {
+      display: grid;
+      gap: 3px;
+    }
+
+    .info-row {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--muted-soft);
-      font-size: 0.75rem;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 7px;
+    }
+
+    .info-row-label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      flex-shrink: 0;
+    }
+
+    .info-row-value {
+      color: var(--text);
+      font-size: 0.89rem;
       font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      text-align: right;
+      word-break: break-word;
     }
 
-    .section-heading::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: rgba(15, 23, 42, 0.08);
+    .price-box-grid .info-rows {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px 10px;
     }
 
-    .section-divider {
-      height: 1px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.09), rgba(15, 23, 42, 0.04));
+    .price-box-grid .info-row,
+    .price-box-grid .info-row-label,
+    .price-box-grid .info-row-value {
+      white-space: nowrap;
+    }
+
+    .availability-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .availability-city {
+      display: grid;
+      gap: 5px;
+    }
+
+    .availability-city-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .availability-line {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .availability-line strong {
+      color: var(--text);
+      font-size: 0.96rem;
+      font-weight: 800;
+    }
+
+    .eta-strip {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .eta-strip strong {
+      color: var(--text);
+      font-weight: 800;
     }
 
     .title-wrap h2 {
       margin: 0;
       font-size: 1.08rem;
       line-height: 1.35;
-      letter-spacing: -0.02em;
-    }
-
-    .subline {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .subline span {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .price-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .price-card {
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.03), rgba(15, 23, 42, 0.01));
-      border: 1px solid rgba(15, 23, 42, 0.06);
-      border-radius: 16px;
-      padding: 12px;
-      min-height: 84px;
-    }
-
-    .price-card.featured {
-      background: linear-gradient(180deg, rgba(37, 99, 235, 0.11), rgba(37, 99, 235, 0.04));
-      border-color: rgba(37, 99, 235, 0.14);
-    }
-
-    .price-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.8rem;
-      margin-bottom: 8px;
-    }
-
-    .price-card strong {
-      display: block;
-      font-size: 1.02rem;
       letter-spacing: -0.02em;
     }
 
@@ -776,33 +788,64 @@
     .secondary-item span {
       display: block;
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       margin-bottom: 6px;
     }
 
     .secondary-item strong {
-      font-size: 0.95rem;
+      font-size: 0.91rem;
       display: block;
       word-break: break-word;
     }
 
-    .eta-banner {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
+    .copy-inline {
+      display: inline-flex;
       align-items: center;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(217, 119, 6, 0.08);
-      border: 1px solid rgba(217, 119, 6, 0.12);
-      color: #9a5a05;
-      font-weight: 700;
-      font-size: 0.9rem;
+      justify-content: flex-end;
+      gap: 6px;
+      width: 100%;
     }
 
-    .eta-banner small {
-      color: rgba(154, 90, 5, 0.85);
-      font-weight: 600;
+    .copy-button {
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 0;
+      transition: transform 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .copy-button svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .copy-button:hover {
+      color: var(--text);
+      border-color: rgba(37, 99, 235, 0.22);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .copy-button.copied {
+      color: #1d4ed8;
+      border-color: rgba(37, 99, 235, 0.28);
+      background: rgba(37, 99, 235, 0.08);
+    }
+
+    .copy-button:focus-visible {
+      outline: 2px solid rgba(37, 99, 235, 0.22);
+      outline-offset: 2px;
     }
 
     .card-footer {
@@ -867,7 +910,7 @@
       justify-content: space-between;
       gap: 16px;
       align-items: start;
-      padding: 22px 24px;
+      padding: 18px 22px;
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
@@ -930,10 +973,47 @@
 
     .detail-card {
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 18px;
+      border-radius: 18px;
+      padding: 15px 16px;
       background: #fff;
       box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    }
+
+    .detail-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: nowrap;
+    }
+
+    .detail-card-head h4 {
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .detail-sku {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      text-align: right;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .detail-sku strong {
+      color: var(--text);
+      font-weight: 800;
+      margin-left: 6px;
     }
 
     .detail-card h4 {
@@ -951,7 +1031,7 @@
     .kv-item {
       background: rgba(15,23,42,0.03);
       border-radius: 16px;
-      padding: 12px 14px;
+      padding: 11px 13px;
       border: 1px solid rgba(15,23,42,0.05);
       min-height: 78px;
     }
@@ -995,7 +1075,7 @@
     .footer-note {
       margin-top: 26px;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.86rem;
       line-height: 1.6;
       text-align: center;
     }
@@ -1090,8 +1170,8 @@
         width: 100%;
       }
 
-      .price-grid,
-      .secondary-list,
+      .price-box-grid .info-rows,
+      .availability-grid,
       .kv-grid {
         grid-template-columns: 1fr;
       }
@@ -1123,6 +1203,23 @@
         min-width: 0;
         flex: 1;
       }
+
+      .info-row {
+        gap: 12px;
+      }
+
+      .info-row-label,
+      .info-row-value,
+      .availability-city-title,
+      .availability-line {
+        font-size: 0.88rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 {
+        white-space: normal;
+      }
     }
 
     @media (max-width: 560px) {
@@ -1145,18 +1242,7 @@
   <div class="page-shell">
     <section class="hero">
       <div class="hero-top">
-        <div>
-          <h1>Products catalog</h1>
-          <p>
-            Search faster, compare prices quickly, and scan inventory at a glance.
-          </p>
-        </div>
-        <div class="hero-meta">
-          <div class="hero-meta-card">
-            <span>Last updated</span>
-            <strong id="lastSyncMeta">Waiting for live data...</strong>
-          </div>
-        </div>
+        <h1>Product Catalog</h1>
       </div>
     </section>
 
@@ -1297,7 +1383,7 @@
           <h3 id="modalTitle">Product details</h3>
           <p id="modalSubtitle">Live details from the sheet.</p>
         </div>
-        <button type="button" class="close-button" id="closeModalButton" aria-label="Close details">×</button>
+        <button type="button" class="close-button" id="closeModalButton" aria-label="Close details">&times;</button>
       </div>
       <div class="modal-body" id="modalBody"></div>
     </div>
@@ -1330,6 +1416,7 @@
       externalId: ["id", "external id"],
       average: ["average"],
       supplierCode: ["supplierproductcode", "supplier code"],
+      reserve: ["reserve"],
       weight: ["weight"],
       availableTor: ["availabletor", "available (tor)", "available tor"],
       availableVan: ["availablevan", "available (van)", "available van"],
@@ -1530,6 +1617,11 @@
       return normalized !== "" && normalized !== "n/a" && normalized !== "#n/a" && normalized !== "--";
     }
 
+    function isListedChannelValue(value) {
+      const normalized = String(value ?? "").trim().toLowerCase();
+      return normalized !== "" && !["0", "0.00", "no", "n", "false", "not listed", "-", "--", "n/a", "#n/a"].includes(normalized);
+    }
+
     function normalizeExternalUrl(value) {
       const raw = String(value || "").trim();
       if (!raw) return "";
@@ -1555,6 +1647,36 @@
       }
       const plain = raw.replace(/\$/g, "").trim();
       return plain || "--";
+    }
+
+    function formatPlainValue(value) {
+      return hasValue(value) ? String(value).trim() : "--";
+    }
+
+    function formatSize(product) {
+      const parts = [
+        { value: product.lengthRaw, suffix: "(L)" },
+        { value: product.widthRaw, suffix: "(W)" },
+        { value: product.heightRaw, suffix: "(H)" }
+      ];
+
+      if (!parts.some((part) => hasValue(part.value))) return "--";
+
+      return parts.map((part) => {
+        const text = hasValue(part.value) ? String(part.value).trim() : "0";
+        return text + part.suffix;
+      }).join(" x ");
+    }
+
+    function renderInfoRows(items) {
+      return '<div class="info-rows">' + items.map((item) => {
+        const value = item.value || "--";
+        const renderedValue = item.isHtml ? value : escapeHtml(value);
+        return '<div class="info-row">' +
+          '<span class="info-row-label">' + escapeHtml(item.label) + '</span>' +
+          '<strong class="info-row-value">' + renderedValue + '</strong>' +
+        '</div>';
+      }).join('') + '</div>';
     }
 
     function buildEndpoints() {
@@ -1645,6 +1767,7 @@
       const weight = getValue(record, "weight");
       const upc = getValue(record, "upc");
       const supplierCode = getValue(record, "supplierCode");
+      const reserveRaw = getValue(record, "reserve");
       const externalId = getValue(record, "externalId");
       const average = getValue(record, "average");
       const last12MonthRaw = getValue(record, "last12Month") || average;
@@ -1692,7 +1815,7 @@
         { label: "T&T", value: getValue(record, "tnt") }
       ].map((entry) => ({
         ...entry,
-        listed: isMeaningful(entry.value)
+        listed: isListedChannelValue(entry.value)
       }));
 
       const channels = channelPresence.filter((entry) => entry.listed);
@@ -1710,6 +1833,7 @@
         weight,
         upc,
         supplierCode,
+        reserveRaw,
         externalId,
         average,
         last4MonthRaw,
@@ -1927,6 +2051,24 @@
       }).join("");
     }
 
+    function renderCopyButton(value, label) {
+      if (!hasValue(value)) return "";
+      const safeLabel = escapeHtml(label);
+      return '<button type="button" class="copy-button" data-copy-value="' + escapeHtml(String(value).trim()) + '" data-copy-label="' + safeLabel + '" aria-label="Copy ' + safeLabel + '" title="Copy ' + safeLabel + '">' +
+        '<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+          '<rect x="7" y="3" width="10" height="12" rx="2"></rect>' +
+          '<rect x="3" y="7" width="10" height="10" rx="2"></rect>' +
+        '</svg>' +
+      '</button>';
+    }
+
+    function renderValueWithCopy(value, label) {
+      const plainValue = hasValue(value) ? String(value).trim() : "--";
+      const copyButton = renderCopyButton(value, label);
+      if (!copyButton) return escapeHtml(plainValue);
+      return '<span class="copy-inline"><span>' + escapeHtml(plainValue) + '</span>' + copyButton + '</span>';
+    }
+
     function updateResultsMeta() {
       const total = state.products.length;
       const matching = state.filtered.length;
@@ -2026,23 +2168,46 @@
 
       const visibleProducts = getVisibleProducts();
       const html = visibleProducts.map((product) => {
-        const extraPriceTags = product.extraPrices.length
-          ? '<div class="micro-tag-row">' + product.extraPrices.map((item) => {
-              return '<span class="micro-tag">' + escapeHtml(item.label) + ': ' + escapeHtml(formatCurrency(item.value, item.raw)) + '</span>';
-            }).join('') + '</div>'
-          : '';
+        const pinkPrice = product.extraPrices.find((item) => String(item.label).toLowerCase() === "pink");
+        const specBox = '<div class="info-box">' + renderInfoRows([
+          { label: "SKU", value: formatPlainValue(product.sku) },
+          { label: "Barcode", value: renderValueWithCopy(product.upc, "barcode"), isHtml: true },
+          { label: "Loc", value: formatPlainValue(product.stockLocator) },
+          { label: "Reserve", value: formatPlainValue(product.reserveRaw) }
+        ]) + '</div>';
 
-        const channelTags = product.channels.length
-          ? '<div class="channel-chip-row">' + product.channels.map((item) => {
-              return '<span class="channel-chip">' + escapeHtml(item.label) + '</span>';
-            }).join('') + '</div>'
-          : '';
+        const priceBox = '<div class="info-box"><div class="price-box-grid">' +
+          renderInfoRows([
+            { label: "Cost", value: formatCurrency(product.cost, product.costRaw) },
+            { label: "Wholesale", value: formatCurrency(product.wholesale, product.wholesaleRaw) },
+            { label: "Retail", value: formatCurrency(product.retail, product.retailRaw) },
+            { label: "Pink", value: pinkPrice ? formatCurrency(pinkPrice.value, pinkPrice.raw) : "--" }
+          ]) +
+        '</div></div>';
 
-        const etaBanner = product.etaSummary
-          ? '<div class="eta-banner"><span>ETA ' + escapeHtml(product.etaSummary) + '</span><small>Incoming stock</small></div>'
-          : (product.onOrderTotal > 0
-              ? '<div class="eta-banner"><span>ETA Pending</span><small>Incoming stock</small></div>'
-              : '');
+        const stockBox = '<div class="info-box">' +
+          '<div class="availability-grid">' +
+            '<div class="availability-city">' +
+              '<div class="availability-city-title">Toronto</div>' +
+              '<div class="availability-line"><span>ON :</span><strong>' + escapeHtml(formatNumber(product.onOrderTor)) + '</strong></div>' +
+              '<div class="availability-line"><span>Ava :</span><strong>' + escapeHtml(formatNumber(product.availableTor)) + '</strong></div>' +
+            '</div>' +
+            '<div class="availability-city">' +
+              '<div class="availability-city-title">Vancouver</div>' +
+              '<div class="availability-line"><span>ON :</span><strong>' + escapeHtml(formatNumber(product.onOrderVan)) + '</strong></div>' +
+              '<div class="availability-line"><span>Ava :</span><strong>' + escapeHtml(formatNumber(product.availableVan)) + '</strong></div>' +
+            '</div>' +
+            '<div class="availability-city">' +
+              '<div class="availability-city-title">Esna</div>' +
+              '<div class="availability-line"><span>Ava :</span><strong>' + escapeHtml(formatNumber(product.availableEsna)) + '</strong></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="eta-strip">' +
+            '<span>ETA(Tor) : <strong>' + escapeHtml(formatDate(product.etaTorRaw) || "--") + '</strong></span>' +
+            '<span>|</span>' +
+            '<span>ETA(Van) : <strong>' + escapeHtml(formatDate(product.etaVanRaw) || "--") + '</strong></span>' +
+          '</div>' +
+        '</div>';
 
         const productLink = hasValue(product.link)
           ? '<a class="ghost-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Open product</a>'
@@ -2060,43 +2225,10 @@
             '</div>' +
             '<div class="title-wrap">' +
               '<h2>' + escapeHtml(product.name) + '</h2>' +
-              '<div class="subline">' +
-                '<span>SKU ' + escapeHtml(product.sku || "--") + '</span>' +
-                (hasValue(product.stockLocator) ? '<span>Stock locator ' + escapeHtml(product.stockLocator) + '</span>' : '') +
-              '</div>' +
             '</div>' +
-            '<div class="section-block">' +
-              '<div class="section-heading">Pricing</div>' +
-              '<div class="price-grid">' +
-                '<div class="price-card featured"><span>Cost</span><strong>' + escapeHtml(formatCurrency(product.cost, product.costRaw)) + '</strong></div>' +
-                '<div class="price-card"><span>Wholesale</span><strong>' + escapeHtml(formatCurrency(product.wholesale, product.wholesaleRaw)) + '</strong></div>' +
-                '<div class="price-card"><span>Retail</span><strong>' + escapeHtml(formatCurrency(product.retail, product.retailRaw)) + '</strong></div>' +
-              '</div>' +
-              extraPriceTags +
-            '</div>' +
-            '<div class="section-block">' +
-              '<div class="section-heading">Stock</div>' +
-              '<div class="stock-chip-row">' +
-                '<span class="stock-chip">TOR <strong>' + escapeHtml(formatNumber(product.availableTor)) + '</strong></span>' +
-                '<span class="stock-chip">VAN <strong>' + escapeHtml(formatNumber(product.availableVan)) + '</strong></span>' +
-                '<span class="stock-chip">ESNA <strong>' + escapeHtml(formatNumber(product.availableEsna)) + '</strong></span>' +
-                '<span class="stock-chip incoming-chip">On order <strong>' + escapeHtml(formatNumber(product.onOrderTotal)) + '</strong></span>' +
-              '</div>' +
-              etaBanner +
-            '</div>' +
-            '<div class="section-block">' +
-              '<div class="section-heading">Channels</div>' +
-              renderChannelPresenceGrid(product) +
-            '</div>' +
-            '<div class="section-block">' +
-              '<div class="section-heading">Metrics</div>' +
-              '<div class="secondary-list">' +
-                '<div class="secondary-item"><span>Barcode</span><strong>' + escapeHtml(product.upc || "--") + '</strong></div>' +
-                '<div class="secondary-item"><span>Weight</span><strong>' + escapeHtml(product.weight || "--") + '</strong></div>' +
-                '<div class="secondary-item"><span>Last 4 month</span><strong>' + escapeHtml(formatMetric(product.last4MonthRaw)) + '</strong></div>' +
-                '<div class="secondary-item"><span>Last 12 month</span><strong>' + escapeHtml(formatMetric(product.last12MonthRaw)) + '</strong></div>' +
-              '</div>' +
-            '</div>' +
+            specBox +
+            priceBox +
+            stockBox +
           '</div>' +
           '<div class="card-footer">' +
             '<button type="button" class="card-action" data-open-product="' + escapeHtml(product.id) + '">Quick view</button>' +
@@ -2120,15 +2252,17 @@
       updateResultsMeta();
       renderProducts();
       updatePaginationControls();
-      elements.lastSyncMeta.textContent = state.lastSync
-        ? new Intl.DateTimeFormat("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-            hour: "numeric",
-            minute: "2-digit"
-          }).format(state.lastSync)
-        : "Waiting for live data...";
+      if (elements.lastSyncMeta) {
+        elements.lastSyncMeta.textContent = state.lastSync
+          ? new Intl.DateTimeFormat("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              hour: "numeric",
+              minute: "2-digit"
+            }).format(state.lastSync)
+          : "Waiting for live data...";
+      }
     }
 
     async function fetchSheetText() {
@@ -2180,7 +2314,7 @@
           .slice(3)
           .map((row, index) => buildRecord(row, state.columns, index))
           .map((record, index) => transformProduct(record, index))
-          .filter((product) => isMeaningful(product.name) || isMeaningful(product.sku));
+          .filter((product) => /^[1-9]/.test(String(product.sku || "").trim()));
 
         state.products = products;
         state.lastSync = new Date();
@@ -2301,6 +2435,42 @@
         if (event.target === elements.modalLayer) closeModal();
       });
 
+      document.addEventListener("click", async (event) => {
+        const button = event.target.closest("[data-copy-value]");
+        if (!button) return;
+
+        const value = button.getAttribute("data-copy-value") || "";
+        if (!value) return;
+
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(value);
+          } else {
+            const tempInput = document.createElement("textarea");
+            tempInput.value = value;
+            tempInput.setAttribute("readonly", "");
+            tempInput.style.position = "absolute";
+            tempInput.style.left = "-9999px";
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+          }
+
+          const originalLabel = button.getAttribute("data-copy-label") || "value";
+          button.classList.add("copied");
+          button.setAttribute("aria-label", "Copied " + originalLabel);
+          button.setAttribute("title", "Copied " + originalLabel);
+          window.setTimeout(() => {
+            button.classList.remove("copied");
+            button.setAttribute("aria-label", "Copy " + originalLabel);
+            button.setAttribute("title", "Copy " + originalLabel);
+          }, 1200);
+        } catch (error) {
+          console.error("Copy failed", error);
+        }
+      });
+
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && elements.modalLayer.classList.contains("open")) {
           closeModal();
@@ -2310,7 +2480,9 @@
 
     function renderKeyValues(items) {
       return items.map((item) => {
-        return '<div class="kv-item"><span>' + escapeHtml(item.label) + '</span><strong>' + escapeHtml(item.value || '--') + '</strong></div>';
+        const value = item.value || '--';
+        const renderedValue = item.isHtml ? value : escapeHtml(value);
+        return '<div class="kv-item"><span>' + escapeHtml(item.label) + '</span><strong>' + renderedValue + '</strong></div>';
       }).join('');
     }
 
@@ -2345,10 +2517,10 @@
       elements.modalSubtitle.textContent = product.brand + " / " + product.category + " / " + prettyStatus(product.status);
 
       const overviewItems = [
-        { label: "SKU", value: product.sku || "--" },
-        { label: "Stock locator", value: product.stockLocator || "--" },
-        { label: "Weight", value: product.weight || "--" },
         { label: "Barcode", value: product.upc || "--" },
+        { label: "Stock location", value: product.stockLocator || "--" },
+        { label: "Size", value: formatSize(product) },
+        { label: "Weight", value: product.weight || "--" },
         { label: "Supplier", value: product.supplier || "--" },
         { label: "Supplier code", value: product.supplierCode || "--" },
         { label: "Last 4 month", value: formatMetric(product.last4MonthRaw) },
@@ -2383,9 +2555,11 @@
           }))) + '</div></div>'
         : '';
 
-      const channels = '<div class="detail-card"><h4>Channels</h4>' +
-        renderChannelPresenceGrid(product) +
-      '</div>';
+      const channels = product.channels.length
+        ? '<div class="detail-card"><h4>Channels</h4>' +
+            renderChannelPresenceGrid(product) +
+          '</div>'
+        : '';
 
       const productLinkAction = hasValue(product.link)
         ? '<a class="card-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Open product page</a>'
@@ -2396,7 +2570,10 @@
         '</aside>' +
         '<div class="detail-stack">' +
           '<div class="detail-card">' +
-            '<h4>Overview</h4>' +
+            '<div class="detail-card-head">' +
+              '<h4>Overview</h4>' +
+              '<span class="detail-sku">SKU - <strong>' + escapeHtml(product.sku || "--") + '</strong></span>' +
+            '</div>' +
             '<div class="kv-grid">' + renderKeyValues(overviewItems) + '</div>' +
             '<div class="detail-actions">' +
               '<span class="active-filter-pill">Status: ' + escapeHtml(prettyStatus(product.status)) + '</span>' +
