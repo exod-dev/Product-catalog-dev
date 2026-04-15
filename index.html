@@ -182,7 +182,7 @@
     .stat-card span {
       display: block;
       color: var(--muted);
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       margin-bottom: 10px;
     }
 
@@ -196,7 +196,7 @@
       display: block;
       margin-top: 6px;
       color: var(--muted-soft);
-      font-size: 0.78rem;
+      font-size: 0.79rem;
       line-height: 1.4;
     }
 
@@ -225,7 +225,7 @@
     }
 
     .field label {
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       color: var(--muted);
       font-weight: 600;
     }
@@ -347,7 +347,7 @@
     }
 
     .results-meta strong {
-      font-size: 1rem;
+      font-size: 1.01rem;
     }
 
     .results-meta span {
@@ -452,7 +452,7 @@
       border-radius: 999px;
       padding: 8px 12px;
       color: var(--muted);
-      font-size: 0.86rem;
+      font-size: 0.85rem;
     }
 
     .state-card {
@@ -554,7 +554,7 @@
       justify-content: flex-end;
       padding: 8px 12px;
       border-radius: 999px;
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       font-weight: 650;
       backdrop-filter: blur(14px);
       background: rgba(255,255,255,0.92);
@@ -583,8 +583,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      justify-content: flex-end;
-      padding: 18px;
+      padding: 14px 18px 18px;
       flex: 1;
     }
 
@@ -607,7 +606,7 @@
       justify-content: flex-end;
       border-radius: 999px;
       padding: 6px 9px;
-      font-size: 0.8rem;
+      font-size: 0.79rem;
       line-height: 1;
       border: 1px solid transparent;
     }
@@ -698,13 +697,13 @@
 
     .info-row-label {
       color: var(--muted);
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       flex-shrink: 0;
     }
 
     .info-row-value {
       color: var(--text);
-      font-size: 0.89rem;
+      font-size: 0.85rem;
       font-weight: 650;
       text-align: right;
       word-break: break-word;
@@ -794,14 +793,16 @@
 
     .stock-table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 12px 0;
       table-layout: fixed;
+      margin-left: -12px;
     }
 
     .stock-table th,
     .stock-table td {
       padding: 5px 4px;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       text-align: center;
       vertical-align: middle;
     }
@@ -810,12 +811,14 @@
       color: var(--muted);
       font-weight: 600;
       white-space: nowrap;
+      text-align: center;
+      padding-bottom: 4px;
     }
 
     .stock-table thead th:first-child,
     .stock-table tbody th {
       text-align: left;
-      width: 34%;
+      width: 24%;
     }
 
     .stock-table tbody th {
@@ -826,7 +829,8 @@
 
     .stock-table td {
       color: var(--text);
-      word-break: break-word;
+      word-break: normal;
+      white-space: nowrap;
     }
 
     .stock-table td strong {
@@ -839,19 +843,19 @@
 
     .stock-table--compact th,
     .stock-table--compact td {
-      padding: 4px 3px;
-      font-size: 0.76rem;
+      padding: 3px 2px;
+      font-size: 0.67rem;
     }
 
     .stock-table--detail th,
     .stock-table--detail td {
-      padding: 7px 6px;
-      font-size: 0.84rem;
+      padding: 6px 5px;
+      font-size: 0.75rem;
     }
 
     .title-wrap h2 {
       margin: 0;
-      font-size: 1.08rem;
+      font-size: 1.01rem;
       line-height: 1.35;
       letter-spacing: -0.02em;
     }
@@ -873,12 +877,12 @@
     .secondary-item span {
       display: block;
       color: var(--muted);
-      font-size: 0.78rem;
+      font-size: 0.79rem;
       margin-bottom: 6px;
     }
 
     .secondary-item strong {
-      font-size: 0.91rem;
+      font-size: 0.92rem;
       display: block;
       word-break: break-word;
     }
@@ -1087,7 +1091,7 @@
       border: 0;
       background: transparent;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       letter-spacing: 0.01em;
       text-align: right;
@@ -1103,7 +1107,7 @@
 
     .detail-card h4 {
       margin: 0 0 16px;
-      font-size: 1rem;
+      font-size: 1.01rem;
       letter-spacing: -0.02em;
     }
 
@@ -1124,13 +1128,13 @@
     .kv-item span {
       display: block;
       color: var(--muted);
-      font-size: 0.78rem;
+      font-size: 0.79rem;
       margin-bottom: 6px;
     }
 
     .kv-item strong {
       display: block;
-      font-size: 0.97rem;
+      font-size: 0.92rem;
       line-height: 1.4;
       font-weight: 650;
       word-break: break-word;
@@ -1161,7 +1165,7 @@
     .footer-note {
       margin-top: 26px;
       color: var(--muted);
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       line-height: 1.6;
       text-align: center;
     }
@@ -1729,13 +1733,14 @@
       const raw = String(value ?? "").trim();
       if (raw === "") return "--";
       const cleaned = raw.replace(/[$,%]/g, "").replace(/,/g, "").trim();
-      const match = cleaned.match(/-?\d+(?:\.\d+)?/);
+      const match = cleaned.match(/-?\d+(?:\.(\d+))?/);
       if (match) {
         const numeric = Number(match[0]);
         if (Number.isFinite(numeric)) {
+          const decimals = match[1] ? match[1].length : 0;
           return new Intl.NumberFormat("en-US", {
-            minimumFractionDigits: numeric % 1 === 0 ? 0 : 2,
-            maximumFractionDigits: 2
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: Math.max(decimals, 2)
           }).format(numeric);
         }
       }
@@ -1754,7 +1759,7 @@
       if (isoDates.length) {
         return isoDates.map((item) => {
           const parts = item.split("-");
-          return parts.length === 3 ? (parts[1] + "-" + parts[2] + " / " + parts[0]) : item;
+          return parts.length === 3 ? (parts[1] + "-" + parts[2]) : item;
         }).join(" | ");
       }
       return raw;
@@ -1914,30 +1919,30 @@
       const reserveRaw = getValue(record, "reserve");
       const externalId = getValue(record, "externalId");
       const average = getValue(record, "average");
-      const last12MonthRaw = getValue(record, "last12Month") || average;
+      const last12MonthRaw = (record.__cells?.[14] ?? getValue(record, "last12Month") ?? average);
       const costRaw = getValue(record, "cost");
       const wholesaleRaw = getValue(record, "wholesale");
       const retailRaw = getValue(record, "retail");
       const misshaPriceRaw = getValue(record, "misshaPrice");
       const pinkPriceRaw = getValue(record, "pinkPrice");
-      const onHandTorRaw = getValue(record, "onHandTor");
-      const onHandVanRaw = getValue(record, "onHandVan");
+      const onHandTorRaw = record.__cells?.[36] ?? getValue(record, "onHandTor");
+      const onHandVanRaw = record.__cells?.[37] ?? getValue(record, "onHandVan");
       const onHandEsnaRaw = getValue(record, "onHandEsna");
       const onHandNewRaw = getValue(record, "onHandNew");
-      const availableTorRaw = getValue(record, "availableTor");
-      const availableVanRaw = getValue(record, "availableVan");
-      const availableEsnaRaw = getValue(record, "availableEsna");
+      const availableTorRaw = record.__cells?.[17] ?? getValue(record, "availableTor");
+      const availableVanRaw = record.__cells?.[18] ?? getValue(record, "availableVan");
+      const availableEsnaRaw = record.__cells?.[29] ?? getValue(record, "availableEsna");
       const availableNewRaw = getValue(record, "availableNew");
-      const reserveTorRaw = getValue(record, "stockReserved") || getValue(record, "reserveTor") || getValue(record, "reserve");
+      const reserveTorRaw = (record.__cells?.[35] ?? getValue(record, "stockReserved") ?? getValue(record, "reserveTor") ?? getValue(record, "reserve"));
       const reserveVanRaw = "0";
       const reserveEsnaRaw = "0";
       const reserveNewRaw = "0";
-      const onOrderTorRaw = getValue(record, "onOrderTor");
-      const onOrderVanRaw = getValue(record, "onOrderVan");
+      const onOrderTorRaw = record.__cells?.[25] ?? getValue(record, "onOrderTor");
+      const onOrderVanRaw = record.__cells?.[26] ?? getValue(record, "onOrderVan");
       const onOrderEsnaRaw = getValue(record, "onOrderEsna");
       const onOrderNewRaw = getValue(record, "onOrderNew");
-      const etaTorRaw = getValue(record, "etaTor");
-      const etaVanRaw = getValue(record, "etaVan");
+      const etaTorRaw = record.__cells?.[27] ?? getValue(record, "etaTor");
+      const etaVanRaw = record.__cells?.[28] ?? getValue(record, "etaVan");
       const etaEsnaRaw = getValue(record, "etaEsna");
       const etaNewRaw = getValue(record, "etaNew");
       const discontinuedRaw = getValue(record, "discontinued");
@@ -2100,8 +2105,9 @@
 
     function filterProducts() {
       const query = state.search.trim().toLowerCase();
+      const queryTokens = query ? query.split(/\s+/).filter(Boolean) : [];
       const filtered = state.products.filter((product) => {
-        const matchesQuery = !query || product.searchBlob.includes(query);
+        const matchesQuery = !queryTokens.length || queryTokens.every((token) => product.searchBlob.includes(token));
         const matchesCategory = state.category === "all" || product.category === state.category;
         const matchesBrand = state.brand === "all" || product.brand === state.brand;
         const matchesStatus = state.status === "all" || product.status === state.status;
@@ -2356,8 +2362,8 @@
             { label: "Wholesale", value: formatCurrency(product.wholesale, product.wholesaleRaw) },
             { label: "Retail", value: formatCurrency(product.retail, product.retailRaw) },
             { label: "Pink", value: pinkPrice ? formatCurrency(pinkPrice.value, pinkPrice.raw) : "--" },
-            { label: "Last 4<br>month", value: formatMetric(product.last4MonthRaw), isLabelHtml: true, rowClass: "stacked" },
-            { label: "Last 12<br>month", value: formatMetric(product.last12MonthRaw), isLabelHtml: true, rowClass: "stacked" }
+            { label: "Last 4 m", value: formatMetric(product.last4MonthRaw) },
+            { label: "Last 12 m", value: formatMetric(product.last12MonthRaw) }
           ]) +
         '</div></div>';
 
@@ -2664,8 +2670,8 @@
         { label: "Weight", value: product.weight || "--" },
         { label: "Supplier", value: product.supplier || "--" },
         { label: "Supplier code", value: product.supplierCode || "--" },
-        { label: "Last 4<br>month", value: formatMetric(product.last4MonthRaw), isLabelHtml: true, rowClass: "stacked" },
-        { label: "Last 12<br>month", value: formatMetric(product.last12MonthRaw), isLabelHtml: true, rowClass: "stacked" }
+        { label: "Last 4 m", value: formatMetric(product.last4MonthRaw) },
+        { label: "Last 12 m", value: formatMetric(product.last12MonthRaw) }
       ];
 
       const detailItems = [
