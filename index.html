@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -545,21 +545,22 @@
 
     .status-badge {
       position: absolute;
-      top: 14px;
-      right: 14px;
+      top: 12px;
+      right: 10px;
       z-index: 2;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      justify-content: flex-end;
-      padding: 8px 12px;
+      justify-content: center;
+      padding: 5px 10px;
       border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 650;
-      backdrop-filter: blur(14px);
+      font-size: 0.72rem;
+      line-height: 1;
+      font-weight: 700;
+      backdrop-filter: blur(12px);
       background: rgba(255,255,255,0.92);
       border: 1px solid rgba(255,255,255,0.9);
-      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+      white-space: nowrap;
     }
 
     .status-badge.in-stock {
@@ -578,22 +579,43 @@
       color: var(--bad);
       background: rgba(254, 242, 242, 0.94);
     }
-
     .card-body {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      padding: 14px 18px 18px;
+      gap: 0;
+      padding: 8px 18px 14px;
       flex: 1;
     }
 
     .tag-row,
     .stock-chip-row,
-    .micro-tag-row,
+    .micro-tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
     .channel-chip-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      margin-bottom: 10px; 
+    }
+
+    .channel-chip-row,
+    .channel-chip-row.is-empty {
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 8px;
+      margin: 0;
+      overflow: hidden;
+    }
+    .channel-chip-row.is-empty {
+      visibility: hidden;
     }
 
     .tag,
@@ -606,7 +628,7 @@
       justify-content: flex-end;
       border-radius: 999px;
       padding: 6px 9px;
-      font-size: 0.79rem;
+      font-size: 0.8rem;
       line-height: 1;
       border: 1px solid transparent;
     }
@@ -614,6 +636,7 @@
     .tag.brand {
       background: rgba(15, 23, 42, 0.06);
       color: var(--text);
+      border-color: rgba(15, 23, 42, 0.05);
     }
 
     .tag.category {
@@ -665,10 +688,9 @@
       color: var(--muted-soft);
       font-weight: 600;
     }
-
     .section-block {
       display: grid;
-      gap: 10px;
+      gap: 12px;
     }
 
     .info-box {
@@ -680,7 +702,7 @@
     }
 
     .info-box + .info-box {
-      margin-top: 1px;
+      margin-top: 3px;
     }
 
     .info-rows {
@@ -697,31 +719,71 @@
 
     .info-row-label {
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.80rem;
       flex-shrink: 0;
     }
 
     .info-row-value {
-      color: var(--text);
-      font-size: 0.85rem;
-      font-weight: 650;
+      color: #0f172a;
+      font-size: 0.72rem;
+      font-weight: 549;
       text-align: right;
       word-break: break-word;
     }
 
     .price-box-grid .info-rows {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 3px 12px;
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 4px 0 !important; /* 좌우 패딩 0 */
+      gap: 0 !important;
+      width: 100% !important;
     }
 
-    .price-box-grid .info-row,
-    .price-box-grid .info-row-label,
+    .price-box-grid .info-row{
+      display: flex !important;
+      flex-direction: column !important; /* 라벨-숫자 위아래 배치 유지 */
+      align-items: center !important;
+      padding: 0 10px !important; /* 양옆 간격을 줘서 벌어지게 함 */
+      border-right: 1px solid rgba(15, 23, 42, 0.08); /* 구분선 추가 */
+    }
+
+    /* 마지막 항목은 구분선 제거 */
+    .price-box-grid .info-row:last-child {
+      margin-left: 0 !important;
+    }
+
+    .price-box-grid .info-row-label {
+      font-size: 0.7rem !important;
+      color: var(--muted-soft) !important;
+      white-space: nowrap;                /* 라벨 줄바꿈 방지 */
+    }
+
     .price-box-grid .info-row-value {
-      white-space: nowrap;
+      font-size: 0.85rem !important;
+      font-weight: 549 !important;
+      white-space: nowrap;                /* 숫자 줄바꿈 방지 */
     }
 
     .price-box-grid .info-row {
-      align-items: flex-start;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: baseline !important;
+      gap: 4px !important;
+      padding: 0 !important; /* 핵심: 모든 패딩 제거 */
+      margin: 0 !important;    /* 마진도 제거 */
+      flex: none !important;
+    }
+    
+    /* 1. Cost (맨 왼쪽) */
+    .price-box-grid .info-row:first-child {
+      justify-content: center !important;
+    }
+    /* Wholesale(두 번째 항목)만 가운데 정렬 */
+    .price-box-grid .info-row:nth-child(2) {
+      flex: 1 !important; /* 가운데에서 공간을 다 차지하며 양끝을 밀어냄 */
+      justify-content: center !important;
     }
 
     .price-box-grid .info-row--stacked {
@@ -787,54 +849,49 @@
       font-weight: 650;
     }
 
-    .stock-table-wrap {
-      overflow-x: auto;
-    }
-
     .stock-table {
       width: 100%;
       border-collapse: separate;
-      border-spacing: 12px 0;
+      border-spacing: 0;
       table-layout: fixed;
-      margin-left: -12px;
     }
 
     .stock-table th,
     .stock-table td {
-      padding: 5px 4px;
-      font-size: 0.75rem;
+      padding: 4px 6px;
+      font-size: 0.74rem;
       text-align: center;
       vertical-align: middle;
     }
 
-    .stock-table thead th {
+   .stock-table thead th {
       color: var(--muted);
-      font-weight: 600;
-      white-space: nowrap;
+      font-weight: 550;
+      font-size: 0.74rem;
       text-align: center;
-      padding-bottom: 4px;
+      white-space: nowrap;
     }
 
     .stock-table thead th:first-child,
     .stock-table tbody th {
       text-align: left;
-      width: 24%;
+      width: 28%;
+      padding-left: 0;
     }
-
     .stock-table tbody th {
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 549;
+      font-size: 0.78rem;
+      text-align: left;
       white-space: nowrap;
     }
-
     .stock-table td {
       color: var(--text);
-      word-break: normal;
-      white-space: nowrap;
+      text-align: center;
     }
 
     .stock-table td strong {
-      font-weight: 650;
+      font-weight: 549;
     }
 
     .stock-table tbody tr + tr {
@@ -843,50 +900,188 @@
 
     .stock-table--compact th,
     .stock-table--compact td {
-      padding: 3px 2px;
-      font-size: 0.67rem;
+      padding: 3px 6px;
+      font-size: 0.72rem;
     }
 
     .stock-table--detail th,
     .stock-table--detail td {
-      padding: 6px 5px;
-      font-size: 0.75rem;
+      padding: 8px 6px;
+      font-size: 0.8rem;
+    }
+
+    .stock-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 12px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .stock-metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      font-size: 0.74rem;
+    }
+
+    .stock-metric span {
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .stock-metric strong {
+      color: var(--text);
+      font-weight: 549;
+      white-space: nowrap;
+    }
+    .eta-box {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+      display: grid;
+      grid-template-columns: 37px 6px minmax(0, 1fr);
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .eta-label {
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 400;
+    }
+
+    .eta-gap {
+      display: block;
+    }
+
+    .eta-track {
+      display: grid;
+      align-items: center;
+      column-gap: 5px;
+      min-width: 0;
+    }
+
+    .eta-track--tor,
+    .eta-track--van,
+    .eta-track--empty {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .eta-track--tor-van {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: 16px;
+      width: 100%;
+    }
+
+    .eta-entry {
+      color: var(--muted);
+      display: inline-flex;
+      align-items: baseline;
+      gap: 2px;
+      min-width: 0;
+      white-space: nowrap;
+    }
+    
+    .eta-track--tor-van .eta-entry:first-child {
+      justify-self: end;
+      text-align: right;
+      padding-right: 8px;
+    }
+
+    .eta-track--tor-van .eta-entry:last-child {
+      justify-self: end;
+      text-align: right;
+      padding-right: 6px;
+    }
+
+    .eta-entry span,
+    .eta-entry strong {
+      font-size: 0.71rem;
+      font-weight: 400;
+    }
+
+    .eta-entry strong {
+      color: var(--text);
+    }
+
+    .eta-separator {
+      color: rgba(15, 23, 42, 0.6);
+      font-size: 0.78rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .title-slot {
+      height: calc(1.35em * 2 + 6px); /* 2줄 높이 고정 */
+      display: flex;
+      align-items: flex-end; /* 한 줄일 때 아래쪽(두 번째 줄 위치)에 붙게 함 */
+      width: 100%;
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+
+    .title-wrap {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      min-height: calc(1.35em * 2);
+      display: flex;
+      align-items: flex-end;
     }
 
     .title-wrap h2 {
       margin: 0;
-      font-size: 1.01rem;
+      padding-left: 0;
+      font-size: 1.08rem;
       line-height: 1.35;
       letter-spacing: -0.02em;
+      width: 100%;
+      
+      /* 2줄 제한 설정 */
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      text-overflow: ellipsis;
+
+      /* 줄바꿈 규칙 최적화: 단어가 아닌 글자 단위로 꽉 채움 */
+      word-break: break-all;      /* 단어 중간이라도 끝에 닿으면 바로 줄바꿈 */
+      overflow-wrap: anywhere;    /* 모든 지점에서 줄바꿈 허용 */
+      white-space: normal;
     }
 
-    .secondary-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+    /* 복사 버튼이 텍스트와 너무 떨어지지 않게 보정 */
+    .title-wrap h2 .copy-button {
+      display: inline-flex;
+      vertical-align: middle;
+      margin-top: -2px; /* 텍스트 높이와 맞춤 */
+      margin-right: 4;  /* 4px에서 0으로 변경 (완전히 붙음) */
+      padding: 0;       /* 혹시 모를 내부 여백도 제거 */
     }
 
-    .secondary-item {
-      background: rgba(15,23,42,0.03);
-      border-radius: 14px;
-      padding: 10px 12px;
-      min-height: 66px;
-      border: 1px solid rgba(15,23,42,0.05);
+    .channel-slot {
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
     }
 
-    .secondary-item span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.79rem;
-      margin-bottom: 6px;
+    .channel-slot-wrap {
+      height: 35px;
+      min-height: 35px;
+      max-height: 35px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 0 0 6px 0;
+      overflow: hidden;
     }
-
-    .secondary-item strong {
-      font-size: 0.92rem;
-      display: block;
-      word-break: break-word;
-    }
-
     .copy-inline {
       display: inline-flex;
       align-items: center;
@@ -894,7 +1089,6 @@
       gap: 5px;
       width: 100%;
     }
-
     .copy-button {
       width: 20px;
       height: 20px;
@@ -902,98 +1096,25 @@
       border: 1px solid rgba(15, 23, 42, 0.08);
       background: #fff;
       color: var(--muted);
-      cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
       padding: 0;
-      transition: transform 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+    }
+
+    .copy-button:hover {
+      border-color: rgba(59, 130, 246, 0.24);
+      color: #1d4ed8;
+      background: rgba(239, 246, 255, 0.72);
     }
 
     .copy-button svg {
       width: 13px;
       height: 13px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.8;
     }
-
-    .copy-button:hover {
-      color: var(--text);
-      border-color: rgba(37, 99, 235, 0.22);
-      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
-      transform: translateY(-1px);
-    }
-
-    .copy-button.copied {
-      color: #1d4ed8;
-      border-color: rgba(37, 99, 235, 0.28);
-      background: rgba(37, 99, 235, 0.08);
-    }
-
-    .copy-button:focus-visible {
-      outline: 2px solid rgba(37, 99, 235, 0.22);
-      outline-offset: 2px;
-    }
-
-    .card-footer {
-      display: flex;
-      gap: 10px;
-      padding: 0 18px 18px;
-      margin-top: auto;
-    }
-
-    .card-action,
-    .ghost-action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      font-weight: 650;
-      cursor: pointer;
-      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
-      flex: 1;
-      background: #fff;
-      color: var(--text);
-      padding: 0 12px;
-      text-align: center;
-    }
-
-    .card-action {
-      background: var(--text);
-      color: #fff;
-      border-color: transparent;
-    }
-
-    .modal-layer {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(15, 23, 42, 0.62);
-      padding: 18px;
-      z-index: 90;
-      backdrop-filter: blur(10px);
-    }
-
-    .modal-layer.open {
-      display: flex;
-    }
-
-    .modal-card {
-      width: min(100%, 1120px);
-      max-height: min(92vh, 960px);
-      overflow: auto;
-      border-radius: 28px;
-      background: #fff;
-      box-shadow: 0 30px 80px rgba(15,23,42,0.26);
-      border: 1px solid rgba(255,255,255,0.72);
-    }
-
     .modal-header {
       display: flex;
       justify-content: space-between;
@@ -1061,11 +1182,11 @@
     }
 
     .detail-card {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 15px 16px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 20px;
+      padding: 18px;
       background: #fff;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
     }
 
     .detail-card-head {
@@ -1106,8 +1227,8 @@
     }
 
     .detail-card h4 {
-      margin: 0 0 16px;
-      font-size: 1.01rem;
+      margin: 0 0 14px;
+      font-size: 1rem;
       letter-spacing: -0.02em;
     }
 
@@ -1174,6 +1295,36 @@
       display: none !important;
     }
 
+    .card-footer {
+      display: flex;
+      gap: 10px;
+      padding: 0 18px 18px;
+      margin-top: auto;
+    }
+
+    .card-action,
+    .ghost-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      font-weight: 650;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      flex: 1;
+      background: #fff;
+      color: var(--text);
+      padding: 0 12px;
+      text-align: center;
+    }
+
+    .card-action {
+      background: var(--text);
+      color: #fff;
+      border-color: transparent;
+    }
     @media (max-width: 1180px) {
       .toolbar-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1270,6 +1421,31 @@
         flex-direction: column;
       }
     }
+    .modal-layer {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.62);
+      padding: 18px;
+      z-index: 90;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-layer.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(100%, 1120px);
+      max-height: min(92vh, 960px);
+      overflow: auto;
+      border-radius: 28px;
+      background: #fff;
+      box-shadow: 0 30px 80px rgba(15,23,42,0.26);
+      border: 1px solid rgba(255,255,255,0.72);
+    }
 
     @media (max-width: 520px) {
       .stats-grid {
@@ -1329,13 +1505,29 @@
         flex-direction: column;
       }
     }
+
+    .title-with-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0; 
+    }
+
+    .title-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
   </style>
 </head>
 <body>
   <div class="page-shell">
     <section class="hero">
       <div class="hero-top">
-        <h1>Product Catalog</h1>
+        <h1 class="title-with-icon">
+          <img src="images/icon.png" alt="" class="title-icon">
+          Product Catalog
+        </h1>
       </div>
     </section>
 
@@ -1475,7 +1667,6 @@
       <div class="modal-body" id="modalBody"></div>
     </div>
   </div>
-
   <script>
     const CONFIG = {
       sheetId: "1xxiv7wBH73-gOJfMA8vK7BGu2GoQK6jj3SUR0IJJcdU",
@@ -1712,7 +1903,11 @@
 
     function hasValue(value) {
       const normalized = String(value ?? "").trim().toLowerCase();
-      return normalized !== "" && normalized !== "n/a" && normalized !== "#n/a" && normalized !== "--";
+      return normalized !== "" &&
+        normalized !== "n/a" &&
+        normalized !== "#n/a" &&
+        normalized !== "--" &&
+        normalized !== "-";
     }
 
     function isListedChannelValue(value) {
@@ -1755,19 +1950,18 @@
     function formatEtaList(value) {
       const raw = String(value ?? "").trim();
       if (!hasValue(raw)) return "--";
-      const isoDates = Array.from(new Set((raw.match(/\\d{4}-\\d{2}-\\d{2}/g) || [])));
+
+      const isoDates = Array.from(new Set((raw.match(/\d{4}-\d{2}-\d{2}/g) || [])));
       if (isoDates.length) {
-        return isoDates.map((item) => {
-          const parts = item.split("-");
-          return parts.length === 3 ? (parts[1] + "-" + parts[2]) : item;
-        }).join(" | ");
+        return isoDates.join(" | ");
       }
+
       return raw;
     }
 
     function renderChannelChips(product) {
-      if (!product.channels.length) return "";
-      return '<div class="channel-chip-row">' + product.channels.map((item) => {
+      const rowClass = product.channels.length ? "channel-chip-row" : "channel-chip-row is-empty";
+      return '<div class="' + rowClass + '">' + product.channels.map((item) => {
         return '<span class="channel-chip">' + escapeHtml(item.label) + '</span>';
       }).join("") + '</div>';
     }
@@ -1775,22 +1969,56 @@
     function renderStockTable(product, variant = "") {
       const tableClass = ["stock-table", variant].filter(Boolean).join(" ");
       const rows = [
-        { label: "On hand", values: [product.onHandTor, product.onHandVan, product.onHandEsna].map((value) => formatNumber(value)) },
-        { label: "Available", values: [product.availableTor, product.availableVan, product.availableEsna].map((value) => formatNumber(value)) },
-        { label: "Reserved", values: [product.reserveTor, product.reserveVan, product.reserveEsna].map((value) => formatNumber(value)) },
-        { label: "On order", values: [product.onOrderTor, product.onOrderVan, product.onOrderEsna].map((value) => formatNumber(value)) },
-        { label: "ETA", values: [formatEtaList(product.etaTorRaw), formatEtaList(product.etaVanRaw), formatEtaList(product.etaEsnaRaw)], isEta: true }
+        { label: "On hand", values: [product.onHandTor, product.onHandVan, product.onHandEsna, "--"].map((value) => typeof value === "string" ? value : formatNumber(value)) },
+        { label: "Available", values: [product.availableTor, product.availableVan, product.availableEsna, "--"].map((value) => typeof value === "string" ? value : formatNumber(value)) },
+        { label: "Reserved", values: [product.reserveTor, product.reserveVan, product.reserveEsna, "--"].map((value) => typeof value === "string" ? value : formatNumber(value)) },
+        { label: "On order", values: [product.onOrderTor, product.onOrderVan, product.onOrderEsna, "--"].map((value) => typeof value === "string" ? value : formatNumber(value)) }
       ];
 
-      return '<div class="stock-table-wrap"><table class="' + escapeHtml(tableClass) + '">' +
-        '<thead><tr><th></th><th>Tor</th><th>Van</th><th>Esna</th></tr></thead>' +
-        '<tbody>' + rows.map((row) => {
-          return '<tr><th scope="row">' + escapeHtml(row.label) + '</th>' + row.values.map((value) => {
-            return row.isEta ? '<td>' + escapeHtml(value || "--") + '</td>' : '<td><strong>' + escapeHtml(value) + '</strong></td>';
-          }).join("") + '</tr>';
-        }).join("") + '</tbody></table></div>';
+      return '<table class="' + escapeHtml(tableClass) + '">' +
+      '<thead><tr><th></th><th>Tor</th><th>Van</th><th>Esna</th></tr></thead>' +
+      '<tbody>' + rows.map((row) => {
+        return '<tr><th scope="row">' + escapeHtml(row.label) + '</th>' + row.values.map((value) => {
+          return row.isEta ? '<td>' + escapeHtml(value || "--") + '</td>' : '<td><strong>' + escapeHtml(value) + '</strong></td>';
+        }).join("") + '</tr>';
+      }).join("") + '</tbody></table>';
     }
 
+    function renderStockMetrics(product) {
+      const items = [
+        { label: "Last 4 m", value: formatMetric(product.last4MonthRaw) },
+        { label: "Last 12 m", value: formatMetric(product.last12MonthRaw) }
+      ];
+
+      return '<div class="stock-metrics">' + items.map((item) => {
+        return '<div class="stock-metric"><span>' + escapeHtml(item.label) + '</span><strong>' + escapeHtml(item.value) + '</strong></div>';
+      }).join("") + '</div>';
+    }
+
+    function renderEtaSection(product) {
+      const torEta = formatEtaList(product.etaTorRaw);
+      const vanEta = formatEtaList(product.etaVanRaw);
+
+      const entries = [
+        { key: "tor", label: "Tor", value: torEta === "--" ? "-" : torEta },
+        { key: "van", label: "Van", value: vanEta === "--" ? "-" : vanEta }
+      ];
+
+      const trackClass = "eta-track eta-track--tor-van";
+      const trackHtml = entries.map((item) => {
+        return '<span class="eta-entry"><span>' + escapeHtml(item.label) + '</span><strong>' + escapeHtml(item.value) + '</strong></span>';
+      }).join("");
+
+      return '<div class="eta-box">' +
+        '<span class="eta-label">ETA</span>' +
+        '<span class="eta-gap"></span>' +
+        '<div class="' + escapeHtml(trackClass) + '">' + trackHtml + '</div>' +
+      '</div>';
+    }
+
+    function renderStockSection(product, variant = "") {
+      return renderStockTable(product, variant) + renderStockMetrics(product) + renderEtaSection(product);
+    }
     function isDisplayableProduct(product) {
       const sku = String(product.sku || "").trim().toLowerCase();
       const name = String(product.name || "").trim().toLowerCase();
@@ -1806,8 +2034,6 @@
         { value: product.widthRaw, suffix: "(W)" },
         { value: product.heightRaw, suffix: "(H)" }
       ];
-
-      if (!parts.some((part) => hasValue(part.value))) return "--";
 
       return parts.map((part) => {
         const text = hasValue(part.value) ? String(part.value).trim() : "0";
@@ -1895,12 +2121,33 @@
       return record;
     }
 
-    function statusFromAvailability(product) {
-      if (product.discontinued) return "discontinued";
-      if (product.totalAvailable > CONFIG.lowStockThreshold) return "in-stock";
-      if (product.totalAvailable > 0) return "low-stock";
-      if (product.onOrderTotal > 0 || product.etaSummary) return "incoming";
-      return "out-of-stock";
+    function getStatuses(product) {
+      const statuses = [];
+
+      if (product.discontinued) {
+        statuses.push("discontinued");
+      }
+
+      if (product.totalAvailable > CONFIG.lowStockThreshold) {
+        statuses.push("in-stock");
+      } else if (product.totalAvailable > 0) {
+        statuses.push("low-stock");
+      }
+
+      if (product.onOrderTotal > 0 || product.etaSummary) {
+        statuses.push("incoming");
+      }
+
+      if (
+        !product.discontinued &&
+        product.totalAvailable === 0 &&
+        product.onOrderTotal === 0 &&
+        !product.etaSummary
+      ) {
+        statuses.push("out-of-stock");
+      }
+
+      return statuses;
     }
 
     function transformProduct(record, index) {
@@ -1933,10 +2180,10 @@
       const availableVanRaw = record.__cells?.[18] ?? getValue(record, "availableVan");
       const availableEsnaRaw = record.__cells?.[29] ?? getValue(record, "availableEsna");
       const availableNewRaw = getValue(record, "availableNew");
-      const reserveTorRaw = (record.__cells?.[35] ?? getValue(record, "stockReserved") ?? getValue(record, "reserveTor") ?? getValue(record, "reserve"));
-      const reserveVanRaw = "0";
-      const reserveEsnaRaw = "0";
-      const reserveNewRaw = "0";
+      const reserveTorRaw = record.__cells?.[35] ?? getValue(record, "stockReserved") ?? getValue(record, "reserveTor") ?? getValue(record, "reserve");
+      const reserveVanRaw = record.__cells?.[40] ?? getValue(record, "reserveVan") ?? "0";
+      const reserveEsnaRaw = getValue(record, "reserveEsna") || ""; 
+      const reserveNewRaw = getValue(record, "reserveNew") || "";
       const onOrderTorRaw = record.__cells?.[25] ?? getValue(record, "onOrderTor");
       const onOrderVanRaw = record.__cells?.[26] ?? getValue(record, "onOrderVan");
       const onOrderEsnaRaw = getValue(record, "onOrderEsna");
@@ -2051,7 +2298,8 @@
         raw: record
       };
 
-      product.status = statusFromAvailability(product);
+      product.statuses = getStatuses(product);
+      product.status = product.statuses[0] || "out-of-stock";
       product.searchBlob = [
         product.sku,
         product.name,
@@ -2110,7 +2358,7 @@
         const matchesQuery = !queryTokens.length || queryTokens.every((token) => product.searchBlob.includes(token));
         const matchesCategory = state.category === "all" || product.category === state.category;
         const matchesBrand = state.brand === "all" || product.brand === state.brand;
-        const matchesStatus = state.status === "all" || product.status === state.status;
+        const matchesStatus = state.status === "all" || (product.statuses || [product.status]).includes(state.status);
         return matchesQuery && matchesCategory && matchesBrand && matchesStatus;
       });
 
@@ -2323,9 +2571,19 @@
       "</div>";
     }
 
-    function buildStatusBadge(product) {
-      const meta = STATUS_META[product.status] || STATUS_META["out-of-stock"];
-      return "<span class=\"status-badge " + escapeHtml(meta.className) + "\">" + escapeHtml(meta.label) + "</span>";
+    function buildStatusBadges(product) {
+      const statuses = product.statuses?.length
+        ? product.statuses
+        : [product.status || "out-of-stock"];
+
+      return statuses.map((status, index) => {
+        const meta = STATUS_META[status] || STATUS_META["out-of-stock"];
+        const topOffset = 12 + (index * 26);
+
+        return "<span class=\"status-badge " + escapeHtml(meta.className) + "\" style=\"top:" + topOffset + "px;\">" +
+          escapeHtml(meta.label) +
+        "</span>";
+      }).join("");
     }
 
     function renderProducts() {
@@ -2350,7 +2608,7 @@
         const pinkPrice = product.extraPrices.find((item) => String(item.label).toLowerCase() === "pink");
         const channelChips = renderChannelChips(product);
         const specBox = '<div class="info-box">' + renderInfoRows([
-          { label: "SKU", value: formatPlainValue(product.sku) },
+          { label: "SKU", value: renderValueWithCopy(product.sku, "SKU"), isHtml: true },
           { label: "Barcode", value: renderValueWithCopy(product.upc, "barcode"), isHtml: true },
           { label: "Loc", value: formatPlainValue(product.stockLocator) },
           { label: "Weight", value: formatPlainValue(product.weight) }
@@ -2360,33 +2618,35 @@
           renderInfoRows([
             { label: "Cost", value: formatCurrency(product.cost, product.costRaw) },
             { label: "Wholesale", value: formatCurrency(product.wholesale, product.wholesaleRaw) },
-            { label: "Retail", value: formatCurrency(product.retail, product.retailRaw) },
-            { label: "Pink", value: pinkPrice ? formatCurrency(pinkPrice.value, pinkPrice.raw) : "--" },
-            { label: "Last 4 m", value: formatMetric(product.last4MonthRaw) },
-            { label: "Last 12 m", value: formatMetric(product.last12MonthRaw) }
+            { label: "Retail", value: formatCurrency(product.retail, product.retailRaw) }
+            //{ label: "Pink", value: pinkPrice ? formatCurrency(pinkPrice.value, pinkPrice.raw) : "--" }
           ]) +
         '</div></div>';
 
-        const stockBox = '<div class="info-box">' + renderStockTable(product, 'stock-table--compact') + '</div>';
+        const stockBox = '<div class="info-box">' + renderStockSection(product, 'stock-table--compact') + '</div>';
 
         const productLink = hasValue(product.link)
           ? '<a class="ghost-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Open product</a>'
           : '<span class="ghost-action" aria-disabled="true">No link</span>';
 
         return '<article class="product-card">' +
-          '<div style="position:relative">' +
-            buildImageBlock(product) +
-            buildStatusBadge(product) +
+        '<div style="position:relative">' +
+          buildImageBlock(product) +
+          buildStatusBadges(product) +
+        '</div>' +
           '</div>' +
           '<div class="card-body">' +
             '<div class="tag-row">' +
               '<span class="tag brand">' + escapeHtml(product.brand) + '</span>' +
               '<span class="tag category">' + escapeHtml(product.category) + '</span>' +
             '</div>' +
-            '<div class="title-wrap">' +
-              '<h2>' + escapeHtml(product.name) + '</h2>' +
+            '<div class="title-slot">' +
+              '<div class="title-wrap">' +
+                '<h2>' + renderCopyButton(product.name, "Name") + '&nbsp;' + escapeHtml(product.name) + '</span>' + '</h2>'+'</div>' +
             '</div>' +
-            channelChips +
+            '<div class="channel-slot-wrap">' +
+              '<div class="channel-slot">' + channelChips + '</div>' +
+            '</div>' +
             specBox +
             priceBox +
             stockBox +
@@ -2734,5 +2994,64 @@
     attachEventListeners();
     loadData();
   </script>
+  <script>
+    async function sendVisitLog() {
+    const LOG_ENDPOINT = "/api/log-visit";
+
+    const payload = {
+      environment:
+        location.hostname === "localhost" || location.hostname === "127.0.0.1"
+          ? "local"
+          : "prod",
+      site: location.hostname || "unknown",
+      url: location.href,
+      path: location.pathname,
+      ip: "",
+      userAgent: navigator.userAgent || "",
+      referrer: document.referrer || ""
+    };
+
+    try {
+      const res = await fetch(LOG_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const text = await res.text();
+
+      console.log("visit log status:", res.status);
+      console.log("visit log response:", text);
+
+      if (!res.ok) {
+        throw new Error("visit log failed: " + res.status + " " + text);
+      }
+
+      console.log("visit log sent");
+    } catch (err) {
+      console.error("visit log failed", err);
+    }
+  }
+
+  window.addEventListener("load", () => {
+    sendVisitLog();
+  });
+  </script>
+  <!-- Cloudflare Web Analytics -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"54b3891c9abf4ae1b43e8e90f7059864"}'></script>
+  <!-- End Cloudflare Web Analytics -->
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
