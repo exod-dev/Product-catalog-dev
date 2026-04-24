@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0f172a" />
   <title>Product Catalog</title>
+  <link rel="icon" type="image/png" href="./images/icon2.png" />
   <style>
     :root {
       --bg: #f4f7fb;
@@ -1374,25 +1375,122 @@
 
     /* MFD Modal */
     .mfd-modal-body {
-      padding: 24px;
+      padding: 18px 24px 22px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
+      background: linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(255, 255, 255, 1));
     }
 
     .mfd-section {
       border: 1px solid rgba(15, 23, 42, 0.08);
-      border-radius: 20px;
-      padding: 18px;
+      border-radius: 18px;
+      padding: 10px 14px;
       background: #fff;
       box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
     }
 
-    .mfd-section h4 {
-      margin: 0 0 14px;
-      font-size: 1rem;
+    .mfd-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 2px 2px 8px;
+    }
+
+    .mfd-section-head h4 {
+      margin: 0;
+      font-size: 0.98rem;
       letter-spacing: -0.02em;
       color: var(--text);
+    }
+
+    .mfd-section-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+
+    .mfd-card {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 18px;
+      background: #fff;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .mfd-card-body {
+      padding: 10px 14px;
+    }
+
+    .mfd-card h5 {
+      margin: 0 0 8px;
+      font-size: 0.96rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .mfd-details-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      width: 100%;
+    }
+
+    .mfd-detail-item {
+      padding: 5px 8px;
+      min-height: 48px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex: 1 1 0;
+      text-align: center;
+    }
+
+    .mfd-detail-item + .mfd-detail-item {
+      border-left: 1px solid rgba(15, 23, 42, 0.07);
+    }
+
+    .mfd-detail-item span {
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      white-space: nowrap;
+    }
+
+    .mfd-detail-item strong {
+      color: #2563eb;
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.15;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .mfd-detail-item.is-available strong {
+      color: #1d8f5c;
+    }
+
+    .mfd-detail-item.is-reserved strong {
+      color: #f97316;
+    }
+
+    .mfd-detail-item.is-order strong {
+      color: #7c3aed;
+    }
+
+    .mfd-detail-item.is-eta strong {
+      color: #64748b;
+      font-size: 0.68rem;
+      font-weight: 650;
+    }
+
+    .mfd-record-note {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 500;
     }
 
     .mfd-product-name {
@@ -1409,54 +1507,34 @@
       margin: 0;
     }
 
-    .mfd-tor-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-    }
-
-    .mfd-tor-table th,
-    .mfd-tor-table td {
-      padding: 9px 12px;
-      font-size: 0.85rem;
-      text-align: left;
-    }
-
-    .mfd-tor-table thead th {
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 0.8rem;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-    }
-
-    .mfd-tor-table tbody tr + tr td {
-      border-top: 1px solid rgba(15, 23, 42, 0.06);
-    }
-
-    .mfd-tor-table td:first-child {
-      color: var(--muted);
-      font-weight: 600;
-    }
-
-    .mfd-tor-table td:last-child {
-      font-weight: 700;
-      color: var(--text);
-    }
-
     .mfd-data-table .col-date,
     .mfd-data-table .col-location,
     .mfd-data-table .col-sku {
       text-align: left;
     }
 
+    .mfd-data-table .col-date {
+      min-width: 92px;
+    }
+
+    .mfd-data-table .col-location {
+      min-width: 92px;
+    }
+
+    .mfd-data-table .col-sku {
+      min-width: 46px;
+    }
+
     .mfd-data-table .col-num {
       text-align: left;
       font-variant-numeric: tabular-nums;
+      min-width: 82px;
     }
 
     .mfd-data-table .col-updated {
       text-align: left;
       font-variant-numeric: tabular-nums;
+      min-width: 96px;
     }
 
     .mfd-data-table .col-text {
@@ -1466,34 +1544,33 @@
     .mfd-data-table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed;
+      table-layout: auto;
     }
 
     .mfd-data-table thead th {
-      padding: 10px 12px;
+      padding: 8px 9px;
       color: var(--muted);
       font-weight: 700;
-      font-size: 0.82rem;
+      font-size: 0.74rem;
       text-align: left;
       white-space: nowrap;
       border-bottom: 1px solid rgba(15, 23, 42, 0.08);
       background: #fff;
     }
     .mfd-data-table tbody td {
-      padding: 11px 12px;
+      padding: 8px 9px;
       color: var(--text);
-      font-size: 0.84rem;
+      font-size: 0.72rem;
       text-align: left;
       white-space: nowrap;
       border-bottom: 1px solid rgba(15, 23, 42, 0.06);
       vertical-align: middle;
     }
 
-
     .mfd-data-table th,
     .mfd-data-table td {
-      overflow: hidden;
-      text-overflow: ellipsis;
+      overflow: visible;
+      text-overflow: clip;
     }
 
     .mfd-data-table tbody tr:last-child td {
@@ -1511,6 +1588,41 @@
       color: var(--muted);
       font-size: 0.9rem;
       padding: 12px 0;
+    }
+
+    .mfd-footer-note {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin-top: 2px;
+      align-self: center;
+    }
+
+    .mfd-footer-note svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    @media (max-width: 1080px) {
+      .mfd-section-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mfd-details-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .mfd-details-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
     @media (max-width: 1180px) {
       .toolbar-grid {
@@ -1625,8 +1737,8 @@
     }
 
     .mfd-modal-card {
-      width: min(96vw, 1320px);
-      max-width: 1320px;
+      width: min(98vw, 1480px);
+      max-width: 1480px;
     }
 
     .modal-card {
@@ -1716,8 +1828,7 @@
   <div class="page-shell">
     <section class="hero">
       <div class="hero-top">
-        <h1 class="title-with-icon">
-          <img src="images/icon.png" alt="" class="title-icon">
+        <h1 class="title-with-icon">          
           Product Catalog
         </h1>
       </div>
@@ -3220,42 +3331,15 @@
     }
 
     // ─── MFD ─────────────────────────────────────────────────────────────────
-    const mfdState = {
-      data: null,
-      headers: [],
-      loading: false,
-      error: null
+    const mfdStates = {
+      toronto: { sheetName: "MFD", data: null, headers: [], loading: false, error: null },
+      vancouver: { sheetName: "MFD-V", data: null, headers: [], loading: false, error: null }
     };
 
-    async function fetchMFDData() {
-      if (mfdState.data) return mfdState.data;
-      if (mfdState.loading) return null;
-      mfdState.loading = true;
-      mfdState.error = null;
-      try {
-        const url = "https://docs.google.com/spreadsheets/d/" + CONFIG.sheetId + "/gviz/tq?tqx=out:csv&sheet=MFD";
-        const response = await fetch(url, { cache: "no-store", mode: "cors" });
-        if (!response.ok) throw new Error("HTTP " + response.status);
-        const text = await response.text();
-        if (/<!doctype html|<html/i.test(text)) throw new Error("Received HTML instead of CSV");
-        const rows = parseCSV(text).map(function(row) {
-          return row.map(function(cell) { return String(cell || "").trim(); });
-        }).filter(function(row) { return row.some(function(c) { return c !== ""; }); });
-        mfdState.headers = rows[0] || [];
-        mfdState.data = rows.slice(1); // data rows without header
-        return mfdState.data;
-      } catch (err) {
-        mfdState.error = err.message;
-        return null;
-      } finally {
-        mfdState.loading = false;
-      }
-    }
-
     function getMFDColumnClass(header) {
-      const key = String(header || "").trim().toLowerCase();
+      const key = normalizeKey(header);
 
-      if (key.includes("exp date") || key.includes("date")) return "col-date";
+      if (key.includes("expdate") || key === "date") return "col-date";
       if (key.includes("location")) return "col-location";
       if (key === "sku" || key.includes("sku")) return "col-sku";
       if (key.includes("updated")) return "col-updated";
@@ -3268,7 +3352,6 @@
       if (!value) return Infinity;
       const iso = String(value).match(/(\d{4}-\d{2}-\d{2})/);
       if (iso) return new Date(iso[1]).getTime();
-      // try dd/mm/yyyy or mm/dd/yyyy
       const parts = String(value).match(/(\d{1,4})[\/\-](\d{1,2})[\/\-](\d{1,4})/);
       if (parts) {
         const attempt = new Date(value);
@@ -3277,112 +3360,216 @@
       return Infinity;
     }
 
+    function getMFDColumnIndexes(headers) {
+      const result = {};
+      headers.forEach(function(header, index) {
+        const key = normalizeKey(header);
+        if (!result.expDate && key === "expdate") result.expDate = index;
+        if (!result.location && key === "location") result.location = index;
+        if (!result.sku && key === "sku") result.sku = index;
+        if (!result.qtyDate && (key === "mfdqtydate" || key === "qtydate")) result.qtyDate = index;
+        if (!result.qtyTotal && (key === "mfdqtytotal" || key === "qtytotal")) result.qtyTotal = index;
+        if (!result.totalQty && key === "totalqty") result.totalQty = index;
+        if (!result.updatedOn && key === "updatedon") result.updatedOn = index;
+      });
+      return result;
+    }
+
+    async function fetchMFDSheet(locationKey) {
+      const targetState = mfdStates[locationKey];
+      if (!targetState) return null;
+      if (targetState.data) return targetState;
+      if (targetState.loading) return null;
+
+      targetState.loading = true;
+      targetState.error = null;
+
+      try {
+        const url = "https://docs.google.com/spreadsheets/d/" + CONFIG.sheetId + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(targetState.sheetName);
+        const response = await fetch(url, { cache: "no-store", mode: "cors" });
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const text = await response.text();
+        if (/<!doctype html|<html/i.test(text)) throw new Error("Received HTML instead of CSV");
+
+        const rows = parseCSV(text).map(function(row) {
+          return row.map(function(cell) { return String(cell || "").trim(); });
+        }).filter(function(row) { return row.some(function(cell) { return cell !== ""; }); });
+
+        targetState.headers = rows[0] || [];
+        targetState.data = rows.slice(1);
+        return targetState;
+      } catch (error) {
+        targetState.error = error.message || String(error);
+        return null;
+      } finally {
+        targetState.loading = false;
+      }
+    }
+
+    function formatMFDLastUpdated(rows, columnIndexes) {
+      if (!rows.length || columnIndexes.updatedOn === undefined) return "--";
+      const sorted = rows.slice().sort(function(a, b) {
+        return parseDateForSort(b[columnIndexes.updatedOn]) - parseDateForSort(a[columnIndexes.updatedOn]);
+      });
+      return sorted[0] && sorted[0][columnIndexes.updatedOn] ? sorted[0][columnIndexes.updatedOn] : "--";
+    }
+
+    function renderDetailsGrid(items) {
+      return '<div class="mfd-details-grid">' + items.map(function(item) {
+        const itemClass = item.className ? ' mfd-detail-item ' + item.className : ' mfd-detail-item';
+        return '<div class="' + itemClass.trim() + '">' +
+          '<span>' + escapeHtml(item.label) + '</span>' +
+          '<strong>' + escapeHtml(item.value) + '</strong>' +
+        '</div>';
+      }).join("") + '</div>';
+    }
+
+    function renderMFDTable(headers, rows, emptyMessage) {
+      if (!rows.length) {
+        return '<p class="mfd-empty">' + emptyMessage + '</p>';
+      }
+
+      const columnIndexes = getMFDColumnIndexes(headers);
+      const columns = [
+        { label: "Exp Date", key: "expDate" },
+        { label: "Location", key: "location" },
+        { label: "Sku", key: "sku" },
+        { label: "MFD Qty (Date)", key: "qtyDate" },
+        { label: "MFD Qty (Total)", key: "qtyTotal" },
+        { label: "Total Qty", key: "totalQty" },
+        { label: "Updated on", key: "updatedOn" }
+      ].filter(function(column) {
+        return columnIndexes[column.key] !== undefined;
+      });
+
+      let html = '<table class="mfd-data-table"><thead><tr>';
+      columns.forEach(function(column) {
+        html += '<th class="' + getMFDColumnClass(column.label) + '">' + escapeHtml(column.label) + '</th>';
+      });
+      html += '</tr></thead><tbody>';
+
+      rows.forEach(function(row) {
+        html += '<tr>';
+        columns.forEach(function(column) {
+          const value = row[columnIndexes[column.key]] || "--";
+          html += '<td class="' + getMFDColumnClass(column.label) + '">' + escapeHtml(value) + '</td>';
+        });
+        html += '</tr>';
+      });
+
+      html += '</tbody></table>';
+      return html;
+    }
+
+    function renderLocationSection(options) {
+      const detailsItems = [
+        { label: "On Hand", value: formatNumber(options.inventory.onHand) },
+        { label: "Available", value: formatNumber(options.inventory.available), className: "is-available" },
+        { label: "Reserved", value: formatNumber(options.inventory.reserved), className: "is-reserved" },
+        { label: "On Order", value: formatNumber(options.inventory.onOrder), className: "is-order" },
+        { label: "ETA", value: options.inventory.eta, className: "is-eta" }
+      ];
+
+      return '<section class="mfd-section">' +
+        '<div class="mfd-section-head">' +
+          '<div class="mfd-section-title">' +
+            '<h4>' + escapeHtml(options.label) + '</h4>' +
+          '</div>' +
+        '</div>' +
+        '<div class="mfd-section-grid">' +
+          '<div class="mfd-card">' +
+            '<div class="mfd-card-body">' +
+              '<h5>Details</h5>' +
+              renderDetailsGrid(detailsItems) +
+            '</div>' +
+          '</div>' +
+          '<div class="mfd-card">' +
+            '<div class="mfd-card-body">' +
+              '<h5>MFD <span class="mfd-record-note">(' + options.rows.length + ' record' + (options.rows.length !== 1 ? 's' : '') + ')</span></h5>' +
+              renderMFDTable(options.headers, options.rows, options.emptyMessage) +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>';
+    }
+
     async function openMFDModal(productId) {
       const product = state.products.find(function(item) { return item.id === productId; });
       if (!product) return;
 
       elements.mfdModalTitle.textContent = product.name;
       elements.mfdModalSubtitle.textContent = product.brand + " / " + product.category + " / SKU " + (product.sku || "--");
-
-      elements.mfdModalBody.innerHTML =
-        '<div class="mfd-section">' +
-          '<h4>Details — Toronto</h4>' +
-          '<table class="mfd-summary-table">' +
-            '<thead>' +
-              '<tr>' +
-                '<th>On Hand</th>' +
-                '<th>Available</th>' +
-                '<th>Reserved</th>' +
-                '<th>On Order</th>' +
-                '<th>ETA</th>' +
-              '</tr>' +
-            '</thead>' +
-            '<tbody>' +
-              '<tr>' +
-                '<td>' + escapeHtml(String(product.onHandTor ?? "--")) + '</td>' +
-                '<td>' + escapeHtml(String(product.availableTor ?? "--")) + '</td>' +
-                '<td>' + escapeHtml(String(product.reserveTor ?? "--")) + '</td>' +
-                '<td>' + escapeHtml(String(product.onOrderTor ?? "--")) + '</td>' +
-                '<td>' + escapeHtml(product.etaTorRaw ? formatEtaList(product.etaTorRaw) : "--") + '</td>' +
-              '</tr>' +
-            '</tbody>' +
-          '</table>' +
-        '</div>' +
-        '<div class="mfd-section" id="mfdDataSection">' +
-          '<h4>MFD</h4>' +
-          '<p class="mfd-loading">Loading MFD data...</p>' +
-        '</div>';
-
+      elements.mfdModalBody.innerHTML = '<p class="mfd-loading">Loading ETA and MFD data...</p>';
       elements.mfdModalLayer.classList.add("open");
       elements.mfdModalLayer.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
 
-      const rows = await fetchMFDData();
-      const mfdDataSection = document.getElementById("mfdDataSection");
-      if (!mfdDataSection) return;
+      const results = await Promise.all([
+        fetchMFDSheet("toronto"),
+        fetchMFDSheet("vancouver")
+      ]);
 
-      if (!rows) {
-        mfdDataSection.innerHTML = '<h4>MFD</h4><p class="mfd-empty">Failed to load MFD data: ' + escapeHtml(mfdState.error || "Unknown error") + '</p>';
-        return;
-      }
-
+      const torontoState = results[0];
+      const vancouverState = results[1];
       const sku = String(product.sku || "").trim().toLowerCase();
-      const matched = rows.filter(function(row) {
-        return String(row[2] || "").trim().toLowerCase() === sku;
-      });
 
-      if (!matched.length) {
-        mfdDataSection.innerHTML = '<h4>MFD</h4><p class="mfd-empty">No MFD records found for SKU <strong>' + escapeHtml(product.sku || "--") + '</strong>.</p>';
-        return;
+      function getMatchedRows(targetState) {
+        if (!targetState || !targetState.data) return [];
+        const columnIndexes = getMFDColumnIndexes(targetState.headers);
+        const skuIndex = columnIndexes.sku !== undefined ? columnIndexes.sku : 2;
+        return targetState.data.filter(function(row) {
+          return String(row[skuIndex] || "").trim().toLowerCase() === sku;
+        }).sort(function(a, b) {
+          const expIndex = columnIndexes.expDate !== undefined ? columnIndexes.expDate : 0;
+          return parseDateForSort(a[expIndex]) - parseDateForSort(b[expIndex]);
+        });
       }
 
-      const headers = mfdState.headers;
-      let dateColIndex = -1;
-      headers.forEach(function(h, i) {
-        if (/date/i.test(String(h))) dateColIndex = i;
+      const torontoRows = getMatchedRows(torontoState);
+      const vancouverRows = getMatchedRows(vancouverState);
+      const torontoIndexes = getMFDColumnIndexes(torontoState ? torontoState.headers : []);
+      const vancouverIndexes = getMFDColumnIndexes(vancouverState ? vancouverState.headers : []);
+
+      const torontoHtml = renderLocationSection({
+        label: "Toronto",
+        headers: torontoState ? torontoState.headers : [],
+        rows: torontoRows,
+        updatedOn: torontoState ? formatMFDLastUpdated(torontoRows, torontoIndexes) : "--",
+        emptyMessage: torontoState && torontoState.error
+          ? "Failed to load Toronto MFD data."
+          : "No Toronto MFD rows matched SKU " + escapeHtml(product.sku || "--") + ".",
+        inventory: {
+          onHand: product.onHandTor,
+          available: product.availableTor,
+          reserved: product.reserveTor,
+          onOrder: product.onOrderTor,
+          eta: product.etaTorRaw ? formatEtaList(product.etaTorRaw) : "--"
+        }
       });
 
-      const sorted = matched.slice().sort(function(a, b) {
-        const da = parseDateForSort(dateColIndex >= 0 ? a[dateColIndex] : "");
-        const db = parseDateForSort(dateColIndex >= 0 ? b[dateColIndex] : "");
-        return da - db;
+      const vancouverHtml = renderLocationSection({
+        label: "Vancouver",
+        headers: vancouverState ? vancouverState.headers : [],
+        rows: vancouverRows,
+        updatedOn: vancouverState ? formatMFDLastUpdated(vancouverRows, vancouverIndexes) : "--",
+        emptyMessage: vancouverState && vancouverState.error
+          ? "Failed to load Vancouver MFD data."
+          : "No Vancouver MFD rows matched SKU " + escapeHtml(product.sku || "--") + ".",
+        inventory: {
+          onHand: product.onHandVan,
+          available: product.availableVan,
+          reserved: product.reserveVan,
+          onOrder: product.onOrderVan,
+          eta: product.etaVanRaw ? formatEtaList(product.etaVanRaw) : "--"
+        }
       });
 
-      const visibleColumnIndexes = headers
-        .map(function(h, i) {
-          return { header: String(h || "").trim(), index: i };
-        })
-        .filter(function(col) {
-          return col.header.toLowerCase() !== "name";
-        })
-        .map(function(col) {
-          return col.index;
-        });
-
-      let tableHtml = '<table class="mfd-data-table"><thead><tr>';
-      visibleColumnIndexes.forEach(function(i) {
-        const header = headers[i] || "";
-        const colClass = getMFDColumnClass(header);
-        tableHtml += '<th class="' + colClass + '">' + escapeHtml(header) + '</th>';
-      });
-      tableHtml += '</tr></thead><tbody>';
-
-      sorted.forEach(function(row) {
-        tableHtml += '<tr>';
-        visibleColumnIndexes.forEach(function(i) {
-          const header = headers[i] || "";
-          const colClass = getMFDColumnClass(header);
-          tableHtml += '<td class="' + colClass + '">' + escapeHtml(row[i] || "--") + '</td>';
-        });
-        tableHtml += '</tr>';
-      });
-
-      tableHtml += '</tbody></table>';
-
-      mfdDataSection.innerHTML =
-        '<h4>MFD <span style="color:var(--muted);font-weight:500;font-size:0.85rem;">(' +
-        matched.length + ' record' + (matched.length !== 1 ? 's' : '') +
-        ')</span></h4>' + tableHtml;
+      elements.mfdModalBody.innerHTML = torontoHtml +
+        vancouverHtml +
+        '<div class="mfd-footer-note">' +
+          '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle><path d="M10 9v4"></path><path d="M10 6.4h.01"></path></svg>' +
+          '<span>Quantities are updated in real-time based on the latest inventory data.</span>' +
+        '</div>';
     }
 
     function closeMFDModal() {
