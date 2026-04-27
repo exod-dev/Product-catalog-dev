@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0f172a" />
   <title>Product Catalog</title>
-  <link rel="icon" type="image/png" href="./images/icon2.png" />
+  <link rel="icon" type="image/png" href="./images/favicon.png" />
   <style>
     :root {
       --bg: #f4f7fb;
@@ -1382,6 +1382,13 @@
       background: linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(255, 255, 255, 1));
     }
 
+    .mfd-locations-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
     .mfd-section {
       border: 1px solid rgba(15, 23, 42, 0.08);
       border-radius: 18px;
@@ -1508,16 +1515,11 @@
     }
 
     .mfd-data-table .col-date,
-    .mfd-data-table .col-location,
     .mfd-data-table .col-sku {
       text-align: left;
     }
 
     .mfd-data-table .col-date {
-      min-width: 92px;
-    }
-
-    .mfd-data-table .col-location {
       min-width: 92px;
     }
 
@@ -1610,7 +1612,7 @@
     }
 
     @media (max-width: 1080px) {
-      .mfd-section-grid {
+      .mfd-locations-grid {
         grid-template-columns: 1fr;
       }
 
@@ -3432,8 +3434,6 @@
       const columnIndexes = getMFDColumnIndexes(headers);
       const columns = [
         { label: "Exp Date", key: "expDate" },
-        { label: "Location", key: "location" },
-        { label: "Sku", key: "sku" },
         { label: "MFD Qty (Date)", key: "qtyDate" },
         { label: "MFD Qty (Total)", key: "qtyTotal" },
         { label: "Total Qty", key: "totalQty" },
@@ -3564,8 +3564,10 @@
         }
       });
 
-      elements.mfdModalBody.innerHTML = torontoHtml +
+      elements.mfdModalBody.innerHTML = '<div class="mfd-locations-grid">' +
+        torontoHtml +
         vancouverHtml +
+        '</div>' +
         '<div class="mfd-footer-note">' +
           '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle><path d="M10 9v4"></path><path d="M10 6.4h.01"></path></svg>' +
           '<span>Quantities are updated in real-time based on the latest inventory data.</span>' +
