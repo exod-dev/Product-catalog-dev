@@ -719,14 +719,14 @@
     }
 
     .info-row-label {
-      color: var(--muted);
+      color: #0f172a;
       font-size: 0.80rem;
       flex-shrink: 0;
     }
 
     .info-row-value {
       color: #0f172a;
-      font-size: 0.72rem;
+      font-size: 0.85rem;
       font-weight: 549;
       text-align: right;
       word-break: break-word;
@@ -756,8 +756,8 @@
     }
 
     .price-box-grid .info-row-label {
-      font-size: 0.7rem !important;
-      color: var(--muted-soft) !important;
+      font-size: 0.80rem !important;
+      color: #0f172a !important;
       white-space: nowrap;                /* 라벨 줄바꿈 방지 */
     }
 
@@ -813,9 +813,9 @@
     }
 
     .availability-city-title {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: var(--text);
+      font-size: 0.80rem;
+      font-weight: 549;
+      color: #0f172a;
     }
 
     .availability-line {
@@ -823,14 +823,14 @@
       align-items: baseline;
       gap: 6px;
       justify-content: flex-end;
-      color: var(--muted);
-      font-size: 0.92rem;
+      color: #0f172a;
+      font-size: 0.80rem;
     }
 
     .availability-line strong {
-      color: var(--text);
-      font-size: 0.96rem;
-      font-weight: 800;
+      color: #0f172a;
+      font-size: 0.85rem;
+      font-weight: 549;
     }
 
     .eta-strip {
@@ -860,15 +860,15 @@
     .stock-table th,
     .stock-table td {
       padding: 4px 6px;
-      font-size: 0.74rem;
+      font-size: 0.80rem;
       text-align: center;
       vertical-align: middle;
     }
 
-   .stock-table thead th {
-      color: var(--muted);
-      font-weight: 550;
-      font-size: 0.74rem;
+    .stock-table thead th {
+      color: #0f172a;
+      font-weight: 549;
+      font-size: 0.80rem;
       text-align: center;
       white-space: nowrap;
     }
@@ -880,18 +880,20 @@
       padding-left: 0;
     }
     .stock-table tbody th {
-      color: var(--muted);
+      color: #0f172a;
       font-weight: 549;
-      font-size: 0.78rem;
+      font-size: 0.80rem;
       text-align: left;
       white-space: nowrap;
     }
     .stock-table td {
-      color: var(--text);
+      color: #0f172a;
       text-align: center;
     }
 
     .stock-table td strong {
+      color: #0f172a;
+      font-size: 0.85rem;
       font-weight: 549;
     }
 
@@ -925,16 +927,17 @@
       justify-content: space-between;
       gap: 8px;
       align-items: baseline;
-      font-size: 0.74rem;
+      font-size: 0.80rem;
     }
 
     .stock-metric span {
-      color: var(--muted);
+      color: #0f172a;
       white-space: nowrap;
     }
 
     .stock-metric strong {
-      color: var(--text);
+      color: #0f172a;
+      font-size: 0.85rem;
       font-weight: 549;
       white-space: nowrap;
     }
@@ -1363,9 +1366,9 @@
     }
 
     .eta-btn {
-      background: #fff;
-      color: #0f172a;
-      border-color: var(--border);
+      background: var(--text);
+      color: #fff;
+      border-color: transparent;
     }
 
     .eta-btn:hover {
@@ -1375,221 +1378,567 @@
 
     /* MFD Modal */
     .mfd-modal-body {
-      padding: 18px 24px 22px;
+      padding: 18px 22px 22px;
       display: flex;
       flex-direction: column;
       gap: 18px;
       background: linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(255, 255, 255, 1));
     }
 
-    .mfd-locations-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      align-items: start;
-    }
-
-    .mfd-section {
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      border-radius: 18px;
-      padding: 10px 14px;
-      background: #fff;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
-    }
-
-    .mfd-section-head {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 12px;
-      padding: 2px 2px 8px;
-    }
-
-    .mfd-section-head h4 {
-      margin: 0;
-      font-size: 0.98rem;
-      letter-spacing: -0.02em;
-      color: var(--text);
-    }
-
-    .mfd-section-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 6px;
-    }
-
-    .mfd-card {
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      border-radius: 18px;
-      background: #fff;
-      min-width: 0;
-      overflow: hidden;
-    }
-
-    .mfd-card-body {
-      padding: 10px 14px;
-    }
-
-    .mfd-card h5 {
-      margin: 0 0 8px;
-      font-size: 0.96rem;
-      letter-spacing: -0.02em;
-      color: var(--text);
-    }
-
-    .mfd-details-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      width: 100%;
-    }
-
-    .mfd-detail-item {
-      padding: 5px 8px;
-      min-height: 48px;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      flex: 1 1 0;
-      text-align: center;
-    }
-
-    .mfd-detail-item + .mfd-detail-item {
-      border-left: 1px solid rgba(15, 23, 42, 0.07);
-    }
-
-    .mfd-detail-item span {
-      color: var(--muted);
-      font-size: 0.7rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-      white-space: nowrap;
-    }
-
-    .mfd-detail-item strong {
-      color: #2563eb;
-      font-size: 0.82rem;
-      font-weight: 700;
-      line-height: 1.15;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-
-    .mfd-detail-item.is-available strong {
-      color: #1d8f5c;
-    }
-
-    .mfd-detail-item.is-reserved strong {
-      color: #f97316;
-    }
-
-    .mfd-detail-item.is-order strong {
-      color: #7c3aed;
-    }
-
-    .mfd-detail-item.is-eta strong {
-      color: #64748b;
-      font-size: 0.68rem;
-      font-weight: 650;
-    }
-
-    .mfd-record-note {
-      color: var(--muted);
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-
-    .mfd-product-name {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin: 0 0 8px;
-      color: var(--text);
-    }
-
-    .mfd-product-meta {
-      color: var(--muted);
-      font-size: 0.88rem;
-      margin: 0;
-    }
-
-    .mfd-data-table .col-date,
-    .mfd-data-table .col-sku {
-      text-align: left;
-    }
-
-    .mfd-data-table .col-date {
-      min-width: 92px;
-    }
-
-    .mfd-data-table .col-sku {
-      min-width: 46px;
-    }
-
-    .mfd-data-table .col-num {
-      text-align: left;
-      font-variant-numeric: tabular-nums;
-      min-width: 82px;
-    }
-
-    .mfd-data-table .col-updated {
-      text-align: left;
-      font-variant-numeric: tabular-nums;
-      min-width: 96px;
-    }
-
-    .mfd-data-table .col-text {
-      text-align: left;
-    }
-
-    .mfd-data-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: auto;
-    }
-
-    .mfd-data-table thead th {
-      padding: 8px 9px;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 0.74rem;
-      text-align: left;
-      white-space: nowrap;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-      background: #fff;
-    }
-    .mfd-data-table tbody td {
-      padding: 8px 9px;
-      color: var(--text);
-      font-size: 0.72rem;
-      text-align: left;
-      white-space: nowrap;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-      vertical-align: middle;
-    }
-
-    .mfd-data-table th,
-    .mfd-data-table td {
-      overflow: visible;
-      text-overflow: clip;
-    }
-
-    .mfd-data-table tbody tr:last-child td {
-      border-bottom: 0;
-    }
-
     .mfd-loading {
       color: var(--muted);
       font-size: 0.9rem;
-      padding: 16px 0;
+      padding: 20px 0;
       text-align: center;
     }
 
     .mfd-empty {
       color: var(--muted);
+      font-size: 0.84rem;
+      padding: 14px 0;
+    }
+
+    .eta-sku-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .eta-shell-card,
+    .eta-location-section,
+    .mfd-location-section {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.045);
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .eta-shell-card {
+      padding: 14px 16px 12px;
+    }
+
+    .eta-shell-card.stock-card {
+      height: 190px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .eta-shell-head,
+    .eta-location-head,
+    .mfd-location-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .eta-shell-head {
+      margin-bottom: 2px;
+    }
+
+    .eta-location-head,
+    .mfd-location-head {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    .eta-shell-title,
+    .eta-location-title,
+    .mfd-location-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      margin: 0;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+
+    .eta-location-title,
+    .mfd-location-title {
       font-size: 0.9rem;
-      padding: 12px 0;
+    }
+
+    .eta-shell-title svg,
+    .eta-location-title svg,
+    .mfd-location-title svg {
+      width: 15px;
+      height: 15px;
+      stroke: #3b82f6;
+      fill: none;
+      stroke-width: 1.8;
+      flex-shrink: 0;
+    }
+
+    .section-count {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(241, 245, 249, 0.95);
+      color: #64748b;
+      font-size: 0.72rem;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .section-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 6px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: #3b82f6;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .section-action:hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    .section-action svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      transition: transform 160ms ease;
+    }
+
+    .section-action[aria-expanded="true"] svg {
+      transform: rotate(180deg);
+    }
+
+    .eta-location-body,
+    .mfd-location-body {
+      padding: 4px 14px 8px;
+      min-width: 0;
+    }
+
+    .eta-stock-table,
+    .eta-preview-table,
+    .mfd-preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .eta-stock-table thead th {
+      padding: 2px 6px 4px;
+      font-size: 0.68rem;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .eta-preview-table thead th,
+    .mfd-preview-table thead th {
+      padding: 4px 8px;
+    }
+
+    .eta-stock-table th:first-child,
+    .eta-stock-table td:first-child {
+      width: 22% !important;
+    }
+    .eta-preview-table th:first-child,
+    .eta-preview-table td:first-child,
+    .mfd-preview-table th:first-child,
+    .mfd-preview-table td:first-child {
+      padding-left: 0;
+    }
+
+    .eta-stock-table th:last-child,
+    .eta-stock-table td:last-child,
+    .eta-preview-table th:last-child,
+    .eta-preview-table td:last-child,
+    .mfd-preview-table th:last-child,
+    .mfd-preview-table td:last-child {
+      padding-right: 0;
+    }
+
+    .eta-stock-table tbody th,
+    .eta-stock-table tbody td {
+      padding: 4px 6px;
+      font-size: 0.74rem;
+      line-height: 1.25;
+      white-space: nowrap;
+    }
+
+
+    .eta-preview-table tbody td,
+    .mfd-preview-table tbody td {
+      padding: 7px 8px;
+    }
+
+    .eta-preview-table tbody td:first-child {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .eta-preview-table tbody td:first-child svg {
+      width: 14px;
+      height: 14px;
+      stroke: #3b82f6;
+      fill: none;
+      stroke-width: 1.8;
+      flex-shrink: 0;
+    }
+
+    .eta-stock-table tbody th {
+      font-weight: 600;
+    }
+
+    .eta-stock-table tbody td.is-onhand,
+    .eta-preview-table tbody td.is-onhand {
+      color: #2563eb;
+    }
+
+    .eta-stock-table tbody td.is-available,
+    .eta-preview-table tbody td.is-available {
+      color: #16a34a;
+    }
+
+    .eta-stock-table tbody td.is-reserved,
+    .eta-preview-table tbody td.is-reserved {
+      color: #f97316;
+    }
+
+    .eta-stock-table tbody td.is-order,
+    .eta-preview-table tbody td.is-order {
+      color: #7c3aed;
+    }
+
+    .eta-preview-table tbody td:last-child {
+      text-align: right;
+      color: #0f172a;
+    }
+
+    .mfd-preview-table {
+      table-layout: auto;
+    }
+
+    .mfd-preview-table thead th,
+    .mfd-preview-table tbody td {
+      white-space: nowrap;
+    }
+
+    .mfd-preview-table thead th {
+      font-size: 0.67rem;
+    }
+
+    .mfd-preview-table tbody td {
+      font-size: 0.76rem;
+    }
+
+    .eta-stock-table tbody tr:last-child th,
+    .eta-stock-table tbody tr:last-child td,
+    .eta-preview-table tbody tr:last-child td,
+    .mfd-preview-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .eta-stock-table thead th:not(:first-child),
+    .eta-stock-table tbody td {
+      text-align: left;
+    }
+
+    .table-placeholder {
+      color: #94a3b8;
+    }
+
+    .mfd-preview-empty {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #94a3b8;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    .mfd-preview-empty svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.7;
+    }
+
+    .mfd-preview-empty strong {
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .eta-preview-empty {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+
+    .eta-preview-empty svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.7;
+      flex-shrink: 0;
+    }
+
+    .eta-preview-empty strong {
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .eta-location-section.rows-1 .eta-location-body,
+    .mfd-location-section.rows-1 .mfd-location-body {
+      min-height: 58px;
+    }
+
+    .mfd-location-section.rows-3 .mfd-location-body {
+      min-height: 148px;
+    }
+
+    .mfd-modal-card .modal-header {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: #fff;
+    }
+
+    .eta-sku-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .eta-shell-card {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+      padding: 12px 16px 10px;
+      min-width: 0;
+    }
+
+    .eta-shell-card h4 {
+      margin: 0;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .eta-left-stack,
+    .eta-right-stack {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .eta-block {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.96);
+      overflow: hidden;
+    }
+
+    .eta-block-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    .eta-block-head h5 {
+      margin: 0;
+      font-size: 0.94rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .eta-block-note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+
+    .stock-compact-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .stock-compact-table th,
+    .stock-compact-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+      font-size: 0.8rem;
+      color: #0f172a;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .stock-compact-table thead th {
+      color: var(--muted);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .stock-compact-table thead th:first-child,
+    .stock-compact-table tbody th {
+      text-align: left;
+    }
+
+    .stock-compact-table tbody th {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .stock-compact-table tbody td {
+      font-size: 0.85rem;
+      font-weight: 549;
+    }
+
+    .stock-compact-table tbody tr:last-child th,
+    .stock-compact-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .eta-location-grid,
+    .mfd-location-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .eta-location-section,
+    .mfd-location-section {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 16px;
+      background: #fff;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .eta-location-head,
+    .mfd-location-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 14px 9px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    .eta-location-head h6,
+    .mfd-location-head h6 {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .eta-location-body,
+    .mfd-location-body {
+      padding: 10px 14px 12px;
+      min-width: 0;
+    }
+
+    .eta-preview-list {
+      min-height: 60px;
+      display: grid;
+      gap: 6px;
+      align-content: start;
+    }
+
+    .eta-preview-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.83rem;
+      color: #0f172a;
+    }
+
+    .eta-preview-row strong {
+      font-size: 0.85rem;
+      font-weight: 549;
+      color: #0f172a;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .eta-preview-empty,
+    .mfd-preview-empty {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+
+    .expand-link {
+      margin-top: 8px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #2563eb;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .mfd-mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .mfd-mini-table th,
+    .mfd-mini-table td {
+      padding: 7px 8px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+      font-size: 0.76rem;
+      color: #0f172a;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mfd-mini-table thead th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.72rem;
+    }
+
+    .mfd-mini-table tbody td {
+      font-weight: 549;
+    }
+
+    .mfd-mini-table tbody tr:last-child td {
+      border-bottom: 0;
     }
 
     .mfd-footer-note {
@@ -1612,18 +1961,8 @@
     }
 
     @media (max-width: 1080px) {
-      .mfd-locations-grid {
+      .eta-sku-layout {
         grid-template-columns: 1fr;
-      }
-
-      .mfd-details-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 720px) {
-      .mfd-details-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
     @media (max-width: 1180px) {
@@ -1739,8 +2078,8 @@
     }
 
     .mfd-modal-card {
-      width: min(98vw, 1480px);
-      max-width: 1480px;
+      width: min(97vw, 1560px);
+      max-width: 1560px;
     }
 
     .modal-card {
@@ -1824,6 +2163,350 @@
       height: 18px;
       object-fit: contain;
     }
+
+    .eta-location-section {
+      min-height: 0;
+    }
+
+    .eta-location-head {
+      padding: 9px 14px 8px;
+    }
+
+    .eta-location-body {
+      padding: 8px 14px 9px;
+    }
+
+    .eta-preview-empty {
+      min-height: 38px;
+    }
+
+    .mfd-location-section {
+      min-height: 0;
+    }
+
+    .mfd-location-grid,
+    .eta-location-grid {
+      gap: 10px;
+    }
+
+    /* ================================
+      FINAL ETA / MFD MODAL STYLE
+      Keep this block as the last CSS
+    ================================ */
+
+    /* Modal size */
+    .mfd-modal-card {
+      width: min(92vw, 1180px) !important;
+      height: min(88vh, 760px) !important;
+      max-height: min(88vh, 760px) !important;
+      overflow: auto !important;
+    }
+
+    .mfd-modal-card .modal-header {
+      padding: 14px 20px !important;
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 5 !important;
+      background: #fff !important;
+    }
+
+    .mfd-modal-card .modal-header h3 {
+      font-size: 1.48rem !important;
+      line-height: 1.2 !important;
+    }
+
+    .mfd-modal-card .modal-header p {
+      margin-top: 6px !important;
+      font-size: 0.88rem !important;
+    }
+
+    .mfd-modal-body {
+      padding: 14px 18px 18px !important;
+      overflow: visible !important;
+      background: #f8fafc !important;
+    }
+
+    /* Main layout */
+    .eta-sku-layout {
+      display: grid !important;
+      grid-template-columns: 465px minmax(0, 1fr) !important;
+      gap: 14px !important;
+      align-items: start !important;
+    }
+
+    .eta-left-stack,
+    .eta-right-stack,
+    .eta-location-grid,
+    .mfd-location-grid {
+      display: grid !important;
+      gap: 10px !important;
+      min-width: 0 !important;
+    }
+
+    .eta-left-stack {
+      gap: 4px !important;
+    }
+
+    /* Cards */
+    .eta-shell-card,
+    .eta-location-section,
+    .mfd-location-section {
+      border: 1px solid rgba(15, 23, 42, 0.08) !important;
+      border-radius: 14px !important;
+      background: #fff !important;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.045) !important;
+      overflow: hidden !important;
+      min-width: 0 !important;
+    }
+
+    /* Stock card */
+    .eta-shell-card.stock-card {
+      height: auto !important;
+      min-height: 205px !important;
+      padding: 0 !important;
+      margin-bottom: 4px !important;
+    }
+
+    /* Headers */
+    .eta-shell-head,
+    .eta-location-head,
+    .mfd-location-head {
+      min-height: 40px !important;
+      padding: 0 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 8px !important;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06) !important;
+    }
+
+    .eta-shell-title,
+    .eta-location-title,
+    .mfd-location-title,
+    .eta-location-head h6,
+    .mfd-location-head h6 {
+      margin: 0 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 7px !important;
+      font-size: 0.9rem !important;
+      font-weight: 700 !important;
+      line-height: 1.2 !important;
+      color: #0f172a !important;
+      letter-spacing: -0.01em !important;
+    }
+
+    .eta-shell-title svg,
+    .eta-location-title svg,
+    .mfd-location-title svg {
+      width: 14px !important;
+      height: 14px !important;
+      stroke: #2563eb !important;
+      fill: none !important;
+      stroke-width: 1.8 !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Count / View All */
+    .section-count {
+      display: inline-flex !important;
+      align-items: center !important;
+      padding: 2px 7px !important;
+      border-radius: 999px !important;
+      background: #f1f5f9 !important;
+      color: #64748b !important;
+      font-size: 0.75rem !important;
+      font-weight: 650 !important;
+      line-height: 1.2 !important;
+      white-space: nowrap !important;
+    }
+
+    .section-action {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      padding: 3px 5px !important;
+      border: 0 !important;
+      border-radius: 8px !important;
+      background: transparent !important;
+      color: #2563eb !important;
+      font-size: 0.8rem !important;
+      font-weight: 650 !important;
+      line-height: 1.2 !important;
+      cursor: pointer !important;
+      white-space: nowrap !important;
+    }
+
+    .section-action svg {
+      width: 12px !important;
+      height: 12px !important;
+      stroke: currentColor !important;
+      fill: none !important;
+      stroke-width: 1.8 !important;
+    }
+
+    /* Bodies */
+    .eta-location-body,
+    .mfd-location-body {
+      padding: 8px 12px !important;
+      overflow: visible !important;
+    }
+
+    .eta-location-section {
+      min-height: 78px !important;
+    }
+
+    .eta-location-body {
+      min-height: 40px !important;
+    }
+
+    .mfd-location-section {
+      min-height: 112px !important;
+    }
+
+    .mfd-location-section:has(.mfd-preview-empty) {
+      min-height: 88px !important;
+    }
+
+    /* Stock table spacing */
+    .eta-shell-card.stock-card .eta-stock-table {
+      margin: 8px 12px 10px !important;
+      width: calc(100% - 24px) !important;
+    }
+
+    /* Tables */
+    .eta-stock-table,
+    .eta-preview-table,
+    .mfd-preview-table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      table-layout: fixed !important;
+    }
+
+    .eta-stock-table thead th,
+    .eta-preview-table thead th,
+    .mfd-preview-table thead th {
+      padding: 8px 6px !important;
+      font-size: 0.76rem !important;
+      font-weight: 600 !important;
+      line-height: 1.2 !important;
+      color: #475569 !important;
+      text-align: left !important;
+      white-space: nowrap !important;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+    }
+
+    .eta-stock-table tbody th,
+    .eta-stock-table tbody td,
+    .eta-preview-table tbody td,
+    .mfd-preview-table tbody td {
+      padding: 8px 6px !important;
+      font-size: 0.82rem !important;
+      font-weight: 500 !important;
+      line-height: 1.25 !important;
+      color: #0f172a !important;
+      text-align: left !important;
+      white-space: nowrap !important;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06) !important;
+    }
+
+    .eta-stock-table tbody th {
+      font-weight: 700 !important;
+    }
+
+    .eta-stock-table tbody tr:last-child th,
+    .eta-stock-table tbody tr:last-child td,
+    .eta-preview-table tbody tr:last-child td,
+    .mfd-preview-table tbody tr:last-child td {
+      border-bottom: 0 !important;
+    }
+
+    /* Stock colors */
+    .eta-stock-table .is-onhand {
+      color: #2563eb !important;
+    }
+
+    .eta-stock-table .is-available {
+      color: #16a34a !important;
+    }
+
+    .eta-stock-table .is-reserved {
+      color: #f97316 !important;
+    }
+
+    .eta-stock-table .is-order {
+      color: #7c3aed !important;
+    }
+
+    /* ETA row */
+    .eta-preview-table tbody td:first-child {
+      display: flex !important;
+      align-items: center !important;
+      gap: 7px !important;
+    }
+
+    .eta-preview-table tbody td:first-child svg {
+      width: 13px !important;
+      height: 13px !important;
+      stroke: #2563eb !important;
+      fill: none !important;
+      stroke-width: 1.8 !important;
+      flex-shrink: 0 !important;
+    }
+
+    .eta-preview-table tbody td:last-child {
+      text-align: right !important;
+    }
+
+    /* Empty states */
+    .eta-preview-empty {
+      min-height: 38px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 7px !important;
+      color: #94a3b8 !important;
+      font-size: 0.8rem !important;
+      font-weight: 650 !important;
+      line-height: 1.25 !important;
+    }
+
+    .mfd-preview-empty {
+      min-height: 54px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 7px !important;
+      color: #94a3b8 !important;
+      font-size: 0.8rem !important;
+      font-weight: 650 !important;
+      line-height: 1.25 !important;
+    }
+
+    .eta-preview-empty svg,
+    .mfd-preview-empty svg {
+      width: 14px !important;
+      height: 14px !important;
+      stroke: currentColor !important;
+      fill: none !important;
+      stroke-width: 1.8 !important;
+    }
+
+    .table-placeholder {
+      color: #94a3b8 !important;
+    }
+
+    /* Mobile */
+    @media (max-width: 1080px) {
+      .eta-sku-layout {
+        grid-template-columns: 1fr !important;
+      }
+
+      .mfd-modal-card {
+        width: min(96vw, 920px) !important;
+      }
+    }
+    
   </style>
 </head>
 <body>
@@ -2340,7 +3023,8 @@
     }
 
     function renderStockSection(product, variant = "") {
-      return renderStockTable(product, variant) + renderStockMetrics(product) + renderEtaSection(product);
+      return renderStockTable(product, variant) + renderStockMetrics(product);
+      // return renderStockTable(product, variant) + renderStockMetrics(product) + renderEtaSection(product);
     }
     function isDisplayableProduct(product) {
       const sku = String(product.sku || "").trim().toLowerCase();
@@ -2933,7 +3617,7 @@
         const specBox = '<div class="info-box">' + renderInfoRows([
           { label: "SKU", value: renderValueWithCopy(product.sku, "SKU"), isHtml: true },
           { label: "Barcode", value: renderValueWithCopy(product.upc, "barcode"), isHtml: true },
-          { label: "Loc", value: formatPlainValue(product.stockLocator) },
+          { label: "Location", value: formatPlainValue(product.stockLocator) },
           { label: "Weight", value: formatPlainValue(product.weight) }
         ]) + '</div>';
 
@@ -2949,7 +3633,7 @@
         const stockBox = '<div class="info-box">' + renderStockSection(product, 'stock-table--compact') + '</div>';
 
         const productLink = hasValue(product.link)
-          ? '<a class="ghost-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Open product</a>'
+          ? '<a class="ghost-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Link</a>'
           : '<span class="ghost-action" aria-disabled="true">No link</span>';
 
         return '<article class="product-card">' +
@@ -2975,8 +3659,8 @@
             stockBox +
           '</div>' +
           '<div class="card-footer">' +
-            '<button type="button" class="eta-btn" data-eta-product="' + escapeHtml(product.id) + '">ETA</button>' +
-            '<button type="button" class="card-action primary-action" data-open-product="' + escapeHtml(product.id) + '">Quick view</button>' +            
+            '<button type="button" class="eta-btn" data-eta-product="' + escapeHtml(product.id) + '">MFD</button>' +
+            // '<button type="button" class="card-action primary-action" data-open-product="' + escapeHtml(product.id) + '">Quick view</button>' +            
             productLink +
           '</div>' +
         '</article>';
@@ -3182,6 +3866,27 @@
       });
 
       document.addEventListener("click", async (event) => {
+        const expandButton = event.target.closest("[data-expand-target]");
+        if (expandButton) {
+          const targetId = expandButton.getAttribute("data-expand-target");
+          const expanded = expandButton.getAttribute("aria-expanded") === "true";
+          const nodes = document.querySelectorAll('[data-expand-group="' + targetId + '"]');
+          nodes.forEach(function(node) {
+            node.classList.toggle("hidden", expanded);
+          });
+
+          expandButton.setAttribute("aria-expanded", expanded ? "false" : "true");
+
+          const section = expandButton.closest(".eta-location-section, .mfd-location-section");
+          const body = section ? section.querySelector(".eta-location-body, .mfd-location-body") : null;
+
+          if (body) {
+            body.scrollTop = 0;
+          }
+
+          return;
+        }
+
         const button = event.target.closest("[data-copy-value]");
         if (!button) return;
 
@@ -3289,7 +3994,7 @@
         : '';
 
       const productLinkAction = hasValue(product.link)
-        ? '<a class="card-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Open product page</a>'
+        ? '<a class="card-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Link</a>'
         : '';
 
       elements.modalBody.innerHTML = '<aside class="modal-media">' +
@@ -3334,9 +4039,53 @@
 
     // ─── MFD ─────────────────────────────────────────────────────────────────
     const mfdStates = {
-      toronto: { sheetName: "MFD", data: null, headers: [], loading: false, error: null },
-      vancouver: { sheetName: "MFD-V", data: null, headers: [], loading: false, error: null }
+      toronto: { sheetName: "MFD", data: null, headers: [], loading: false, error: null, skuIndexFallback: 0 },
+      esna: { sheetName: "MFD-ESNA", data: null, headers: [], loading: false, error: null, skuIndexFallback: 2, esnaMode: true },
+      vancouver: { sheetName: "MFD-V", data: null, headers: [], loading: false, error: null, skuIndexFallback: 2 }
     };
+    const etaSheetState = {
+      sheetName: "ETA by SKU",
+      data: null,
+      headers: [],
+      loading: false,
+      error: null
+    };
+    let expandSectionCounter = 0;
+
+    function renderModalSectionIcon(type) {
+      if (type === "stock") {
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 7 4v10l-7 4-7-4V7l7-4Z"/><path d="m5 7 7 4 7-4"/><path d="M12 11v10"/></svg>';
+      }
+      if (type === "eta") {
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h11v8H3z"/><path d="M14 11h4l3 3v2h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
+      }
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>';
+    }
+
+    function renderEtaRowIcon() {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="6" width="14" height="13" rx="2" fill="none"/><path d="M8 4v4M16 4v4M5 10h14" fill="none"/></svg>';
+    }
+
+    function renderEmptyState(text) {
+      return '<div class="mfd-preview-empty">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 7 4v10l-7 4-7-4V7l7-4Z"/><path d="m5 7 7 4 7-4"/><path d="M12 11v10"/></svg>' +
+        '<strong>' + escapeHtml(text) + '</strong>' +
+      '</div>';
+    }
+
+    function renderEtaEmptyState(text) {
+      return '<div class="eta-preview-empty">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="6" width="14" height="13" rx="2"/><path d="M8 4v4M16 4v4M5 10h14"/></svg>' +
+        '<strong>' + escapeHtml(text) + '</strong>' +
+      '</div>';
+    }
+
+    function renderExpandButton(targetId) {
+      return '<button type="button" class="section-action" data-expand-target="' + targetId + '" aria-expanded="false">' +
+        '<span>View All</span>' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>' +
+      '</button>';
+    }
 
     function getMFDColumnClass(header) {
       const key = normalizeKey(header);
@@ -3377,6 +4126,15 @@
       return result;
     }
 
+    function padDateValue(value) {
+      return String(value ?? "").trim().padStart(2, "0");
+    }
+
+    function nextExpandSectionId(prefix) {
+      expandSectionCounter += 1;
+      return prefix + "-" + expandSectionCounter;
+    }
+
     async function fetchMFDSheet(locationKey) {
       const targetState = mfdStates[locationKey];
       if (!targetState) return null;
@@ -3408,87 +4166,288 @@
       }
     }
 
-    function formatMFDLastUpdated(rows, columnIndexes) {
-      if (!rows.length || columnIndexes.updatedOn === undefined) return "--";
-      const sorted = rows.slice().sort(function(a, b) {
-        return parseDateForSort(b[columnIndexes.updatedOn]) - parseDateForSort(a[columnIndexes.updatedOn]);
-      });
-      return sorted[0] && sorted[0][columnIndexes.updatedOn] ? sorted[0][columnIndexes.updatedOn] : "--";
+    async function fetchEtaBySkuSheet() {
+      if (etaSheetState.data) return etaSheetState;
+      if (etaSheetState.loading) return null;
+
+      etaSheetState.loading = true;
+      etaSheetState.error = null;
+
+      try {
+        const url = "https://docs.google.com/spreadsheets/d/" + CONFIG.sheetId + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(etaSheetState.sheetName);
+        const response = await fetch(url, { cache: "no-store", mode: "cors" });
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const text = await response.text();
+        if (/<!doctype html|<html/i.test(text)) throw new Error("Received HTML instead of CSV");
+
+        const rows = parseCSV(text).map(function(row) {
+          return row.map(function(cell) { return String(cell || "").trim(); });
+        }).filter(function(row) { return row.some(function(cell) { return cell !== ""; }); });
+
+        etaSheetState.headers = rows[0] || [];
+        etaSheetState.data = rows.slice(1);
+        return etaSheetState;
+      } catch (error) {
+        etaSheetState.error = error.message || String(error);
+        return null;
+      } finally {
+        etaSheetState.loading = false;
+      }
     }
 
-    function renderDetailsGrid(items) {
-      return '<div class="mfd-details-grid">' + items.map(function(item) {
-        const itemClass = item.className ? ' mfd-detail-item ' + item.className : ' mfd-detail-item';
-        return '<div class="' + itemClass.trim() + '">' +
-          '<span>' + escapeHtml(item.label) + '</span>' +
-          '<strong>' + escapeHtml(item.value) + '</strong>' +
-        '</div>';
-      }).join("") + '</div>';
+    function formatSkuMatchValue(value) {
+      return String(value || "").trim().toLowerCase();
     }
 
-    function renderMFDTable(headers, rows, emptyMessage) {
-      if (!rows.length) {
-        return '<p class="mfd-empty">' + emptyMessage + '</p>';
+    function buildGenericMfdRecords(targetState, sku) {
+      if (!targetState || !targetState.data) return [];
+      const columnIndexes = getMFDColumnIndexes(targetState.headers);
+      const skuIndex = columnIndexes.sku !== undefined ? columnIndexes.sku : targetState.skuIndexFallback;
+
+      return targetState.data
+        .filter(function(row) {
+          return formatSkuMatchValue(row[skuIndex]) === sku;
+        })
+        .map(function(row) {
+          return {
+            expDate: row[columnIndexes.expDate] || "--",
+            qtyDate: row[columnIndexes.qtyDate] || "--",
+            qtyTotal: row[columnIndexes.qtyTotal] || "--",
+            totalQty: row[columnIndexes.totalQty] || "--",
+            updatedOn: row[columnIndexes.updatedOn] || "--"
+          };
+        })
+        .sort(function(a, b) {
+          return parseDateForSort(a.expDate) - parseDateForSort(b.expDate);
+        });
+    }
+
+    function buildEsnaMfdRecords(targetState, sku) {
+      if (!targetState || !targetState.data) return [];
+      return targetState.data
+        .filter(function(row) {
+          return formatSkuMatchValue(row[2]) === sku;
+        })
+        .map(function(row) {
+          const year = String(row[4] || "").trim();
+          const month = padDateValue(row[5] || "");
+          const day = padDateValue(row[6] || "");
+          const expDate = year ? year + "-" + month + "-" + day : "--";
+          return {
+            expDate,
+            qtyDate: String(row[7] || "").trim() || "--",
+            qtyTotal: String(row[8] || "").trim() || "--",
+            totalQty: String(row[9] || "").trim() || "--",
+            updatedOn: formatMfdDate(row[15])
+          };
+        })
+        .sort(function(a, b) {
+          return parseDateForSort(a.expDate) - parseDateForSort(b.expDate);
+        });
+    }
+
+    function formatMfdDate(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return "--";
+
+      const iso = raw.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/);
+      if (iso) {
+        return iso[1] + "-" + iso[2].padStart(2, "0") + "-" + iso[3].padStart(2, "0");
       }
 
-      const columnIndexes = getMFDColumnIndexes(headers);
-      const columns = [
-        { label: "Exp Date", key: "expDate" },
-        { label: "MFD Qty (Date)", key: "qtyDate" },
-        { label: "MFD Qty (Total)", key: "qtyTotal" },
-        { label: "Total Qty", key: "totalQty" },
-        { label: "Updated on", key: "updatedOn" }
-      ].filter(function(column) {
-        return columnIndexes[column.key] !== undefined;
-      });
+      const dmy = raw.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$/);
+      if (dmy) {
+        return dmy[3] + "-" + dmy[2].padStart(2, "0") + "-" + dmy[1].padStart(2, "0");
+      }
 
-      let html = '<table class="mfd-data-table"><thead><tr>';
-      columns.forEach(function(column) {
-        html += '<th class="' + getMFDColumnClass(column.label) + '">' + escapeHtml(column.label) + '</th>';
-      });
-      html += '</tr></thead><tbody>';
+      const date = new Date(raw);
+      if (!Number.isNaN(date.getTime())) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return year + "-" + month + "-" + day;
+      }
 
-      rows.forEach(function(row) {
-        html += '<tr>';
-        columns.forEach(function(column) {
-          const value = row[columnIndexes[column.key]] || "--";
-          html += '<td class="' + getMFDColumnClass(column.label) + '">' + escapeHtml(value) + '</td>';
-        });
-        html += '</tr>';
-      });
-
-      html += '</tbody></table>';
-      return html;
+      return raw;
     }
 
-    function renderLocationSection(options) {
-      const detailsItems = [
-        { label: "On Hand", value: formatNumber(options.inventory.onHand) },
-        { label: "Available", value: formatNumber(options.inventory.available), className: "is-available" },
-        { label: "Reserved", value: formatNumber(options.inventory.reserved), className: "is-reserved" },
-        { label: "On Order", value: formatNumber(options.inventory.onOrder), className: "is-order" },
-        { label: "ETA", value: options.inventory.eta, className: "is-eta" }
+    function buildMfdRecords(locationKey, sku) {
+      const targetState = mfdStates[locationKey];
+      if (!targetState) return [];
+      if (targetState.esnaMode) return buildEsnaMfdRecords(targetState, sku);
+      return buildGenericMfdRecords(targetState, sku);
+    }
+
+    function formatStockValue(value, useDashWhenZero) {
+      const numeric = Number.isFinite(value) ? value : parseNumber(value);
+      if (useDashWhenZero && numeric === 0) return "-";
+      return formatNumber(numeric);
+    }
+
+    function normalizeEtaLocationKey(value) {
+      const key = normalizeKey(value);
+      if (!key) return "";
+      if (key.includes("toronto") || key === "tor") return "toronto";
+      if (key.includes("vancouver") || key === "van") return "vancouver";
+      if (key.includes("esna")) return "esna";
+      if (key.includes("binex") || key.includes("new") || key.includes("prob")) return "binex";
+      return "";
+    }
+
+    function buildEtaRecordsByLocation(sheetState, sku) {
+      const map = {
+        toronto: [],
+        esna: [],
+        binex: [],
+        vancouver: []
+      };
+
+      if (!sheetState || !sheetState.data) return map;
+
+      sheetState.data.forEach(function(row) {
+        if (formatSkuMatchValue(row[0]) !== sku) return;
+        const locationKey = normalizeEtaLocationKey(row[4]);
+        if (!locationKey || !map[locationKey]) return;
+        map[locationKey].push({
+          expDate: row[1] || "--",
+          qtyDate: row[5] || "--"
+        });
+      });
+
+      Object.keys(map).forEach(function(key) {
+        map[key].sort(function(a, b) {
+          return parseDateForSort(a.expDate) - parseDateForSort(b.expDate);
+        });
+      });
+
+      return map;
+    }
+
+    function renderStockSummary(product) {
+      const rows = [
+        { label: "Toronto", values: [product.onHandTor, product.availableTor, product.reserveTor, product.onOrderTor], dashZero: false },
+        { label: "Esna", values: [product.onHandEsna, product.availableEsna, product.reserveEsna, product.onOrderEsna], dashZero: false },
+        { label: "Binex", values: [product.onHandNew, product.availableNew, product.reserveNew, product.onOrderNew], dashZero: true },
+        { label: "Vancouver", values: [product.onHandVan, product.availableVan, product.reserveVan, product.onOrderVan], dashZero: false }
       ];
 
-      return '<section class="mfd-section">' +
-        '<div class="mfd-section-head">' +
-          '<div class="mfd-section-title">' +
-            '<h4>' + escapeHtml(options.label) + '</h4>' +
-          '</div>' +
+      return '<section class="eta-shell-card stock-card">' +
+        '<div class="eta-shell-head">' +
+          '<h4 class="eta-shell-title">' + renderModalSectionIcon("stock") + '<span>Stock Overview</span></h4>' +
         '</div>' +
-        '<div class="mfd-section-grid">' +
-          '<div class="mfd-card">' +
-            '<div class="mfd-card-body">' +
-              '<h5>Details</h5>' +
-              renderDetailsGrid(detailsItems) +
-            '</div>' +
-          '</div>' +
-          '<div class="mfd-card">' +
-            '<div class="mfd-card-body">' +
-              '<h5>MFD <span class="mfd-record-note">(' + options.rows.length + ' record' + (options.rows.length !== 1 ? 's' : '') + ')</span></h5>' +
-              renderMFDTable(options.headers, options.rows, options.emptyMessage) +
-            '</div>' +
-          '</div>' +
+        '<table class="eta-stock-table">' +
+          '<thead><tr><th>Location</th><th>On Hand</th><th>Available</th><th>Reserved</th><th>On Order</th></tr></thead>' +
+          '<tbody>' + rows.map(function(row) {
+            return '<tr><th scope="row">' + escapeHtml(row.label) + '</th>' +
+              '<td class="is-onhand">' + escapeHtml(formatStockValue(row.values[0], row.dashZero)) + '</td>' +
+              '<td class="is-available">' + escapeHtml(formatStockValue(row.values[1], row.dashZero)) + '</td>' +
+              '<td class="is-reserved">' + escapeHtml(formatStockValue(row.values[2], row.dashZero)) + '</td>' +
+              '<td class="is-order">' + escapeHtml(formatStockValue(row.values[3], row.dashZero)) + '</td>' +
+            '</tr>';
+          }).join("") + '</tbody>' +
+        '</table>' +
+      '</section>';
+    }
+
+    function renderEtaRows(rows) {
+      return rows.map(function(row) {
+        return '<tr><td>' + renderEtaRowIcon() + '<span>' + escapeHtml(row.expDate || "--") + '</span></td><td>' + escapeHtml(row.qtyDate || "--") + '</td></tr>';
+      }).join("");
+    }
+
+    function renderEtaPlaceholders(count) {
+      return Array.from({ length: count }).map(function() {
+        return '<tr class="table-placeholder"><td>-</td><td>-</td></tr>';
+      }).join("");
+    }
+
+    function renderExpandableEtaSection(title, rows, previewLimit) {
+      const previewRows = rows.slice(0, previewLimit);
+      const hiddenRows = rows.slice(previewLimit);
+      const hiddenId = nextExpandSectionId("eta");
+      return '<section class="eta-location-section rows-' + previewLimit + '">' +
+        '<div class="eta-location-head">' +
+          '<h6 class="eta-location-title">' + renderModalSectionIcon("eta") + '<span>' + escapeHtml(title) + '</span></h6>' +
+          (hiddenRows.length ? renderExpandButton(hiddenId) : '') +
+        '</div>' +
+        '<div class="eta-location-body">' +
+          (rows.length
+            ? '<table class="eta-preview-table">' +
+                '<tbody>' +
+                  renderEtaRows(previewRows) +
+                  hiddenRows.map(function(row) {
+                    return '<tr class="hidden" data-expand-group="' + hiddenId + '"><td>' + renderEtaRowIcon() + '<span>' + escapeHtml(row.expDate || "--") + '</span></td><td>' + escapeHtml(row.qtyDate || "--") + '</td></tr>';
+                  }).join("") +
+                '</tbody>' +
+              '</table>'
+            : renderEtaEmptyState("No data available.")) +
+        '</div>' +
+      '</section>';
+    }
+
+    function renderEtaSections(recordMap) {
+      return renderExpandableEtaSection("ETA - Toronto", recordMap.toronto, 1) +
+        renderExpandableEtaSection("ETA - Esna", recordMap.esna, 1) +
+        renderExpandableEtaSection("ETA - Binex", recordMap.binex, 1) +
+        renderExpandableEtaSection("ETA - Vancouver", recordMap.vancouver, 1);
+    }
+
+    function renderMfdRows(rows) {
+      return rows.map(function(row) {
+        return '<tr>' +
+          '<td>' + escapeHtml(row.expDate || "--") + '</td>' +
+          '<td>' + escapeHtml(row.qtyDate || "--") + '</td>' +
+          '<td>' + escapeHtml(row.qtyTotal || "--") + '</td>' +
+          '<td>' + escapeHtml(row.totalQty || "--") + '</td>' +
+          '<td>' + escapeHtml(row.updatedOn || "--") + '</td>' +
+        '</tr>';
+      }).join("");
+    }
+
+    function renderMfdPlaceholders(count) {
+      return Array.from({ length: count }).map(function() {
+        return '<tr class="table-placeholder"><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>';
+      }).join("");
+    }
+
+    function renderExpandableMfdSection(title, rows, emptyText, noDataMode, previewLimit) {
+      const previewRows = rows.slice(0, previewLimit);
+      const hiddenRows = rows.slice(previewLimit);
+      const hiddenId = nextExpandSectionId("mfd");
+
+      const tableHtml = '<table class="mfd-preview-table">' +
+        '<thead><tr><th>Exp Date</th><th>MFD Qty (Date)</th><th>MFD Qty (Total)</th><th>Total Qty</th><th>Updated on</th></tr></thead>' +
+        '<tbody>' +
+          renderMfdRows(previewRows) +
+          renderMfdPlaceholders(Math.max(0, previewLimit - previewRows.length)) +
+          (hiddenRows.length
+            ? hiddenRows.map(function(row) {
+                return '<tr class="hidden" data-expand-group="' + hiddenId + '">' +
+                  '<td>' + escapeHtml(row.expDate || "--") + '</td>' +
+                  '<td>' + escapeHtml(row.qtyDate || "--") + '</td>' +
+                  '<td>' + escapeHtml(row.qtyTotal || "--") + '</td>' +
+                  '<td>' + escapeHtml(row.totalQty || "--") + '</td>' +
+                  '<td>' + escapeHtml(row.updatedOn || "--") + '</td>' +
+                '</tr>';
+              }).join("")
+            : '') +
+        '</tbody>' +
+      '</table>';
+
+      return '<section class="mfd-location-section rows-' + previewLimit + '">' +
+        '<div class="mfd-location-head">' +
+          '<h6 class="mfd-location-title">' +
+            renderModalSectionIcon("mfd") +
+            '<span>' + escapeHtml(title) + ' <span class="section-count">(' + escapeHtml(String(rows.length)) + ' ' + escapeHtml(rows.length === 1 ? 'record' : 'records') + ')</span></span>' +
+          '</h6>' +
+          (hiddenRows.length ? renderExpandButton(hiddenId) : '') +
+        '</div>' +
+        '<div class="mfd-location-body">' +
+          (rows.length
+            ? tableHtml
+            : (noDataMode
+                ? renderEmptyState(emptyText)
+                : renderEmptyState(emptyText))) +
         '</div>' +
       '</section>';
     }
@@ -3505,73 +4464,41 @@
       document.body.style.overflow = "hidden";
 
       const results = await Promise.all([
+        fetchEtaBySkuSheet(),
         fetchMFDSheet("toronto"),
+        fetchMFDSheet("esna"),
         fetchMFDSheet("vancouver")
       ]);
 
-      const torontoState = results[0];
-      const vancouverState = results[1];
-      const sku = String(product.sku || "").trim().toLowerCase();
+      const etaState = results[0];
+      const torontoState = results[1];
+      const esnaState = results[2];
+      const vancouverState = results[3];
+      const sku = formatSkuMatchValue(product.sku);
 
-      function getMatchedRows(targetState) {
-        if (!targetState || !targetState.data) return [];
-        const columnIndexes = getMFDColumnIndexes(targetState.headers);
-        const skuIndex = columnIndexes.sku !== undefined ? columnIndexes.sku : 2;
-        return targetState.data.filter(function(row) {
-          return String(row[skuIndex] || "").trim().toLowerCase() === sku;
-        }).sort(function(a, b) {
-          const expIndex = columnIndexes.expDate !== undefined ? columnIndexes.expDate : 0;
-          return parseDateForSort(a[expIndex]) - parseDateForSort(b[expIndex]);
-        });
-      }
+      const etaRecordMap = buildEtaRecordsByLocation(etaState, sku);
+      const mfdRecordMap = {
+        toronto: buildMfdRecords("toronto", sku),
+        esna: buildMfdRecords("esna", sku),
+        vancouver: buildMfdRecords("vancouver", sku)
+      };
 
-      const torontoRows = getMatchedRows(torontoState);
-      const vancouverRows = getMatchedRows(vancouverState);
-      const torontoIndexes = getMFDColumnIndexes(torontoState ? torontoState.headers : []);
-      const vancouverIndexes = getMFDColumnIndexes(vancouverState ? vancouverState.headers : []);
+      const leftColumnHtml = '<div class="eta-left-stack">' +
+        renderStockSummary(product) +
+        renderEtaSections(etaRecordMap) +
+      '</div>';
 
-      const torontoHtml = renderLocationSection({
-        label: "Toronto",
-        headers: torontoState ? torontoState.headers : [],
-        rows: torontoRows,
-        updatedOn: torontoState ? formatMFDLastUpdated(torontoRows, torontoIndexes) : "--",
-        emptyMessage: torontoState && torontoState.error
-          ? "Failed to load Toronto MFD data."
-          : "No Toronto MFD rows matched SKU " + escapeHtml(product.sku || "--") + ".",
-        inventory: {
-          onHand: product.onHandTor,
-          available: product.availableTor,
-          reserved: product.reserveTor,
-          onOrder: product.onOrderTor,
-          eta: product.etaTorRaw ? formatEtaList(product.etaTorRaw) : "--"
-        }
-      });
+      const rightColumnHtml = '<div class="eta-right-stack">' +
+        renderExpandableMfdSection("MFD - Toronto", mfdRecordMap.toronto, torontoState && torontoState.error ? "No data available." : "No data available.", false, 3) +
+        renderExpandableMfdSection("MFD - Esna", mfdRecordMap.esna, esnaState && esnaState.error ? "No data available." : "No data available.", false, 1) +
+        renderExpandableMfdSection("MFD - Binex", [], "No data available.", true, 1) +
+        renderExpandableMfdSection("MFD - Vancouver", mfdRecordMap.vancouver, vancouverState && vancouverState.error ? "No data available." : "No data available.", false, 3) +
+      '</div>';
 
-      const vancouverHtml = renderLocationSection({
-        label: "Vancouver",
-        headers: vancouverState ? vancouverState.headers : [],
-        rows: vancouverRows,
-        updatedOn: vancouverState ? formatMFDLastUpdated(vancouverRows, vancouverIndexes) : "--",
-        emptyMessage: vancouverState && vancouverState.error
-          ? "Failed to load Vancouver MFD data."
-          : "No Vancouver MFD rows matched SKU " + escapeHtml(product.sku || "--") + ".",
-        inventory: {
-          onHand: product.onHandVan,
-          available: product.availableVan,
-          reserved: product.reserveVan,
-          onOrder: product.onOrderVan,
-          eta: product.etaVanRaw ? formatEtaList(product.etaVanRaw) : "--"
-        }
-      });
-
-      elements.mfdModalBody.innerHTML = '<div class="mfd-locations-grid">' +
-        torontoHtml +
-        vancouverHtml +
-        '</div>' +
-        '<div class="mfd-footer-note">' +
-          '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle><path d="M10 9v4"></path><path d="M10 6.4h.01"></path></svg>' +
-          '<span>Quantities are updated in real-time based on the latest inventory data.</span>' +
-        '</div>';
+      elements.mfdModalBody.innerHTML = '<div class="eta-sku-layout">' +
+        leftColumnHtml +
+        rightColumnHtml +
+      '</div>';
     }
 
     function closeMFDModal() {
