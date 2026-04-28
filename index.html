@@ -1398,573 +1398,6 @@
       padding: 14px 0;
     }
 
-    .eta-sku-layout {
-      display: grid;
-      grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
-      gap: 20px;
-      align-items: stretch;
-    }
-
-    .eta-shell-card,
-    .eta-location-section,
-    .mfd-location-section {
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      border-radius: 16px;
-      background: #fff;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.045);
-      min-width: 0;
-      overflow: hidden;
-    }
-
-    .eta-shell-card {
-      padding: 14px 16px 12px;
-    }
-
-    .eta-shell-card.stock-card {
-      height: 190px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .eta-shell-head,
-    .eta-location-head,
-    .mfd-location-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .eta-shell-head {
-      margin-bottom: 2px;
-    }
-
-    .eta-location-head,
-    .mfd-location-head {
-      padding: 12px 14px 10px;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-    }
-
-    .eta-shell-title,
-    .eta-location-title,
-    .mfd-location-title {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
-      margin: 0;
-      color: var(--text);
-      font-size: 0.95rem;
-      font-weight: 650;
-      letter-spacing: -0.02em;
-    }
-
-    .eta-location-title,
-    .mfd-location-title {
-      font-size: 0.9rem;
-    }
-
-    .eta-shell-title svg,
-    .eta-location-title svg,
-    .mfd-location-title svg {
-      width: 15px;
-      height: 15px;
-      stroke: #3b82f6;
-      fill: none;
-      stroke-width: 1.8;
-      flex-shrink: 0;
-    }
-
-    .section-count {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: rgba(241, 245, 249, 0.95);
-      color: #64748b;
-      font-size: 0.72rem;
-      font-weight: 650;
-      white-space: nowrap;
-    }
-
-    .section-action {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 6px;
-      border: 0;
-      border-radius: 10px;
-      background: transparent;
-      color: #3b82f6;
-      font-size: 0.78rem;
-      font-weight: 600;
-      cursor: pointer;
-      flex-shrink: 0;
-      white-space: nowrap;
-    }
-
-    .section-action:hover {
-      background: rgba(59, 130, 246, 0.08);
-    }
-
-    .section-action svg {
-      width: 12px;
-      height: 12px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.8;
-      transition: transform 160ms ease;
-    }
-
-    .section-action[aria-expanded="true"] svg {
-      transform: rotate(180deg);
-    }
-
-    .eta-location-body,
-    .mfd-location-body {
-      padding: 4px 14px 8px;
-      min-width: 0;
-    }
-
-    .eta-stock-table,
-    .eta-preview-table,
-    .mfd-preview-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-
-    .eta-stock-table thead th {
-      padding: 2px 6px 4px;
-      font-size: 0.68rem;
-      line-height: 1.15;
-      white-space: nowrap;
-    }
-
-    .eta-preview-table thead th,
-    .mfd-preview-table thead th {
-      padding: 4px 8px;
-    }
-
-    .eta-stock-table th:first-child,
-    .eta-stock-table td:first-child {
-      width: 22% !important;
-    }
-    .eta-preview-table th:first-child,
-    .eta-preview-table td:first-child,
-    .mfd-preview-table th:first-child,
-    .mfd-preview-table td:first-child {
-      padding-left: 0;
-    }
-
-    .eta-stock-table th:last-child,
-    .eta-stock-table td:last-child,
-    .eta-preview-table th:last-child,
-    .eta-preview-table td:last-child,
-    .mfd-preview-table th:last-child,
-    .mfd-preview-table td:last-child {
-      padding-right: 0;
-    }
-
-    .eta-stock-table tbody th,
-    .eta-stock-table tbody td {
-      padding: 4px 6px;
-      font-size: 0.74rem;
-      line-height: 1.25;
-      white-space: nowrap;
-    }
-
-
-    .eta-preview-table tbody td,
-    .mfd-preview-table tbody td {
-      padding: 7px 8px;
-    }
-
-    .eta-preview-table tbody td:first-child {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .eta-preview-table tbody td:first-child svg {
-      width: 14px;
-      height: 14px;
-      stroke: #3b82f6;
-      fill: none;
-      stroke-width: 1.8;
-      flex-shrink: 0;
-    }
-
-    .eta-stock-table tbody th {
-      font-weight: 600;
-    }
-
-    .eta-stock-table tbody td.is-onhand,
-    .eta-preview-table tbody td.is-onhand {
-      color: #2563eb;
-    }
-
-    .eta-stock-table tbody td.is-available,
-    .eta-preview-table tbody td.is-available {
-      color: #16a34a;
-    }
-
-    .eta-stock-table tbody td.is-reserved,
-    .eta-preview-table tbody td.is-reserved {
-      color: #f97316;
-    }
-
-    .eta-stock-table tbody td.is-order,
-    .eta-preview-table tbody td.is-order {
-      color: #7c3aed;
-    }
-
-    .eta-preview-table tbody td:last-child {
-      text-align: right;
-      color: #0f172a;
-    }
-
-    .mfd-preview-table {
-      table-layout: auto;
-    }
-
-    .mfd-preview-table thead th,
-    .mfd-preview-table tbody td {
-      white-space: nowrap;
-    }
-
-    .mfd-preview-table thead th {
-      font-size: 0.67rem;
-    }
-
-    .mfd-preview-table tbody td {
-      font-size: 0.76rem;
-    }
-
-    .eta-stock-table tbody tr:last-child th,
-    .eta-stock-table tbody tr:last-child td,
-    .eta-preview-table tbody tr:last-child td,
-    .mfd-preview-table tbody tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .eta-stock-table thead th:not(:first-child),
-    .eta-stock-table tbody td {
-      text-align: left;
-    }
-
-    .table-placeholder {
-      color: #94a3b8;
-    }
-
-    .mfd-preview-empty {
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: #94a3b8;
-      font-size: 0.8rem;
-      line-height: 1.55;
-      text-align: center;
-    }
-
-    .mfd-preview-empty svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.7;
-    }
-
-    .mfd-preview-empty strong {
-      color: #94a3b8;
-      font-weight: 600;
-    }
-
-    .eta-preview-empty {
-      min-height: 42px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: #94a3b8;
-      font-size: 0.8rem;
-      line-height: 1.4;
-      white-space: nowrap;
-    }
-
-    .eta-preview-empty svg {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.7;
-      flex-shrink: 0;
-    }
-
-    .eta-preview-empty strong {
-      color: #94a3b8;
-      font-weight: 600;
-    }
-
-    .eta-location-section.rows-1 .eta-location-body,
-    .mfd-location-section.rows-1 .mfd-location-body {
-      min-height: 58px;
-    }
-
-    .mfd-location-section.rows-3 .mfd-location-body {
-      min-height: 148px;
-    }
-
-    .mfd-modal-card .modal-header {
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      background: #fff;
-    }
-
-    .eta-sku-layout {
-      display: grid;
-      grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
-      gap: 20px;
-      align-items: start;
-    }
-
-    .eta-shell-card {
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      border-radius: 20px;
-      background: #fff;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
-      padding: 12px 16px 10px;
-      min-width: 0;
-    }
-
-    .eta-shell-card h4 {
-      margin: 0;
-      font-size: 0.95rem;
-      letter-spacing: -0.02em;
-      color: var(--text);
-    }
-
-    .eta-left-stack,
-    .eta-right-stack {
-      display: grid;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .eta-block {
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      border-radius: 16px;
-      background: rgba(255,255,255,0.96);
-      overflow: hidden;
-    }
-
-    .eta-block-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 12px 14px 10px;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-    }
-
-    .eta-block-head h5 {
-      margin: 0;
-      font-size: 0.94rem;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-
-    .eta-block-note {
-      color: var(--muted);
-      font-size: 0.78rem;
-      white-space: nowrap;
-    }
-
-    .stock-compact-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-
-    .stock-compact-table th,
-    .stock-compact-table td {
-      padding: 9px 14px;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-      font-size: 0.8rem;
-      color: #0f172a;
-      white-space: nowrap;
-      text-align: right;
-    }
-
-    .stock-compact-table thead th {
-      color: var(--muted);
-      font-weight: 600;
-      text-align: right;
-    }
-
-    .stock-compact-table thead th:first-child,
-    .stock-compact-table tbody th {
-      text-align: left;
-    }
-
-    .stock-compact-table tbody th {
-      font-weight: 600;
-      color: #0f172a;
-    }
-
-    .stock-compact-table tbody td {
-      font-size: 0.85rem;
-      font-weight: 549;
-    }
-
-    .stock-compact-table tbody tr:last-child th,
-    .stock-compact-table tbody tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .eta-location-grid,
-    .mfd-location-grid {
-      display: grid;
-      gap: 12px;
-    }
-
-    .eta-location-section,
-    .mfd-location-section {
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      border-radius: 16px;
-      background: #fff;
-      overflow: hidden;
-      min-width: 0;
-    }
-
-    .eta-location-head,
-    .mfd-location-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 11px 14px 9px;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-    }
-
-    .eta-location-head h6,
-    .mfd-location-head h6 {
-      margin: 0;
-      font-size: 0.9rem;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-
-    .eta-location-body,
-    .mfd-location-body {
-      padding: 10px 14px 12px;
-      min-width: 0;
-    }
-
-    .eta-preview-list {
-      min-height: 60px;
-      display: grid;
-      gap: 6px;
-      align-content: start;
-    }
-
-    .eta-preview-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 10px;
-      align-items: center;
-      font-size: 0.83rem;
-      color: #0f172a;
-    }
-
-    .eta-preview-row strong {
-      font-size: 0.85rem;
-      font-weight: 549;
-      color: #0f172a;
-      white-space: nowrap;
-      text-align: right;
-    }
-
-    .eta-preview-empty,
-    .mfd-preview-empty {
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.5;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-    }
-
-    .expand-link {
-      margin-top: 8px;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      color: #2563eb;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .mfd-mini-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-
-    .mfd-mini-table th,
-    .mfd-mini-table td {
-      padding: 7px 8px;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-      font-size: 0.76rem;
-      color: #0f172a;
-      text-align: left;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .mfd-mini-table thead th {
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 0.72rem;
-    }
-
-    .mfd-mini-table tbody td {
-      font-weight: 549;
-    }
-
-    .mfd-mini-table tbody tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .mfd-footer-note {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 0.86rem;
-      margin-top: 2px;
-      align-self: center;
-    }
-
-    .mfd-footer-note svg {
-      width: 15px;
-      height: 15px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.8;
-    }
-
-    @media (max-width: 1080px) {
-      .eta-sku-layout {
-        grid-template-columns: 1fr;
-      }
-    }
     @media (max-width: 1180px) {
       .toolbar-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2164,37 +1597,11 @@
       object-fit: contain;
     }
 
-    .eta-location-section {
-      min-height: 0;
-    }
-
-    .eta-location-head {
-      padding: 9px 14px 8px;
-    }
-
-    .eta-location-body {
-      padding: 8px 14px 9px;
-    }
-
-    .eta-preview-empty {
-      min-height: 38px;
-    }
-
-    .mfd-location-section {
-      min-height: 0;
-    }
-
-    .mfd-location-grid,
-    .eta-location-grid {
-      gap: 10px;
-    }
-
     /* ================================
-      FINAL ETA / MFD MODAL STYLE
-      Keep this block as the last CSS
+      CLEAN ETA / MFD MODAL STYLE
     ================================ */
 
-    /* Modal size */
+    /* Modal */
     .mfd-modal-card {
       width: min(92vw, 1180px) !important;
       height: min(88vh, 760px) !important;
@@ -2226,7 +1633,7 @@
       background: #f8fafc !important;
     }
 
-    /* Main layout */
+    /* Layout */
     .eta-sku-layout {
       display: grid !important;
       grid-template-columns: 465px minmax(0, 1fr) !important;
@@ -2259,12 +1666,20 @@
       min-width: 0 !important;
     }
 
-    /* Stock card */
     .eta-shell-card.stock-card {
       height: auto !important;
       min-height: 205px !important;
       padding: 0 !important;
       margin-bottom: 4px !important;
+    }
+
+    .eta-location-section,
+    .mfd-location-section {
+      min-height: 0 !important;
+    }
+
+    .mfd-location-section:has(.mfd-preview-empty) {
+      min-height: 88px !important;
     }
 
     /* Headers */
@@ -2307,7 +1722,6 @@
       flex-shrink: 0 !important;
     }
 
-    /* Count / View All */
     .section-count {
       display: inline-flex !important;
       align-items: center !important;
@@ -2321,60 +1735,25 @@
       white-space: nowrap !important;
     }
 
-    .section-action {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 5px !important;
-      padding: 3px 5px !important;
-      border: 0 !important;
-      border-radius: 8px !important;
-      background: transparent !important;
-      color: #2563eb !important;
-      font-size: 0.8rem !important;
-      font-weight: 650 !important;
-      line-height: 1.2 !important;
-      cursor: pointer !important;
-      white-space: nowrap !important;
-    }
-
-    .section-action svg {
-      width: 12px !important;
-      height: 12px !important;
-      stroke: currentColor !important;
-      fill: none !important;
-      stroke-width: 1.8 !important;
-    }
-
     /* Bodies */
-    .eta-location-body,
-    .mfd-location-body {
-      padding: 8px 12px !important;
+    .eta-location-body {
+      min-height: 0 !important;
+      padding: 6px 12px 7px !important;
       overflow: visible !important;
     }
 
-    .eta-location-section {
-      min-height: 78px !important;
+    .mfd-location-body {
+      min-height: 0 !important;
+      padding: 8px 12px 10px !important;
+      overflow: visible !important;
     }
 
-    .eta-location-body {
-      min-height: 40px !important;
-    }
-
-    .mfd-location-section {
-      min-height: 112px !important;
-    }
-
-    .mfd-location-section:has(.mfd-preview-empty) {
-      min-height: 88px !important;
-    }
-
-    /* Stock table spacing */
+    /* Tables */
     .eta-shell-card.stock-card .eta-stock-table {
       margin: 8px 12px 10px !important;
       width: calc(100% - 24px) !important;
     }
 
-    /* Tables */
     .eta-stock-table,
     .eta-preview-table,
     .mfd-preview-table {
@@ -2421,7 +1800,6 @@
       border-bottom: 0 !important;
     }
 
-    /* Stock colors */
     .eta-stock-table .is-onhand {
       color: #2563eb !important;
     }
@@ -2438,7 +1816,7 @@
       color: #7c3aed !important;
     }
 
-    /* ETA row */
+    /* ETA rows */
     .eta-preview-table tbody td:first-child {
       display: flex !important;
       align-items: center !important;
@@ -2460,15 +1838,16 @@
 
     /* Empty states */
     .eta-preview-empty {
-      min-height: 38px !important;
+      min-height: 32px !important;
       display: flex !important;
       align-items: center !important;
-      justify-content: flex-start !important;
+      justify-content: center !important;
       gap: 7px !important;
       color: #94a3b8 !important;
-      font-size: 0.8rem !important;
+      font-size: 0.78rem !important;
       font-weight: 650 !important;
-      line-height: 1.25 !important;
+      line-height: 1.2 !important;
+      padding: 0 !important;
     }
 
     .mfd-preview-empty {
@@ -2492,11 +1871,47 @@
       stroke-width: 1.8 !important;
     }
 
-    .table-placeholder {
-      color: #94a3b8 !important;
+    /* MFD View All */
+    .mfd-view-all-wrap {
+      display: flex !important;
+      justify-content: center !important;
+      padding: 10px 0 4px !important;
+      border-top: 1px solid rgba(15, 23, 42, 0.06) !important;
     }
 
-    /* Mobile */
+    .mfd-view-all-button {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 7px !important;
+      min-height: 34px !important;
+      padding: 0 18px !important;
+      border-radius: 999px !important;
+      border: 1px solid rgba(37, 99, 235, 0.22) !important;
+      background: rgba(37, 99, 235, 0.08) !important;
+      color: #2563eb !important;
+      font-size: 0.82rem !important;
+      font-weight: 750 !important;
+      cursor: pointer !important;
+    }
+
+    .mfd-view-all-button:hover {
+      background: rgba(37, 99, 235, 0.14) !important;
+    }
+
+    .mfd-view-all-button svg {
+      width: 13px !important;
+      height: 13px !important;
+      stroke: currentColor !important;
+      fill: none !important;
+      stroke-width: 2 !important;
+      transition: transform 160ms ease !important;
+    }
+
+    .mfd-view-all-button[aria-expanded="true"] svg {
+      transform: rotate(180deg) !important;
+    }
+
     @media (max-width: 1080px) {
       .eta-sku-layout {
         grid-template-columns: 1fr !important;
@@ -2506,7 +1921,7 @@
         width: min(96vw, 920px) !important;
       }
     }
-    
+
   </style>
 </head>
 <body>
@@ -3633,7 +3048,7 @@
         const stockBox = '<div class="info-box">' + renderStockSection(product, 'stock-table--compact') + '</div>';
 
         const productLink = hasValue(product.link)
-          ? '<a class="ghost-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">Link</a>'
+          ? '<a class="ghost-action" href="' + escapeHtml(product.link) + '" target="_blank" rel="noopener noreferrer">PRODUCT Link</a>'
           : '<span class="ghost-action" aria-disabled="true">No link</span>';
 
         return '<article class="product-card">' +
@@ -3659,7 +3074,7 @@
             stockBox +
           '</div>' +
           '<div class="card-footer">' +
-            '<button type="button" class="eta-btn" data-eta-product="' + escapeHtml(product.id) + '">MFD</button>' +
+            '<button type="button" class="eta-btn" data-eta-product="' + escapeHtml(product.id) + '">ETA / MFD</button>' +
             // '<button type="button" class="card-action primary-action" data-open-product="' + escapeHtml(product.id) + '">Quick view</button>' +            
             productLink +
           '</div>' +
@@ -4362,22 +3777,15 @@
     }
 
     function renderExpandableEtaSection(title, rows, previewLimit) {
-      const previewRows = rows.slice(0, previewLimit);
-      const hiddenRows = rows.slice(previewLimit);
-      const hiddenId = nextExpandSectionId("eta");
-      return '<section class="eta-location-section rows-' + previewLimit + '">' +
+      return '<section class="eta-location-section rows-' + rows.length + '">' +
         '<div class="eta-location-head">' +
           '<h6 class="eta-location-title">' + renderModalSectionIcon("eta") + '<span>' + escapeHtml(title) + '</span></h6>' +
-          (hiddenRows.length ? renderExpandButton(hiddenId) : '') +
         '</div>' +
         '<div class="eta-location-body">' +
           (rows.length
             ? '<table class="eta-preview-table">' +
                 '<tbody>' +
-                  renderEtaRows(previewRows) +
-                  hiddenRows.map(function(row) {
-                    return '<tr class="hidden" data-expand-group="' + hiddenId + '"><td>' + renderEtaRowIcon() + '<span>' + escapeHtml(row.expDate || "--") + '</span></td><td>' + escapeHtml(row.qtyDate || "--") + '</td></tr>';
-                  }).join("") +
+                  renderEtaRows(rows) +
                 '</tbody>' +
               '</table>'
             : renderEtaEmptyState("No data available.")) +
@@ -4386,10 +3794,10 @@
     }
 
     function renderEtaSections(recordMap) {
-      return renderExpandableEtaSection("ETA - Toronto", recordMap.toronto, 1) +
-        renderExpandableEtaSection("ETA - Esna", recordMap.esna, 1) +
-        renderExpandableEtaSection("ETA - Binex", recordMap.binex, 1) +
-        renderExpandableEtaSection("ETA - Vancouver", recordMap.vancouver, 1);
+      return renderExpandableEtaSection("ETA - Toronto", recordMap.toronto, 0) +
+        renderExpandableEtaSection("ETA - Esna", recordMap.esna, 0) +
+        renderExpandableEtaSection("ETA - Binex", recordMap.binex, 0) +
+        renderExpandableEtaSection("ETA - Vancouver", recordMap.vancouver, 0);
     }
 
     function renderMfdRows(rows) {
@@ -4404,22 +3812,26 @@
       }).join("");
     }
 
-    function renderMfdPlaceholders(count) {
-      return Array.from({ length: count }).map(function() {
-        return '<tr class="table-placeholder"><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>';
-      }).join("");
+    function renderMfdExpandButton(targetId) {
+      return '<div class="mfd-view-all-wrap">' +
+        '<button type="button" class="mfd-view-all-button" data-expand-target="' + targetId + '" aria-expanded="false">' +
+          '<span>View All</span>' +
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>' +
+        '</button>' +
+      '</div>';
     }
 
     function renderExpandableMfdSection(title, rows, emptyText, noDataMode, previewLimit) {
-      const previewRows = rows.slice(0, previewLimit);
-      const hiddenRows = rows.slice(previewLimit);
+      const limit = 3;
+      const previewRows = rows.slice(0, limit);
+      const hiddenRows = rows.slice(limit);
       const hiddenId = nextExpandSectionId("mfd");
+      const hasViewAll = rows.length > 3;
 
       const tableHtml = '<table class="mfd-preview-table">' +
         '<thead><tr><th>Exp Date</th><th>MFD Qty (Date)</th><th>MFD Qty (Total)</th><th>Total Qty</th><th>Updated on</th></tr></thead>' +
         '<tbody>' +
           renderMfdRows(previewRows) +
-          renderMfdPlaceholders(Math.max(0, previewLimit - previewRows.length)) +
           (hiddenRows.length
             ? hiddenRows.map(function(row) {
                 return '<tr class="hidden" data-expand-group="' + hiddenId + '">' +
@@ -4434,20 +3846,17 @@
         '</tbody>' +
       '</table>';
 
-      return '<section class="mfd-location-section rows-' + previewLimit + '">' +
+      return '<section class="mfd-location-section rows-' + Math.min(rows.length, limit) + '">' +
         '<div class="mfd-location-head">' +
           '<h6 class="mfd-location-title">' +
             renderModalSectionIcon("mfd") +
             '<span>' + escapeHtml(title) + ' <span class="section-count">(' + escapeHtml(String(rows.length)) + ' ' + escapeHtml(rows.length === 1 ? 'record' : 'records') + ')</span></span>' +
           '</h6>' +
-          (hiddenRows.length ? renderExpandButton(hiddenId) : '') +
         '</div>' +
         '<div class="mfd-location-body">' +
           (rows.length
-            ? tableHtml
-            : (noDataMode
-                ? renderEmptyState(emptyText)
-                : renderEmptyState(emptyText))) +
+            ? tableHtml + (hasViewAll ? renderMfdExpandButton(hiddenId) : '')
+            : renderEmptyState(emptyText)) +
         '</div>' +
       '</section>';
     }
