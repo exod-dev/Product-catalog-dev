@@ -1062,7 +1062,7 @@
       display: inline-flex;
       vertical-align: middle;
       margin-top: -2px; /* 텍스트 높이와 맞춤 */
-      margin-right: 4;  /* 4px에서 0으로 변경 (완전히 붙음) */
+      margin-right: 3px;  /* 4px에서 0으로 변경 (완전히 붙음) */
       padding: 0;       /* 혹시 모를 내부 여백도 제거 */
     }
 
@@ -1093,6 +1093,7 @@
       gap: 5px;
       width: 100%;
     }
+    
     .copy-button {
       width: 20px;
       height: 20px;
@@ -1107,6 +1108,8 @@
       cursor: pointer;
       flex-shrink: 0;
       transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+      position: relative;
+      z-index: 5;
     }
 
     .copy-button:hover {
@@ -1115,10 +1118,96 @@
       background: rgba(239, 246, 255, 0.72);
     }
 
+    .copy-button.copied {
+      border-color: rgba(15, 23, 42, 0.08);
+      color: #0f172a;
+      background: #fff;
+    }
+
     .copy-button svg {
       width: 13px;
       height: 13px;
     }
+
+    .copy-button .copy-icon-check {
+      display: none;
+    }
+
+    .copy-button.copied .copy-icon-copy {
+      display: none;
+    }
+
+    .copy-button.copied .copy-icon-check {
+      display: block;
+    }
+
+    .copy-tooltip {
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 5px 8px;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+      pointer-events: none;
+      z-index: 999999;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -100%);
+      transition: opacity 0.12s ease, visibility 0.12s ease;
+    }
+
+    .copy-tooltip.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .name-tooltip {
+      position: fixed;
+      left: 0;
+      top: 0;
+      max-width: 360px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 650;
+      line-height: 1.35;
+      white-space: normal;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2);
+      pointer-events: none;
+      z-index: 999999;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -100%);
+      transition: opacity 0.08s ease, visibility 0.08s ease;
+    }
+
+    .name-tooltip.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .supplier-ellipsis {
+      display: inline-block;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: bottom;
+      cursor: default;
+    }
+
+    .title-wrap h2[data-full-name] {
+      cursor: default;
+    }
+
     .modal-header {
       display: flex;
       justify-content: space-between;
@@ -2580,7 +2669,7 @@
       const image = normalizeExternalUrl(getValue(record, "image"));
       const explicitProductLink = record.__cells?.[13] ?? "";
       const link = normalizeExternalUrl(hasValue(explicitProductLink) ? explicitProductLink : getValue(record, "link"));
-      const supplier = getValue(record, "supplier");
+      const supplier = hasValue(record.__cells?.[10]) ? record.__cells[10] : getValue(record, "supplier");
       const stockLocator = getValue(record, "stockLocator");
       const weight = getValue(record, "weight");
       const upc = getValue(record, "upc");
@@ -2596,7 +2685,7 @@
       const pinkPriceRaw = getValue(record, "pinkPrice");
       const onHandTorRaw = record.__cells?.[36] ?? getValue(record, "onHandTor");
       const onHandVanRaw = record.__cells?.[37] ?? getValue(record, "onHandVan");
-      const onHandEsnaRaw = getValue(record, "onHandEsna");
+      const onHandEsnaRaw = record.__cells?.[41] ?? getValue(record, "onHandEsna");
       const onHandNewRaw = getValue(record, "onHandNew");
       const availableTorRaw = record.__cells?.[17] ?? getValue(record, "availableTor");
       const availableVanRaw = record.__cells?.[18] ?? getValue(record, "availableVan");
@@ -2905,10 +2994,14 @@
     function renderCopyButton(value, label) {
       if (!hasValue(value)) return "";
       const safeLabel = escapeHtml(label);
-      return '<button type="button" class="copy-button" data-copy-value="' + escapeHtml(String(value).trim()) + '" data-copy-label="' + safeLabel + '" aria-label="Copy ' + safeLabel + '" title="Copy ' + safeLabel + '">' +
-        '<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+
+      return '<button type="button" class="copy-button" data-copy-value="' + escapeHtml(String(value).trim()) + '" data-copy-label="' + safeLabel + '" aria-label="Copy ' + safeLabel + '">' +
+        '<svg class="copy-icon-copy" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
           '<rect x="7" y="3" width="10" height="12" rx="2"></rect>' +
           '<rect x="3" y="7" width="10" height="10" rx="2"></rect>' +
+        '</svg>' +
+        '<svg class="copy-icon-check" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+          '<path d="M4.5 10.5 8.2 14 15.8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
         '</svg>' +
       '</button>';
     }
@@ -2918,6 +3011,18 @@
       const copyButton = renderCopyButton(value, label);
       if (!copyButton) return escapeHtml(plainValue);
       return '<span class="copy-inline">' + copyButton + '<span>' + escapeHtml(plainValue) + '</span></span>';
+    }
+
+    function renderSupplierValue(value) {
+      const plainValue = hasValue(value) ? String(value).trim() : "--";
+
+      if (plainValue === "--") {
+        return "--";
+      }
+
+      return '<span class="supplier-ellipsis" data-full-name="' + escapeHtml(plainValue) + '">' +
+        escapeHtml(plainValue) +
+      '</span>';
     }
 
     function updateResultsMeta() {
@@ -3032,6 +3137,7 @@
         const specBox = '<div class="info-box">' + renderInfoRows([
           { label: "SKU", value: renderValueWithCopy(product.sku, "SKU"), isHtml: true },
           { label: "Barcode", value: renderValueWithCopy(product.upc, "barcode"), isHtml: true },
+          { label: "Supplier", value: renderSupplierValue(product.supplier), isHtml: true },
           { label: "Location", value: formatPlainValue(product.stockLocator) },
           { label: "Weight", value: formatPlainValue(product.weight) }
         ]) + '</div>';
@@ -3052,10 +3158,9 @@
           : '<span class="ghost-action" aria-disabled="true">No link</span>';
 
         return '<article class="product-card">' +
-        '<div style="position:relative">' +
-          buildImageBlock(product) +
-          buildStatusBadges(product) +
-        '</div>' +
+          '<div style="position:relative">' +
+            buildImageBlock(product) +
+            buildStatusBadges(product) +
           '</div>' +
           '<div class="card-body">' +
             '<div class="tag-row">' +
@@ -3064,7 +3169,8 @@
             '</div>' +
             '<div class="title-slot">' +
               '<div class="title-wrap">' +
-                '<h2>' + renderCopyButton(product.name, "Name") + '&nbsp;' + escapeHtml(product.name) + '</span>' + '</h2>'+'</div>' +
+                '<h2 data-full-name="' + escapeHtml(product.name) + '">' + renderCopyButton(product.name, "Name") + escapeHtml(product.name) + '</h2>' +
+              '</div>' +
             '</div>' +
             '<div class="channel-slot-wrap">' +
               '<div class="channel-slot">' + channelChips + '</div>' +
@@ -3075,7 +3181,6 @@
           '</div>' +
           '<div class="card-footer">' +
             '<button type="button" class="eta-btn" data-eta-product="' + escapeHtml(product.id) + '">ETA / MFD</button>' +
-            // '<button type="button" class="card-action primary-action" data-open-product="' + escapeHtml(product.id) + '">Quick view</button>' +            
             productLink +
           '</div>' +
         '</article>';
@@ -3196,6 +3301,91 @@
     }
 
     function attachEventListeners() {
+      const copyTooltip = document.createElement("div");
+      copyTooltip.className = "copy-tooltip";
+      copyTooltip.textContent = "Copy";
+      document.body.appendChild(copyTooltip);
+
+      const nameTooltip = document.createElement("div");
+      nameTooltip.className = "name-tooltip";
+      document.body.appendChild(nameTooltip);
+
+      function showCopyTooltip(button) {
+        if (!button || button.classList.contains("tooltip-hidden") || button.classList.contains("copied")) {
+          return;
+        }
+
+        const rect = button.getBoundingClientRect();
+
+        copyTooltip.style.left = rect.left + rect.width / 2 + "px";
+        copyTooltip.style.top = rect.top - 7 + "px";
+        copyTooltip.classList.add("show");
+      }
+
+      function hideCopyTooltip() {
+        copyTooltip.classList.remove("show");
+      }
+
+      function showNameTooltip(target) {
+        const fullName = target.getAttribute("data-full-name") || "";
+        if (!fullName) return;
+
+        const rect = target.getBoundingClientRect();
+        const tooltipWidth = Math.min(320, window.innerWidth - 24);
+        const centerX = rect.left + rect.width / 2;
+        const safeX = Math.min(Math.max(centerX, 12 + tooltipWidth / 2), window.innerWidth - 12 - tooltipWidth / 2);
+
+        nameTooltip.textContent = fullName;
+        nameTooltip.style.maxWidth = tooltipWidth + "px";
+        nameTooltip.style.left = safeX + "px";
+        nameTooltip.style.top = rect.top - 10 + "px";
+        nameTooltip.classList.add("show");
+      }
+
+      function hideNameTooltip() {
+        nameTooltip.classList.remove("show");
+      }
+
+      document.addEventListener("pointerover", (event) => {
+        const button = event.target.closest("[data-copy-value]");
+        if (!button) return;
+
+        hideNameTooltip();
+        showCopyTooltip(button);
+      });
+
+      document.addEventListener("pointerover", (event) => {
+        if (event.target.closest("[data-copy-value]")) return;
+
+        const nameTarget = event.target.closest("[data-full-name]");
+        if (!nameTarget) return;
+
+        showNameTooltip(nameTarget);
+      });
+
+      document.addEventListener("pointerout", (event) => {
+        const button = event.target.closest("[data-copy-value]");
+        if (!button) return;
+        if (button.contains(event.relatedTarget)) return;
+
+        hideCopyTooltip();
+        button.classList.remove("tooltip-hidden");
+      });
+
+      document.addEventListener("pointerout", (event) => {
+        const nameTarget = event.target.closest("[data-full-name]");
+        if (!nameTarget) return;
+        if (nameTarget.contains(event.relatedTarget)) return;
+
+        hideNameTooltip();
+      });
+
+      window.addEventListener("scroll", hideCopyTooltip, true);
+      window.addEventListener("resize", hideCopyTooltip);
+
+      window.addEventListener("scroll", hideNameTooltip, true);
+      window.addEventListener("resize", hideNameTooltip);
+
       elements.searchInput.addEventListener("input", (event) => {
         state.search = event.target.value;
         state.currentPage = 1;
@@ -3224,7 +3414,9 @@
         state.sort = event.target.value;
         state.currentPage = 1;
         renderAll();
-      });      elements.pageSizeSelect.addEventListener("change", (event) => {
+      });
+
+      elements.pageSizeSelect.addEventListener("change", (event) => {
         state.pageSize = Number(event.target.value) || 20;
         state.currentPage = 1;
         renderAll();
@@ -3238,6 +3430,7 @@
       elements.statsGrid.addEventListener("click", (event) => {
         const target = event.target.closest("[data-stat-filter]");
         if (!target) return;
+
         const nextStatus = target.getAttribute("data-stat-filter") || "all";
         state.status = nextStatus === "all" || state.status === nextStatus ? "all" : nextStatus;
         elements.statusFilter.value = state.status;
@@ -3246,9 +3439,11 @@
       });
 
       elements.resetButton.addEventListener("click", resetFilters);
+
       elements.categoryChips.addEventListener("click", (event) => {
         const target = event.target.closest("[data-category-chip]");
         if (!target) return;
+
         state.category = target.getAttribute("data-category-chip") || "all";
         state.currentPage = 1;
         elements.categoryFilter.value = state.category;
@@ -3258,16 +3453,19 @@
       elements.productGrid.addEventListener("click", (event) => {
         const target = event.target.closest("[data-open-product]");
         if (!target) return;
+
         const productId = target.getAttribute("data-open-product");
         openModal(productId);
       });
 
       elements.closeModalButton.addEventListener("click", closeModal);
+
       elements.modalLayer.addEventListener("click", (event) => {
         if (event.target === elements.modalLayer) closeModal();
       });
 
       elements.closeMFDModalButton.addEventListener("click", closeMFDModal);
+
       elements.mfdModalLayer.addEventListener("click", (event) => {
         if (event.target === elements.mfdModalLayer) closeMFDModal();
       });
@@ -3286,6 +3484,7 @@
           const targetId = expandButton.getAttribute("data-expand-target");
           const expanded = expandButton.getAttribute("aria-expanded") === "true";
           const nodes = document.querySelectorAll('[data-expand-group="' + targetId + '"]');
+
           nodes.forEach(function(node) {
             node.classList.toggle("hidden", expanded);
           });
@@ -3324,13 +3523,18 @@
           }
 
           const originalLabel = button.getAttribute("data-copy-label") || "value";
+
+          hideCopyTooltip();
+          hideNameTooltip();
+
           button.classList.add("copied");
+          button.classList.add("tooltip-hidden");
+          button.blur();
           button.setAttribute("aria-label", "Copied " + originalLabel);
-          button.setAttribute("title", "Copied " + originalLabel);
+
           window.setTimeout(() => {
             button.classList.remove("copied");
             button.setAttribute("aria-label", "Copy " + originalLabel);
-            button.setAttribute("title", "Copy " + originalLabel);
           }, 1200);
         } catch (error) {
           console.error("Copy failed", error);
