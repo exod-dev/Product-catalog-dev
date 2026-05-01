@@ -1921,7 +1921,9 @@
       flex-shrink: 0 !important;
     }
 
+    .eta-preview-table thead th:last-child,
     .eta-preview-table tbody td:last-child {
+      width: 40% !important;
       text-align: right !important;
     }
 
@@ -2479,14 +2481,30 @@
     function renderStockTable(product, variant = "") {
       const tableClass = ["stock-table", variant].filter(Boolean).join(" ");
       const rows = [
-        { label: "On hand", values: [product.onHandTor, product.onHandVan, product.onHandEsna, "--"].map((value) => typeof value === "string" ? value : formatNumber(value)) },
-        { label: "Available", values: [product.availableTor, product.availableVan, product.availableEsna, "--"].map((value) => typeof value === "string" ? value : formatNumber(value)) },
-        { label: "Reserved", values: [product.reserveTor, product.reserveVan, product.reserveEsna, "--"].map((value) => typeof value === "string" ? value : formatNumber(value)) },
-        { label: "On order", values: [product.onOrderTor, product.onOrderVan, product.onOrderEsna, "--"].map((value) => typeof value === "string" ? value : formatNumber(value)) }
+        {
+          label: "On hand",
+          values: [product.onHandTor, product.onHandEsna, product.onHandNew, product.onHandVan]
+            .map((value) => typeof value === "string" ? value : formatNumber(value))
+        },
+        {
+          label: "Available",
+          values: [product.availableTor, product.availableEsna, product.availableNew, product.availableVan]
+            .map((value) => typeof value === "string" ? value : formatNumber(value))
+        },
+        {
+          label: "Reserved",
+          values: [product.reserveTor, "-", "-", product.reserveVan]
+            .map((value) => typeof value === "string" ? value : formatNumber(value))
+        },
+        {
+          label: "On order",
+          values: [product.onOrderTor, "-", "-", product.onOrderVan]
+            .map((value) => typeof value === "string" ? value : formatNumber(value))
+        }
       ];
 
       return '<table class="' + escapeHtml(tableClass) + '">' +
-      '<thead><tr><th></th><th>Tor</th><th>Van</th><th>Esna</th></tr></thead>' +
+      '<thead><tr><th></th><th>Tor</th><th>Esna</th><th>Binex</th><th>Van</th></tr></thead>' +
       '<tbody>' + rows.map((row) => {
         return '<tr><th scope="row">' + escapeHtml(row.label) + '</th>' + row.values.map((value) => {
           return row.isEta ? '<td>' + escapeHtml(value || "--") + '</td>' : '<td><strong>' + escapeHtml(value) + '</strong></td>';
@@ -2683,22 +2701,22 @@
       const retailRaw = getValue(record, "retail");
       const misshaPriceRaw = getValue(record, "misshaPrice");
       const pinkPriceRaw = getValue(record, "pinkPrice");
-      const onHandTorRaw = record.__cells?.[36] ?? getValue(record, "onHandTor");
-      const onHandVanRaw = record.__cells?.[37] ?? getValue(record, "onHandVan");
-      const onHandEsnaRaw = record.__cells?.[41] ?? getValue(record, "onHandEsna");
-      const onHandNewRaw = getValue(record, "onHandNew");
-      const availableTorRaw = record.__cells?.[17] ?? getValue(record, "availableTor");
-      const availableVanRaw = record.__cells?.[18] ?? getValue(record, "availableVan");
-      const availableEsnaRaw = record.__cells?.[29] ?? getValue(record, "availableEsna");
-      const availableNewRaw = getValue(record, "availableNew");
-      const reserveTorRaw = record.__cells?.[35] ?? getValue(record, "stockReserved") ?? getValue(record, "reserveTor") ?? getValue(record, "reserve");
-      const reserveVanRaw = record.__cells?.[40] ?? getValue(record, "reserveVan") ?? "0";
-      const reserveEsnaRaw = getValue(record, "reserveEsna") || ""; 
-      const reserveNewRaw = getValue(record, "reserveNew") || "";
-      const onOrderTorRaw = record.__cells?.[25] ?? getValue(record, "onOrderTor");
-      const onOrderVanRaw = record.__cells?.[26] ?? getValue(record, "onOrderVan");
-      const onOrderEsnaRaw = getValue(record, "onOrderEsna");
-      const onOrderNewRaw = getValue(record, "onOrderNew");
+      const onHandTorRaw = record.__cells?.[36] ?? getValue(record, "onHandTor");        // AK
+      const onHandVanRaw = record.__cells?.[37] ?? getValue(record, "onHandVan");        // AL
+      const onHandEsnaRaw = record.__cells?.[41] ?? getValue(record, "onHandEsna");      // AP
+      const onHandNewRaw = record.__cells?.[42] ?? getValue(record, "onHandNew");        // AQ / Binex
+      const availableTorRaw = record.__cells?.[17] ?? getValue(record, "availableTor");  // R
+      const availableVanRaw = record.__cells?.[18] ?? getValue(record, "availableVan");  // S
+      const availableEsnaRaw = record.__cells?.[29] ?? getValue(record, "availableEsna");// AD
+      const availableNewRaw = record.__cells?.[43] ?? getValue(record, "availableNew");  // AR / Binex
+      const reserveTorRaw = record.__cells?.[35] ?? getValue(record, "stockReserved") ?? getValue(record, "reserveTor") ?? getValue(record, "reserve"); // AJ
+      const reserveVanRaw = record.__cells?.[40] ?? getValue(record, "reserveVan") ?? "0"; // AO
+      const reserveEsnaRaw = "-";                                                        // -
+      const reserveNewRaw = "-";      // AS / Binex
+      const onOrderTorRaw = record.__cells?.[25] ?? getValue(record, "onOrderTor");      // Z
+      const onOrderVanRaw = record.__cells?.[26] ?? getValue(record, "onOrderVan");      // AA
+      const onOrderEsnaRaw = "-";                                                        // -
+      const onOrderNewRaw = "-";                                                         // -
       const etaTorRaw = record.__cells?.[27] ?? getValue(record, "etaTor");
       const etaVanRaw = record.__cells?.[28] ?? getValue(record, "etaVan");
       const etaEsnaRaw = getValue(record, "etaEsna");
@@ -2725,8 +2743,8 @@
       const onOrderVan = parseNumber(onOrderVanRaw);
       const onOrderEsna = parseNumber(onOrderEsnaRaw);
       const onOrderNew = parseNumber(onOrderNewRaw);
-      const totalAvailable = availableTor + availableVan + availableEsna;
-      const onOrderTotal = onOrderTor + onOrderVan + onOrderEsna;
+      const totalAvailable = availableTor + availableEsna + availableNew + availableVan;
+      const onOrderTotal = onOrderTor + onOrderEsna + onOrderNew + onOrderVan;
       const discontinued = /discontinued/i.test(String(discontinuedRaw || ""));
 
       const etaSummary = [etaTorRaw, etaVanRaw, etaEsnaRaw]
@@ -3139,6 +3157,7 @@
           { label: "Barcode", value: renderValueWithCopy(product.upc, "barcode"), isHtml: true },
           { label: "Supplier", value: renderSupplierValue(product.supplier), isHtml: true },
           { label: "Location", value: formatPlainValue(product.stockLocator) },
+          { label: "Size", value: formatSize(product) },
           { label: "Weight", value: formatPlainValue(product.weight) }
         ]) + '</div>';
 
@@ -3327,20 +3346,26 @@
       }
 
       function showNameTooltip(target) {
-        const fullName = target.getAttribute("data-full-name") || "";
-        if (!fullName) return;
+      const fullName = target.getAttribute("data-full-name") || "";
+      if (!fullName) return;
 
-        const rect = target.getBoundingClientRect();
-        const tooltipWidth = Math.min(320, window.innerWidth - 24);
-        const centerX = rect.left + rect.width / 2;
-        const safeX = Math.min(Math.max(centerX, 12 + tooltipWidth / 2), window.innerWidth - 12 - tooltipWidth / 2);
+      const isOverflowing =
+        target.scrollWidth > target.clientWidth ||
+        target.scrollHeight > target.clientHeight;
 
-        nameTooltip.textContent = fullName;
-        nameTooltip.style.maxWidth = tooltipWidth + "px";
-        nameTooltip.style.left = safeX + "px";
-        nameTooltip.style.top = rect.top - 10 + "px";
-        nameTooltip.classList.add("show");
-      }
+      if (!isOverflowing) return;
+
+      const rect = target.getBoundingClientRect();
+      const tooltipWidth = Math.min(320, window.innerWidth - 24);
+      const centerX = rect.left + rect.width / 2;
+      const safeX = Math.min(Math.max(centerX, 12 + tooltipWidth / 2), window.innerWidth - 12 - tooltipWidth / 2);
+
+      nameTooltip.textContent = fullName;
+      nameTooltip.style.maxWidth = tooltipWidth + "px";
+      nameTooltip.style.left = safeX + "px";
+      nameTooltip.style.top = rect.top - 10 + "px";
+      nameTooltip.classList.add("show");
+    }
 
       function hideNameTooltip() {
         nameTooltip.classList.remove("show");
@@ -3925,8 +3950,10 @@
 
       sheetState.data.forEach(function(row) {
         if (formatSkuMatchValue(row[0]) !== sku) return;
+
         const locationKey = normalizeEtaLocationKey(row[4]);
         if (!locationKey || !map[locationKey]) return;
+
         map[locationKey].push({
           expDate: row[1] || "--",
           qtyDate: row[5] || "--"
@@ -3934,12 +3961,39 @@
       });
 
       Object.keys(map).forEach(function(key) {
+        map[key] = groupEtaRecords(map[key]);
+
         map[key].sort(function(a, b) {
           return parseDateForSort(a.expDate) - parseDateForSort(b.expDate);
         });
       });
 
       return map;
+    }
+
+    function groupEtaRecords(rows) {
+      const grouped = {};
+
+      rows.forEach(function(row) {
+        const dateKey = row.expDate || "--";
+        const qty = parseNumber(row.qtyDate);
+
+        if (!grouped[dateKey]) {
+          grouped[dateKey] = {
+            expDate: dateKey,
+            qtyDate: 0
+          };
+        }
+
+        grouped[dateKey].qtyDate += qty;
+      });
+
+      return Object.values(grouped).map(function(row) {
+        return {
+          expDate: row.expDate,
+          qtyDate: formatNumber(row.qtyDate)
+        };
+      });
     }
 
     function renderStockSummary(product) {
@@ -3988,6 +4042,12 @@
         '<div class="eta-location-body">' +
           (rows.length
             ? '<table class="eta-preview-table">' +
+                '<thead>' +
+                  '<tr>' +
+                    '<th>ETA</th>' +
+                    '<th>Qty</th>' +
+                  '</tr>' +
+                '</thead>' +
                 '<tbody>' +
                   renderEtaRows(rows) +
                 '</tbody>' +
