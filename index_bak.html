@@ -244,56 +244,6 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.65);
     }
 
-    .field-search {
-      position: relative;
-    }
-
-    .field-search label {
-      color: #1d4ed8;
-      font-weight: 750;
-    }
-
-    .field-search input {
-      padding-left: 40px;
-      border-color: rgba(59, 130, 246, 0.38);
-      background: linear-gradient(180deg, rgba(239, 246, 255, 0.92), rgba(255, 255, 255, 0.98));
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        0 0 0 3px rgba(59, 130, 246, 0.055);
-    }
-
-    .field-search input::placeholder {
-      color: #7b8798;
-    }
-
-    .field-search::before {
-      content: "";
-      position: absolute;
-      left: 17px;
-      bottom: 17px;
-      width: 11px;
-      height: 11px;
-      border: 1.6px solid #2563eb;
-      border-radius: 999px;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .field-search::after {
-      content: "";
-      position: absolute;
-      left: 27px;
-      bottom: 15px;
-      width: 6px;
-      height: 1.6px;
-      background: #2563eb;
-      border-radius: 999px;
-      transform: rotate(45deg);
-      transform-origin: left center;
-      pointer-events: none;
-      z-index: 2;
-    }
-
     .field input:focus,
     .field select:focus,
     .toolbar button:focus,
@@ -304,14 +254,6 @@
       outline: 2px solid rgba(37, 99, 235, 0.22);
       outline-offset: 2px;
       border-color: rgba(37, 99, 235, 0.42);
-    }
-
-    .field-search input:focus {
-      border-color: rgba(37, 99, 235, 0.62);
-      background: linear-gradient(180deg, rgba(239, 246, 255, 1), rgba(255, 255, 255, 1));
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.95),
-        0 8px 20px rgba(37, 99, 235, 0.09);
     }
 
     .toolbar-actions {
@@ -2099,441 +2041,6 @@
       }
     }
 
-
-    /* ================================
-      OPTIMIZED ETA / MFD MODAL STYLE
-      Paste this after the old CLEAN ETA / MFD MODAL STYLE block.
-      It intentionally overrides the older modal styles.
-    ================================ */
-
-    .mfd-modal-card {
-      width: min(96vw, 1380px) !important;
-      height: min(92vh, 820px) !important;
-      max-height: min(92vh, 820px) !important;
-      overflow: auto !important;
-    }
-
-    .mfd-modal-card .modal-header {
-      padding: 18px 26px !important;
-      position: sticky !important;
-      top: 0 !important;
-      z-index: 5 !important;
-      background: rgba(255, 255, 255, 0.94) !important;
-      backdrop-filter: blur(14px) !important;
-    }
-
-    .mfd-modal-card .modal-header h3 {
-      font-size: 1.62rem !important;
-      line-height: 1.18 !important;
-      letter-spacing: -0.035em !important;
-    }
-
-    .mfd-modal-card .modal-header p {
-      margin-top: 7px !important;
-      font-size: 0.92rem !important;
-      color: #64748b !important;
-    }
-
-    .mfd-modal-body {
-      padding: 18px 20px 22px !important;
-      background: #f8fafc !important;
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 16px !important;
-      overflow: visible !important;
-    }
-
-    .eta-sku-layout {
-      display: grid !important;
-      grid-template-columns: 1fr !important;
-      gap: 16px !important;
-      align-items: start !important;
-    }
-
-    .eta-stock-full {
-      min-width: 0 !important;
-    }
-
-    .eta-bottom-layout {
-      display: grid !important;
-      grid-template-columns: minmax(410px, 0.92fr) minmax(0, 1.28fr) !important;
-      gap: 16px !important;
-      align-items: start !important;
-      min-width: 0 !important;
-    }
-
-    .eta-left-stack,
-    .eta-right-stack {
-      display: grid !important;
-      gap: 0 !important;
-      min-width: 0 !important;
-    }
-
-    .eta-shell-card,
-    .eta-panel,
-    .mfd-panel {
-      border: 1px solid rgba(15, 23, 42, 0.08) !important;
-      border-radius: 20px !important;
-      background: #fff !important;
-      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.055) !important;
-      overflow: hidden !important;
-      min-width: 0 !important;
-    }
-
-    .eta-shell-card.stock-card {
-      width: 100% !important;
-      height: auto !important;
-      min-height: 0 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    .eta-panel,
-    .mfd-panel {
-      align-self: start !important;
-    }
-
-    .eta-shell-head,
-    .eta-panel-head,
-    .mfd-panel-head {
-      min-height: 56px !important;
-      padding: 0 20px !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 10px !important;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.07) !important;
-      background: #fff !important;
-    }
-
-    .eta-shell-title,
-    .eta-panel-title,
-    .mfd-panel-title {
-      margin: 0 !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 10px !important;
-      font-size: 1rem !important;
-      font-weight: 780 !important;
-      color: #0f172a !important;
-      letter-spacing: -0.02em !important;
-    }
-
-    .eta-shell-title svg,
-    .eta-panel-title svg,
-    .mfd-panel-title svg {
-      width: 18px !important;
-      height: 18px !important;
-      stroke: #2563eb !important;
-      fill: none !important;
-      stroke-width: 1.9 !important;
-      flex-shrink: 0 !important;
-    }
-
-    .section-count {
-      display: inline-flex !important;
-      align-items: center !important;
-      padding: 3px 10px !important;
-      border-radius: 999px !important;
-      background: #eef2f7 !important;
-      color: #64748b !important;
-      font-size: 0.78rem !important;
-      font-weight: 750 !important;
-      line-height: 1.2 !important;
-      white-space: nowrap !important;
-    }
-
-    /* Stock overview cards */
-    .stock-mini-grid {
-      display: grid !important;
-      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-      gap: 16px !important;
-      padding: 16px !important;
-    }
-
-    .stock-mini-card {
-      border: 1px solid rgba(15, 23, 42, 0.09) !important;
-      border-radius: 16px !important;
-      background: #fff !important;
-      padding: 15px 16px 17px !important;
-      min-width: 0 !important;
-      transition: border-color 160ms ease, box-shadow 160ms ease !important;
-    }
-
-    .stock-mini-loc {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 8px !important;
-      margin-bottom: 18px !important;
-      font-size: 0.93rem !important;
-      font-weight: 780 !important;
-      color: #0f172a !important;
-    }
-
-    .stock-mini-loc svg {
-      width: 16px !important;
-      height: 16px !important;
-      stroke: #64748b !important;
-      fill: none !important;
-      stroke-width: 2 !important;
-      flex-shrink: 0 !important;
-    }
-
-    .stock-mini-metrics {
-      display: grid !important;
-      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-      gap: 10px !important;
-      align-items: end !important;
-    }
-
-    .stock-metric-item {
-      min-width: 0 !important;
-    }
-
-    .stock-metric-label {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 5px !important;
-      margin-bottom: 10px !important;
-      font-size: 0.67rem !important;
-      font-weight: 740 !important;
-      color: #475569 !important;
-      white-space: nowrap !important;
-    }
-
-    .stock-metric-label::before {
-      content: "" !important;
-      width: 8px !important;
-      height: 8px !important;
-      border-radius: 999px !important;
-      background: #94a3b8 !important;
-      flex-shrink: 0 !important;
-    }
-
-    .stock-metric-label.available::before {
-      background: #16a34a !important;
-    }
-
-    .stock-metric-label.reserved::before {
-      background: #f97316 !important;
-    }
-
-    .stock-metric-label.onorder::before {
-      background: #7c3aed !important;
-    }
-
-    .stock-metric-value {
-      display: block !important;
-      color: #0f172a !important;
-      font-size: 1.22rem !important;
-      font-weight: 820 !important;
-      line-height: 1.05 !important;
-      letter-spacing: -0.02em !important;
-    }
-
-    /* Unified ETA and MFD panels */
-    .eta-panel-body,
-    .mfd-panel-body {
-      padding: 0 !important;
-      background: #fff !important;
-    }
-
-    .eta-location-section,
-    .mfd-location-section {
-      border: 0 !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-      background: #fff !important;
-      overflow: hidden !important;
-      min-height: 0 !important;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.075) !important;
-    }
-
-    .eta-location-section:last-child,
-    .mfd-location-section:last-child {
-      border-bottom: 0 !important;
-    }
-
-    .eta-location-head,
-    .mfd-location-head {
-      min-height: 58px !important;
-      padding: 0 18px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      gap: 12px !important;
-      border-bottom: 0 !important;
-      background: #fff !important;
-    }
-
-    .eta-location-title,
-    .mfd-location-title,
-    .eta-location-head h6,
-    .mfd-location-head h6 {
-      margin: 0 !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 9px !important;
-      font-size: 0.96rem !important;
-      font-weight: 780 !important;
-      color: #0f172a !important;
-      letter-spacing: -0.015em !important;
-    }
-
-    .eta-location-title svg,
-    .mfd-location-title svg {
-      width: 17px !important;
-      height: 17px !important;
-      stroke: #2563eb !important;
-      fill: none !important;
-      stroke-width: 2 !important;
-      flex-shrink: 0 !important;
-    }
-
-    .eta-location-body,
-    .mfd-location-body {
-      padding: 0 18px 16px !important;
-      overflow: visible !important;
-      min-height: 0 !important;
-    }
-
-    .eta-preview-table,
-    .mfd-preview-table {
-      width: 100% !important;
-      border-collapse: collapse !important;
-      table-layout: fixed !important;
-    }
-
-    .eta-preview-table thead th,
-    .mfd-preview-table thead th {
-      padding: 10px 8px !important;
-      font-size: 0.79rem !important;
-      font-weight: 740 !important;
-      line-height: 1.2 !important;
-      color: #64748b !important;
-      text-align: left !important;
-      white-space: nowrap !important;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.11) !important;
-    }
-
-    .eta-preview-table tbody td,
-    .mfd-preview-table tbody td {
-      padding: 11px 8px !important;
-      font-size: 0.85rem !important;
-      font-weight: 520 !important;
-      line-height: 1.25 !important;
-      color: #0f172a !important;
-      text-align: left !important;
-      white-space: nowrap !important;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.055) !important;
-    }
-
-    .eta-preview-table tbody tr:last-child td,
-    .mfd-preview-table tbody tr:last-child td {
-      border-bottom: 0 !important;
-    }
-
-    .eta-preview-table thead th:last-child,
-    .eta-preview-table tbody td:last-child {
-      width: 34% !important;
-      text-align: right !important;
-    }
-
-    .eta-preview-empty,
-    .mfd-preview-empty {
-      min-height: 68px !important;
-      border-radius: 12px !important;
-      background: #f8fafc !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 8px !important;
-      color: #94a3b8 !important;
-      font-size: 0.86rem !important;
-      font-weight: 740 !important;
-      line-height: 1.2 !important;
-      padding: 0 !important;
-    }
-
-    .eta-preview-empty svg,
-    .mfd-preview-empty svg {
-      width: 16px !important;
-      height: 16px !important;
-      stroke: currentColor !important;
-      fill: none !important;
-      stroke-width: 1.9 !important;
-    }
-
-    .mfd-view-all-wrap {
-      display: flex !important;
-      justify-content: center !important;
-      padding: 12px 0 4px !important;
-      margin-top: 6px !important;
-      border-top: 1px solid rgba(15, 23, 42, 0.06) !important;
-    }
-
-    .mfd-view-all-button {
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 8px !important;
-      width: auto !important;
-      min-width: 148px !important;
-      min-height: 36px !important;
-      padding: 0 18px !important;
-      border-radius: 999px !important;
-      border: 1px solid rgba(37, 99, 235, 0.22) !important;
-      background: rgba(37, 99, 235, 0.08) !important;
-      color: #2563eb !important;
-      font-size: 0.82rem !important;
-      font-weight: 780 !important;
-      cursor: pointer !important;
-      box-shadow: none !important;
-      transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease !important;
-    }
-
-    .mfd-view-all-button:hover {
-      background: rgba(37, 99, 235, 0.14) !important;
-      transform: translateY(-1px) !important;
-      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.10) !important;
-    }
-
-    .mfd-view-all-button svg {
-      width: 14px !important;
-      height: 14px !important;
-      stroke: currentColor !important;
-      fill: none !important;
-      stroke-width: 2.2 !important;
-      transition: transform 160ms ease !important;
-    }
-
-    .mfd-view-all-button[aria-expanded="true"] svg {
-      transform: rotate(180deg) !important;
-    }
-
-    .eta-location-head {
-      justify-content: flex-start !important;
-    }
-
-    @media (max-width: 1180px) {
-      .stock-mini-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      }
-
-      .eta-bottom-layout {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
-    @media (max-width: 680px) {
-      .stock-mini-grid {
-        grid-template-columns: 1fr !important;
-      }
-
-      .stock-mini-metrics {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      }
-    }
-
   </style>
 </head>
 <body>
@@ -4037,11 +3544,6 @@
 
           expandButton.setAttribute("aria-expanded", expanded ? "false" : "true");
 
-          const labelNode = expandButton.querySelector("span");
-          if (labelNode) {
-            labelNode.textContent = expanded ? "View All" : "Show Less";
-          }
-
           const section = expandButton.closest(".eta-location-section, .mfd-location-section");
           const body = section ? section.querySelector(".eta-location-body, .mfd-location-body") : null;
 
@@ -4523,68 +4025,33 @@
 
     function renderStockSummary(product) {
       const rows = [
-        {
-          label: "Toronto",
-          values: [product.onHandTor, product.availableTor, product.reserveTor, product.onOrderTor],
-          primary: product.onHandTor > 0 || product.availableTor > 0 || product.reserveTor > 0 || product.onOrderTor > 0
-        },
-        {
-          label: "Esna",
-          values: [product.onHandEsna, product.availableEsna, product.reserveEsna, product.onOrderEsna],
-          primary: product.onHandEsna > 0 || product.availableEsna > 0 || product.reserveEsna > 0 || product.onOrderEsna > 0
-        },
-        {
-          label: "Binex",
-          values: [product.onHandNew, product.availableNew, product.reserveNew, product.onOrderNew],
-          primary: product.onHandNew > 0 || product.availableNew > 0 || product.reserveNew > 0 || product.onOrderNew > 0
-        },
-        {
-          label: "Vancouver",
-          values: [product.onHandVan, product.availableVan, product.reserveVan, product.onOrderVan],
-          primary: product.onHandVan > 0 || product.availableVan > 0 || product.reserveVan > 0 || product.onOrderVan > 0
-        }
+        { label: "Toronto", values: [product.onHandTor, product.availableTor, product.reserveTor, product.onOrderTor], dashZero: false },
+        { label: "Esna", values: [product.onHandEsna, product.availableEsna, product.reserveEsna, product.onOrderEsna], dashZero: false },
+        { label: "Binex", values: [product.onHandNew, product.availableNew, product.reserveNew, product.onOrderNew], dashZero: false },
+        { label: "Vancouver", values: [product.onHandVan, product.availableVan, product.reserveVan, product.onOrderVan], dashZero: false }
       ];
-
-      function locationIcon() {
-        return '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-          '<path d="M12 21s7-4.6 7-11a7 7 0 0 0-14 0c0 6.4 7 11 7 11Z"></path>' +
-          '<circle cx="12" cy="10" r="2.4"></circle>' +
-        '</svg>';
-      }
-
-      function metric(label, className, value) {
-        return '<div class="stock-metric-item">' +
-          '<span class="stock-metric-label ' + escapeHtml(className) + '">' + escapeHtml(label) + '</span>' +
-          '<strong class="stock-metric-value">' + escapeHtml(formatNumber(value)) + '</strong>' +
-        '</div>';
-      }
 
       return '<section class="eta-shell-card stock-card">' +
         '<div class="eta-shell-head">' +
           '<h4 class="eta-shell-title">' + renderModalSectionIcon("stock") + '<span>Stock Overview</span></h4>' +
         '</div>' +
-        '<div class="stock-mini-grid">' +
-          rows.map(function(row) {
-            return '<div class="stock-mini-card">' +
-              '<div class="stock-mini-loc">' + locationIcon() + '<span>' + escapeHtml(row.label) + '</span></div>' +
-              '<div class="stock-mini-metrics">' +
-                metric("On Hand", "onhand", row.values[0]) +
-                metric("Available", "available", row.values[1]) +
-                metric("Reserved", "reserved", row.values[2]) +
-                metric("On Order", "onorder", row.values[3]) +
-              '</div>' +
-            '</div>';
-          }).join("") +
-        '</div>' +
+        '<table class="eta-stock-table">' +
+          '<thead><tr><th>Location</th><th>On Hand</th><th>Available</th><th>Reserved</th><th>On Order</th></tr></thead>' +
+          '<tbody>' + rows.map(function(row) {
+            return '<tr><th scope="row">' + escapeHtml(row.label) + '</th>' +
+              '<td class="is-onhand">' + escapeHtml(formatStockValue(row.values[0], row.dashZero)) + '</td>' +
+              '<td class="is-available">' + escapeHtml(formatStockValue(row.values[1], row.dashZero)) + '</td>' +
+              '<td class="is-reserved">' + escapeHtml(formatStockValue(row.values[2], row.dashZero)) + '</td>' +
+              '<td class="is-order">' + escapeHtml(formatStockValue(row.values[3], row.dashZero)) + '</td>' +
+            '</tr>';
+          }).join("") + '</tbody>' +
+        '</table>' +
       '</section>';
     }
 
     function renderEtaRows(rows) {
       return rows.map(function(row) {
-        return '<tr>' +
-          '<td>' + escapeHtml(row.expDate || "--") + '</td>' +
-          '<td>' + escapeHtml(row.qtyDate || "--") + '</td>' +
-        '</tr>';
+        return '<tr><td><span>' + escapeHtml(row.expDate || "--") + '</span></td><td>' + escapeHtml(row.qtyDate || "--") + '</td></tr>';
       }).join("");
     }
     function renderEtaPlaceholders(count) {
@@ -4594,54 +4061,33 @@
     }
 
     function renderExpandableEtaSection(title, rows, previewLimit) {
-      const tableHtml = '<table class="eta-preview-table">' +
-        '<thead>' +
-          '<tr>' +
-            '<th>ETA Date</th>' +
-            '<th>Qty</th>' +
-          '</tr>' +
-        '</thead>' +
-        '<tbody>' +
-          renderEtaRows(rows) +
-        '</tbody>' +
-      '</table>';
-
       return '<section class="eta-location-section rows-' + rows.length + '">' +
         '<div class="eta-location-head">' +
-          '<h6 class="eta-location-title">' +
-            renderModalSectionIcon("eta") +
-            '<span>' + escapeHtml(title) + '</span>' +
-            '<span class="section-count">' + escapeHtml(String(rows.length)) + ' ' + escapeHtml(rows.length === 1 ? "record" : "records") + '</span>' +
-          '</h6>' +
+          '<h6 class="eta-location-title">' + renderModalSectionIcon("eta") + '<span>' + escapeHtml(title) + '</span></h6>' +
         '</div>' +
         '<div class="eta-location-body">' +
-          (rows.length ? tableHtml : renderEtaEmptyState("No data available.")) +
+          (rows.length
+            ? '<table class="eta-preview-table">' +
+                '<thead>' +
+                  '<tr>' +
+                    '<th>ETA</th>' +
+                    '<th>Qty</th>' +
+                  '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                  renderEtaRows(rows) +
+                '</tbody>' +
+              '</table>'
+            : renderEtaEmptyState("No data available.")) +
         '</div>' +
       '</section>';
     }
 
     function renderEtaSections(recordMap) {
-      const totalRecords =
-        recordMap.toronto.length +
-        recordMap.esna.length +
-        recordMap.binex.length +
-        recordMap.vancouver.length;
-
-      return '<section class="eta-panel">' +
-        '<div class="eta-panel-head">' +
-          '<h4 class="eta-panel-title">' +
-            renderModalSectionIcon("eta") +
-            '<span>ETA</span>' +
-            '<span class="section-count">' + escapeHtml(String(totalRecords)) + ' ' + escapeHtml(totalRecords === 1 ? "record" : "records") + '</span>' +
-          '</h4>' +
-        '</div>' +
-        '<div class="eta-panel-body">' +
-          renderExpandableEtaSection("Toronto", recordMap.toronto, 2) +
-          renderExpandableEtaSection("Esna", recordMap.esna, 2) +
-          renderExpandableEtaSection("Binex", recordMap.binex, 2) +
-          renderExpandableEtaSection("Vancouver", recordMap.vancouver, 2) +
-        '</div>' +
-      '</section>';
+      return renderExpandableEtaSection("ETA - Toronto", recordMap.toronto, 0) +
+        renderExpandableEtaSection("ETA - Esna", recordMap.esna, 0) +
+        renderExpandableEtaSection("ETA - Binex", recordMap.binex, 0) +
+        renderExpandableEtaSection("ETA - Vancouver", recordMap.vancouver, 0);
     }
 
     function renderMfdRows(rows) {
@@ -4660,17 +4106,17 @@
       return '<div class="mfd-view-all-wrap">' +
         '<button type="button" class="mfd-view-all-button" data-expand-target="' + targetId + '" aria-expanded="false">' +
           '<span>View All</span>' +
-          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>' +
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>' +
         '</button>' +
       '</div>';
     }
 
     function renderExpandableMfdSection(title, rows, emptyText, noDataMode, previewLimit) {
-      const limit = Number.isFinite(previewLimit) && previewLimit > 0 ? previewLimit : 3;
+      const limit = 3;
       const previewRows = rows.slice(0, limit);
       const hiddenRows = rows.slice(limit);
       const hiddenId = nextExpandSectionId("mfd");
-      const hasViewAll = rows.length > limit;
+      const hasViewAll = rows.length > 3;
 
       const tableHtml = '<table class="mfd-preview-table">' +
         '<thead><tr><th>Exp Date</th><th>MFD Qty (Date)</th><th>MFD Qty (Total)</th><th>Total Qty</th><th>Updated on</th></tr></thead>' +
@@ -4694,8 +4140,7 @@
         '<div class="mfd-location-head">' +
           '<h6 class="mfd-location-title">' +
             renderModalSectionIcon("mfd") +
-            '<span>' + escapeHtml(title) + '</span>' +
-            '<span class="section-count">' + escapeHtml(String(rows.length)) + ' ' + escapeHtml(rows.length === 1 ? 'record' : 'records') + '</span>' +
+            '<span>' + escapeHtml(title) + ' <span class="section-count">(' + escapeHtml(String(rows.length)) + ' ' + escapeHtml(rows.length === 1 ? 'record' : 'records') + ')</span></span>' +
           '</h6>' +
         '</div>' +
         '<div class="mfd-location-body">' +
@@ -4706,37 +4151,13 @@
       '</section>';
     }
 
-    function renderMfdSections(recordMap, stateMap) {
-      const torontoRows = recordMap.toronto || [];
-      const esnaRows = recordMap.esna || [];
-      const binexRows = recordMap.binex || [];
-      const vancouverRows = recordMap.vancouver || [];
-      const totalRecords = torontoRows.length + esnaRows.length + binexRows.length + vancouverRows.length;
-
-      return '<section class="mfd-panel">' +
-        '<div class="mfd-panel-head">' +
-          '<h4 class="mfd-panel-title">' +
-            renderModalSectionIcon("mfd") +
-            '<span>MFD</span>' +
-            '<span class="section-count">' + escapeHtml(String(totalRecords)) + ' ' + escapeHtml(totalRecords === 1 ? "record" : "records") + '</span>' +
-          '</h4>' +
-        '</div>' +
-        '<div class="mfd-panel-body">' +
-          renderExpandableMfdSection("Toronto", torontoRows, stateMap.toronto && stateMap.toronto.error ? "No data available." : "No data available.", false, 3) +
-          renderExpandableMfdSection("Esna", esnaRows, stateMap.esna && stateMap.esna.error ? "No data available." : "No data available.", false, 3) +
-          renderExpandableMfdSection("Binex", binexRows, "No data available.", true, 3) +
-          renderExpandableMfdSection("Vancouver", vancouverRows, stateMap.vancouver && stateMap.vancouver.error ? "No data available." : "No data available.", false, 3) +
-        '</div>' +
-      '</section>';
-    }
-
     async function openMFDModal(productId) {
       const product = state.products.find(function(item) { return item.id === productId; });
       if (!product) return;
 
       elements.mfdModalTitle.textContent = product.name;
       elements.mfdModalSubtitle.textContent = product.brand + " / " + product.category + " / SKU " + (product.sku || "--");
-      elements.mfdModalBody.innerHTML = '<p class="mfd-loading">Loading ETA and MFD data.</p>';
+      elements.mfdModalBody.innerHTML = '<p class="mfd-loading">Loading ETA and MFD data...</p>';
       elements.mfdModalLayer.classList.add("open");
       elements.mfdModalLayer.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
@@ -4758,14 +4179,7 @@
       const mfdRecordMap = {
         toronto: buildMfdRecords("toronto", sku),
         esna: buildMfdRecords("esna", sku),
-        binex: [],
         vancouver: buildMfdRecords("vancouver", sku)
-      };
-
-      const mfdStateMap = {
-        toronto: torontoState,
-        esna: esnaState,
-        vancouver: vancouverState
       };
 
       const stockTopHtml = '<div class="eta-stock-full">' +
@@ -4777,7 +4191,10 @@
       '</div>';
 
       const mfdColumnHtml = '<div class="eta-right-stack">' +
-        renderMfdSections(mfdRecordMap, mfdStateMap) +
+        renderExpandableMfdSection("MFD - Toronto", mfdRecordMap.toronto, torontoState && torontoState.error ? "No data available." : "No data available.", false, 3) +
+        renderExpandableMfdSection("MFD - Esna", mfdRecordMap.esna, esnaState && esnaState.error ? "No data available." : "No data available.", false, 1) +
+        renderExpandableMfdSection("MFD - Binex", [], "No data available.", true, 1) +
+        renderExpandableMfdSection("MFD - Vancouver", mfdRecordMap.vancouver, vancouverState && vancouverState.error ? "No data available." : "No data available.", false, 3) +
       '</div>';
 
       elements.mfdModalBody.innerHTML = '<div class="eta-sku-layout">' +
