@@ -3677,8 +3677,8 @@
         const specBox = '<div class="info-box">' + renderInfoRows([
           { label: "SKU", value: renderValueWithCopy(product.sku, "SKU"), isHtml: true },
           { label: "Barcode", value: renderValueWithCopy(product.upc, "barcode"), isHtml: true },
-          { label: "Supplier", value: renderSupplierValue(product.supplier), isHtml: true },
           { label: "Location", value: formatPlainValue(product.stockLocator) },
+          { label: "Supplier", value: renderSupplierValue(product.supplier), isHtml: true },
           { label: "Size", value: formatSize(product) },
           { label: "Weight", value: formatPlainValue(product.weight) }
         ]) + '</div>';
