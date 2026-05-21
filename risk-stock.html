@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>MFD Risk Stock</title>
+  <link rel="icon" type="image/png" href="./images/favicon.png" />
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: rgba(255, 255, 255, 0.78);
+      --panel-solid: #ffffff;
+      --border: rgba(15, 23, 42, 0.09);
+      --text: #0f172a;
+      --muted: #5b6475;
+      --muted-soft: #8592a3;
+      --accent: #2563eb;
+      --shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+      --content-width: 1440px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    /* Allow the page to scroll horizontally on narrow viewports where the table
+       exceeds the viewport width. No overflow:hidden/auto on html or body so
+       position:sticky on thead th works relative to the viewport. */
+    html, body { overflow-x: auto; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Geist", "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+      font-feature-settings: "tnum" 1, "cv02" 1, "cv03" 1, "cv04" 1;
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 28%),
+        radial-gradient(circle at left top, rgba(15, 159, 110, 0.07), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, select, input { font: inherit; }
+
+    .page-shell {
+      width: min(100%, var(--content-width));
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #12213c 48%, #1d4ed8 100%);
+      color: #fff;
+      border-radius: 20px;
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -100px auto;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%);
+      pointer-events: none;
+    }
+    .hero-top {
+      position: relative; z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.45rem);
+      line-height: 1.08;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 500;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+      transition: transform 160ms ease, background 160ms ease;
+    }
+    .hero-link:hover { transform: translateY(-1px); background: rgba(255,255,255,0.2); }
+
+    /* ── Stats ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-radius: 12px;
+      padding: 15px 16px;
+      backdrop-filter: blur(14px);
+      min-height: 84px;
+      text-align: left;
+      width: 100%;
+      appearance: none;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.1);
+    }
+    .stat-card.active {
+      border-color: rgba(37, 99, 235, 0.28);
+      background: linear-gradient(180deg, rgba(37, 99, 235, 0.08), rgba(255, 255, 255, 0.96));
+    }
+    .stat-card:focus-visible {
+      outline: 2px solid rgba(37, 99, 235, 0.24);
+      outline-offset: 2px;
+    }
+    .card-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+    .card-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-total    { background: #94a3b8; }
+    .dot-critical { background: #ef4444; }
+    .dot-high     { background: #f97316; }
+    .dot-watch    { background: #eab308; }
+    .dot-nosales  { background: #a855f7; }
+    .stat-card strong {
+      display: block;
+      font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+      font-weight: 700;
+      color: var(--text);
+    }
+    .stat-card small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted-soft);
+      font-size: 0.75rem;
+      line-height: 1.4;
+      font-weight: 400;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      position: relative; z-index: 10;
+      margin-top: 22px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: 0 16px 40px rgba(15,23,42,0.08);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .toolbar-grid {
+      display: grid;
+      grid-template-columns: 1.6fr repeat(4, minmax(0, 1fr)) auto;
+      gap: 12px;
+      align-items: end;
+    }
+    .field { display: grid; gap: 7px; min-width: 0; position: relative; }
+    .field label { font-size: 0.79rem; color: var(--muted); font-weight: 400; }
+    .field input, .field select {
+      min-height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0 12px;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+      width: 100%;
+      font-weight: 400;
+    }
+    .field-search label { color: #1d4ed8; font-weight: 500; }
+    .field-search input {
+      padding-left: 40px;
+      border-color: rgba(59,130,246,0.38);
+      background: linear-gradient(180deg, rgba(239,246,255,0.92), rgba(255,255,255,0.98));
+    }
+    .field-search::before {
+      content: "";
+      position: absolute; left: 16px; bottom: 16px;
+      width: 11px; height: 11px;
+      border: 1.6px solid #2563eb;
+      border-radius: 999px;
+      pointer-events: none; z-index: 2;
+    }
+    .field-search::after {
+      content: "";
+      position: absolute; left: 26px; bottom: 14px;
+      width: 6px; height: 1.6px;
+      background: #2563eb;
+      border-radius: 999px;
+      transform: rotate(45deg);
+      transform-origin: left center;
+      pointer-events: none; z-index: 2;
+    }
+    .field input:focus, .field select:focus,
+    .toolbar button:focus, .pager-button:focus, .more-lots-btn:focus {
+      outline: 2px solid rgba(37,99,235,0.2);
+      outline-offset: 2px;
+      border-color: rgba(37,99,235,0.4);
+    }
+    .toolbar-actions { display: flex; gap: 6px; justify-content: flex-end; align-items: stretch; }
+    .secondary-action, .pager-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
+      padding: 0 14px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .secondary-action:hover, .pager-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(15,23,42,0.08);
+    }
+    .pager-button:disabled { cursor: not-allowed; opacity: 0.4; transform: none; box-shadow: none; }
+
+    /* ── Results head ── */
+    .results-head {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 10px;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .results-meta { display: grid; gap: 3px; }
+    .results-meta strong { font-size: 0.98rem; font-weight: 500; }
+    .results-meta span { color: var(--muted); font-size: 0.86rem; font-weight: 400; }
+    .results-actions {
+      display: flex; flex-wrap: wrap;
+      gap: 10px; align-items: end;
+      justify-self: end;
+    }
+    .field.compact { min-width: 110px; }
+    .field.compact select { min-width: 90px; min-height: 42px; }
+    .pager { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .pager-button { min-height: 42px; }
+    .page-indicator { color: var(--muted); font-size: 0.83rem; min-width: 86px; text-align: center; }
+
+    /* ── Table ── */
+    .table-card {
+      margin-top: 16px;
+      background: var(--panel-solid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      /* overflow:clip: clips border-radius corners without creating a scroll container.
+         Any overflow:auto/hidden would confine position:sticky to the container
+         instead of the viewport. clip avoids that. */
+      overflow: clip;
+    }
+    /* No overflow on .table-scroll — let the page handle all scrolling.
+       Even overflow-x:auto alone causes browsers to treat overflow-y as auto,
+       which breaks viewport-level position:sticky on thead th. */
+    .table-scroll { width: 100%; }
+
+    table {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    col.product-col { width: 640px; }
+    col.price-col   { width: 108px; }
+    col.stock-col   { width: 108px; }
+    col.sales-col   { width: 100px; }
+    col.mfd-col     { width: 260px; }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #f1f5f9;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+      font-size: 0.74rem;
+      text-align: center;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    td {
+      border-bottom: 1px solid rgba(15,23,42,0.065);
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.82rem;
+      line-height: 1.28;
+      background: #fff;
+      font-weight: 400;
+    }
+    tbody tr:hover td { background: #f8faff; }
+    tbody tr:last-child td { border-bottom: 0; }
+
+    tr[data-risk="critical"] td:first-child { border-left: 3px solid rgba(239,68,68,0.45); }
+    tr[data-risk="high"]     td:first-child { border-left: 3px solid rgba(249,115,22,0.40); }
+    tr[data-risk="watch"]    td:first-child { border-left: 3px solid rgba(234,179,8,0.40); }
+    tr[data-risk="normal"]   td:first-child { border-left: 3px solid transparent; }
+
+    /* ── Product cell ── */
+    .product-cell {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+    .thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background:
+        linear-gradient(135deg, rgba(37, 99, 235, 0.10), transparent 55%),
+        linear-gradient(180deg, rgba(15, 23, 42, 0.05), rgba(15, 23, 42, 0.03));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 400;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      background: #fff;
+    }
+    .product-name {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      color: var(--text);
+      font-weight: 500;
+      font-size: 0.88rem;
+      line-height: 1.35;
+    }
+    .product-meta {
+      margin-top: 4px;
+      color: var(--muted-soft);
+      font-size: 0.72rem;
+      font-weight: 400;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ── Metric stack ── */
+    .metric-stack { display: grid; gap: 3px; font-variant-numeric: tabular-nums; }
+    .metric-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.77rem;
+      white-space: nowrap;
+    }
+    .metric-line strong { color: var(--text); font-weight: 400; }
+
+    /* ── MFD lots ── */
+    .mfd-lots { display: grid; gap: 0; }
+
+    .mfd-lot-line {
+      display: flex;
+      align-items: center;
+      padding: 2px 0;
+      font-size: 0.78rem;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.6;
+      color: var(--text);
+      gap: 0;
+      flex-wrap: nowrap;
+    }
+    .lot-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      margin-right: 7px;
+      flex-shrink: 0;
+      cursor: help;
+    }
+    .lot-dot-critical { background: #ef4444; }
+    .lot-dot-high     { background: #f97316; }
+    .lot-dot-watch    { background: #eab308; }
+    .lot-dot-normal   { background: #cbd5e1; }
+    .lot-line-date {
+      font-weight: 400;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 80px;
+    }
+    .lot-line-sep {
+      color: var(--muted-soft);
+      margin: 0 5px;
+      flex-shrink: 0;
+    }
+    .lot-line-qty {
+      color: var(--text);
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 40px;
+      text-align: right;
+      font-weight: 400;
+    }
+    .lot-line-est {
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 40px;
+      text-align: right;
+      font-weight: 400;
+    }
+
+    .more-lots-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 24px;
+      padding: 2px 8px;
+      border-radius: 5px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--muted-soft);
+      font-size: 0.72rem;
+      font-weight: 400;
+      margin-top: 4px;
+      cursor: pointer;
+      transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+    }
+    .more-lots-btn:hover {
+      background: rgba(37, 99, 235, 0.07);
+      color: var(--accent);
+      border-color: rgba(37, 99, 235, 0.14);
+    }
+    .more-lots-btn:focus-visible {
+      outline: 2px solid rgba(37,99,235,0.2);
+      outline-offset: 2px;
+    }
+
+    .empty-lots {
+      display: inline-flex;
+      color: var(--muted-soft);
+      background: rgba(15,23,42,0.04);
+      border: 1px solid rgba(15,23,42,0.06);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.76rem;
+      font-weight: 400;
+    }
+
+    /* ── Empty state ── */
+    .empty {
+      margin: 18px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .empty strong { color: var(--text); display: block; margin-bottom: 8px; font-size: 1.04rem; font-weight: 500; }
+
+    /* ── Pagination ── */
+    .pagination-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 13px 16px;
+      border-top: 1px solid var(--border);
+      background: rgba(248,250,252,0.7);
+    }
+    .pagination-summary { color: var(--muted); font-size: 0.81rem; font-weight: 400; }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 1180px) {
+      .stats-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .toolbar-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .toolbar-actions { justify-content: stretch; }
+      .secondary-action { width: 100%; }
+      .results-head { grid-template-columns: 1fr; }
+      .results-actions { justify-self: stretch; }
+    }
+    @media (max-width: 720px) {
+      .page-shell { padding: 16px 12px 48px; }
+      .hero h1 { white-space: normal; }
+      .stats-grid, .toolbar-grid { grid-template-columns: 1fr; }
+      .hero-link { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <section class="hero">
+      <div class="hero-top">
+        <h1>MFD Risk Stock</h1>
+        <a class="hero-link" href="./index.html">Product Catalog</a>
+      </div>
+    </section>
+
+    <section class="stats-grid" id="statsGrid">
+      <button type="button" class="stat-card active" data-card-filter="all">
+        <span class="card-label"><span class="card-dot dot-total"></span>Total</span>
+        <strong>--</strong>
+        <small>All analyzed products.</small>
+      </button>
+      <button type="button" class="stat-card" data-card-filter="critical">
+        <span class="card-label"><span class="card-dot dot-critical"></span>Critical</span>
+        <strong>--</strong>
+        <small>Contains at least one MFD lot that cannot sell through before the cutoff date.</small>
+      </button>
+      <button type="button" class="stat-card" data-card-filter="high">
+        <span class="card-label"><span class="card-dot dot-high"></span>High Risk</span>
+        <strong>--</strong>
+        <small>Contains at least one MFD lot with low sell-through probability before cutoff.</small>
+      </button>
+      <button type="button" class="stat-card" data-card-filter="watch">
+        <span class="card-label"><span class="card-dot dot-watch"></span>Watch</span>
+        <strong>--</strong>
+        <small>Contains at least one MFD lot that should be monitored closely.</small>
+      </button>
+      <button type="button" class="stat-card" data-card-filter="no-sales">
+        <span class="card-label"><span class="card-dot dot-nosales"></span>No Sales Velocity</span>
+        <strong>--</strong>
+        <small>Last 4M Avg is 0.</small>
+      </button>
+    </section>
+
+    <section class="toolbar">
+      <div class="toolbar-grid">
+        <div class="field field-search">
+          <label for="searchInput">Search</label>
+          <input id="searchInput" type="search" placeholder="Product, SKU, barcode, brand..." />
+        </div>
+        <div class="field">
+          <label for="brandFilter">Brand</label>
+          <select id="brandFilter">
+            <option value="all">All brands</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="stockSortSelect">Stock</label>
+          <select id="stockSortSelect">
+            <option value="all">All</option>
+            <option value="onhand-desc">On hand high to low</option>
+            <option value="available-desc">Available high to low</option>
+            <option value="reserved-desc">Reserved high to low</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="mfdSortSelect">MFD</label>
+          <select id="mfdSortSelect">
+            <option value="all">All</option>
+            <option value="mfd-earliest">MFD earliest first</option>
+            <option value="mfd-latest">MFD latest first</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sortSelect">Sort By</label>
+          <select id="sortSelect">
+            <option value="name-asc" selected>Product name A-Z</option>
+            <option value="name-desc">Product name Z-A</option>
+            <option value="risk-priority">Risk priority</option>
+            <option value="critical-first">Critical first</option>
+            <option value="high-first">High first</option>
+            <option value="watch-first">Watch first</option>
+            <option value="last4m-asc">Last 4M low to high</option>
+            <option value="last4m-desc">Last 4M high to low</option>
+            <option value="retail-desc">Retail high to low</option>
+          </select>
+        </div>
+        <div class="toolbar-actions">
+          <button type="button" id="resetButton" class="secondary-action">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="results-head">
+      <div class="results-meta">
+        <strong id="resultsTitle">Loading MFD lots...</strong>
+        <span id="resultsSubtitle">The lot-level risk list will appear once Products and MFD sheets load.</span>
+      </div>
+      <div class="results-actions">
+        <div class="field compact">
+          <label for="pageSizeSelect">Per page</label>
+          <select id="pageSizeSelect">
+            <option value="25">25</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+          </select>
+        </div>
+        <div class="pager">
+          <button type="button" class="pager-button" id="prevPageButton">Previous</button>
+          <span class="page-indicator" id="pageIndicator">Page 1 / 1</span>
+          <button type="button" class="pager-button" id="nextPageButton">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="table-card">
+      <div class="table-scroll">
+        <table>
+          <colgroup>
+            <col class="product-col" />
+            <col class="price-col" />
+            <col class="stock-col" />
+            <col class="sales-col" />
+            <col class="mfd-col" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Sales</th>
+              <th>MFD / EA / Sellable</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr>
+              <td colspan="5">
+                <div class="empty">
+                  <strong>Loading live product and MFD data...</strong>
+                  Reading Products and MFD tabs, then calculating each lot against MFD − 6 months.
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination-bar">
+        <span class="pagination-summary" id="paginationSummary">Showing 0 products</span>
+        <div class="pager">
+          <button type="button" class="pager-button" id="prevPageButtonBottom">Previous</button>
+          <span class="page-indicator" id="pageIndicatorBottom">Page 1 / 1</span>
+          <button type="button" class="pager-button" id="nextPageButtonBottom">Next</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const CONFIG = {
+      sheetId: "1xxiv7wBH73-gOJfMA8vK7BGu2GoQK6jj3SUR0IJJcdU",
+      sheetName: "Products",
+      currency: "USD"
+    };
+    const DEFAULT_SORT      = "name-asc";
+    const DEFAULT_CARD      = "all";
+
+    const FIELD_ALIASES = {
+      sku: ["productcode", "sku", "product code"],
+      name: ["name", "product name"],
+      category: ["category"],
+      brand: ["brand"],
+      upc: ["barcode", "upc"],
+      image: ["image", "photo", "picture"],
+      cost: ["averagecost", "cost"],
+      wholesale: ["pricetier1", "wholesale"],
+      retail: ["pricetier2", "retail", "price"],
+      last4Month: ["last4month", "last 4 month", "last 4m"],
+      last12Month: ["last12month", "last 12 month", "12 month", "12month"],
+      length: ["length"],
+      width: ["width"],
+      height: ["height"],
+      onHandTor: ["onhandtor", "on hand (tor)", "on hand tor"],
+      onHandVan: ["onhandvan", "on hand (van)", "on hand van"],
+      onHandEsna: ["onhandesna", "on hand (esna)", "on hand esna"],
+      onHandNew: ["onhandnew", "on hand (new)", "on hand new"],
+      availableTor: ["availabletor", "available (tor)", "available tor"],
+      availableVan: ["availablevan", "available (van)", "available van"],
+      availableEsna: ["availableesna", "available (esna)", "available esna"],
+      availableNew: ["availablenew", "available (new)", "available new"],
+      reserve: ["reserve"],
+      stockReserved: ["stockreserved", "stock reserved"],
+      reserveTor: ["reservetor", "reserve (tor)", "reserve tor", "reservedtor", "reserved (tor)", "reserved tor"],
+      reserveVan: ["reservevan", "reserve (van)", "reserve van", "reservedvan", "reserved (van)", "reserved van"],
+      location: ["location", "loc", "bin", "bin location", "binlocation", "shelf", "shelf location"]
+    };
+
+    const RISK_META = {
+      critical: { label: "Critical", order: 0 },
+      high:     { label: "High",     order: 1 },
+      watch:    { label: "Watch",    order: 2 },
+      normal:   { label: "Normal",   order: 3 }
+    };
+
+    const MFD_SHEETS = [
+      { key: "toronto",   label: "Toronto",   sheetName: "MFD",      skuIndexFallback: 0 },
+      { key: "esna",      label: "Esna",      sheetName: "MFD-ESNA", skuIndexFallback: 2, esnaMode: true },
+      { key: "vancouver", label: "Vancouver", sheetName: "MFD-V",    skuIndexFallback: 2 }
+    ];
+
+    const state = {
+      products: [],
+      filtered: [],
+      columns: [],
+      fieldMap: {},
+      mfdBySku: new Map(),
+      averageSalesMap: new Map(),
+      expandedLots: new Set(),
+      search: "",
+      brand: "all",
+      cardFilter: DEFAULT_CARD,
+      stockSort: "all",
+      mfdSort: "all",
+      sort: DEFAULT_SORT,
+      pageSize: 50,
+      currentPage: 1,
+      today: startOfDay(new Date())
+    };
+
+    const elements = {
+      statsGrid:              document.getElementById("statsGrid"),
+      searchInput:            document.getElementById("searchInput"),
+      brandFilter:            document.getElementById("brandFilter"),
+      stockSortSelect:        document.getElementById("stockSortSelect"),
+      mfdSortSelect:          document.getElementById("mfdSortSelect"),
+      sortSelect:             document.getElementById("sortSelect"),
+      resetButton:            document.getElementById("resetButton"),
+      tableBody:              document.getElementById("tableBody"),
+      resultsTitle:           document.getElementById("resultsTitle"),
+      resultsSubtitle:        document.getElementById("resultsSubtitle"),
+      paginationSummary:      document.getElementById("paginationSummary"),
+      pageSizeSelect:         document.getElementById("pageSizeSelect"),
+      pageIndicator:          document.getElementById("pageIndicator"),
+      pageIndicatorBottom:    document.getElementById("pageIndicatorBottom"),
+      prevPageButton:         document.getElementById("prevPageButton"),
+      nextPageButton:         document.getElementById("nextPageButton"),
+      prevPageButtonBottom:   document.getElementById("prevPageButtonBottom"),
+      nextPageButtonBottom:   document.getElementById("nextPageButtonBottom")
+    };
+
+    function normalizeKey(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "")
+        .trim();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [], value = "", inQuotes = false;
+      for (let i = 0; i < text.length; i += 1) {
+        const char = text[i];
+        const next = text[i + 1];
+        if (char === "\"") {
+          if (inQuotes && next === "\"") { value += "\""; i += 1; }
+          else { inQuotes = !inQuotes; }
+          continue;
+        }
+        if (char === "," && !inQuotes) { row.push(value); value = ""; continue; }
+        if (char === "\n" && !inQuotes) { row.push(value); rows.push(row); row = []; value = ""; continue; }
+        if (char !== "\r") value += char;
+      }
+      row.push(value);
+      rows.push(row);
+      return rows;
+    }
+
+    function parseNumber(value) {
+      if (value === null || value === undefined) return 0;
+      const match = String(value).replace(/,/g, "").match(/-?\d+(?:\.\d+)?/);
+      if (!match) return 0;
+      const numeric = Number(match[0]);
+      return Number.isFinite(numeric) ? numeric : 0;
+    }
+
+    function hasValue(value) {
+      const n = String(value ?? "").trim().toLowerCase();
+      return n !== "" && n !== "n/a" && n !== "#n/a" && n !== "--" && n !== "-";
+    }
+
+    function isMeaningful(value) {
+      const n = String(value || "").trim().toLowerCase();
+      return n !== "" && n !== "0" && n !== "0.00" && n !== "n/a" && n !== "#n/a" && n !== "--";
+    }
+
+    function normalizeExternalUrl(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return "";
+      if (/^[a-z]+:\/\//i.test(raw)) return raw;
+      if (/^(www\.|[a-z0-9.-]+\.[a-z]{2,})(?:\/|$|#|\?)/i.test(raw)) return "https://" + raw;
+      return raw;
+    }
+
+    function formatNumber(value, digits = 0) {
+      if (!Number.isFinite(value)) return "-";
+      return new Intl.NumberFormat("en-US", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      }).format(value);
+    }
+
+    function formatAverage(value) {
+      if (!Number.isFinite(value)) return "-";
+      return new Intl.NumberFormat("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }).format(value);
+    }
+
+    function formatCurrency(value) {
+      if (!Number.isFinite(value) || value <= 0) return "-";
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: CONFIG.currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    }
+
+    function startOfDay(date) {
+      const value = new Date(date);
+      value.setHours(0, 0, 0, 0);
+      return value;
+    }
+
+    function addMonths(date, monthCount) {
+      const value = new Date(date);
+      const day = value.getDate();
+      value.setDate(1);
+      value.setMonth(value.getMonth() + monthCount);
+      const lastDay = new Date(value.getFullYear(), value.getMonth() + 1, 0).getDate();
+      value.setDate(Math.min(day, lastDay));
+      return startOfDay(value);
+    }
+
+    function monthsBetween(fromDate, toDate) {
+      if (!fromDate || !toDate) return null;
+      const dayMs = 24 * 60 * 60 * 1000;
+      return (startOfDay(toDate).getTime() - startOfDay(fromDate).getTime()) / dayMs / 30.4375;
+    }
+
+    function formatDate(date) {
+      if (!date || Number.isNaN(date.getTime())) return "-";
+      return new Intl.DateTimeFormat("en-CA", {
+        year: "numeric", month: "2-digit", day: "2-digit"
+      }).format(date);
+    }
+
+    function formatMfdDate(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return "";
+      const iso = raw.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/);
+      if (iso) return iso[1] + "-" + iso[2].padStart(2, "0") + "-" + iso[3].padStart(2, "0");
+      const dmy = raw.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$/);
+      if (dmy) return dmy[3] + "-" + dmy[2].padStart(2, "0") + "-" + dmy[1].padStart(2, "0");
+      const date = new Date(raw);
+      if (!Number.isNaN(date.getTime())) return formatDate(date);
+      return raw;
+    }
+
+    function parseDate(value) {
+      const normalized = formatMfdDate(value);
+      const iso = normalized.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (!iso) return null;
+      const date = new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
+      return Number.isNaN(date.getTime()) ? null : startOfDay(date);
+    }
+
+    function formatSku(value) {
+      return String(value || "").trim().toLowerCase();
+    }
+
+    function buildProductEndpoints() {
+      const enc = encodeURIComponent(CONFIG.sheetName);
+      return [
+        "https://docs.google.com/spreadsheets/d/" + CONFIG.sheetId + "/gviz/tq?tqx=out:csv&sheet=" + enc,
+        "https://docs.google.com/spreadsheets/d/" + CONFIG.sheetId + "/export?format=csv&sheet=" + enc
+      ];
+    }
+
+    async function fetchCsv(sheetName) {
+      const url = "https://docs.google.com/spreadsheets/d/" + CONFIG.sheetId + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(sheetName);
+      const response = await fetch(url, { cache: "no-store", mode: "cors" });
+      if (!response.ok) throw new Error("Could not load " + sheetName + ": HTTP " + response.status);
+      const text = await response.text();
+      if (/<!doctype html|<html/i.test(text)) throw new Error("Received HTML instead of CSV for " + sheetName);
+      return parseCSV(text)
+        .map((row) => row.map((cell) => String(cell || "").trim()))
+        .filter((row) => row.some((cell) => cell !== ""));
+    }
+
+    async function fetchProductRows() {
+      let lastError = null;
+      for (const endpoint of buildProductEndpoints()) {
+        try {
+          const response = await fetch(endpoint, { cache: "no-store", mode: "cors" });
+          if (!response.ok) throw new Error("HTTP " + response.status);
+          const text = await response.text();
+          if (/<!doctype html|<html/i.test(text)) throw new Error("Received HTML instead of CSV.");
+          return parseCSV(text)
+            .map((row) => row.map((cell) => String(cell || "").trim()))
+            .filter((row) => row.some((cell) => cell !== ""));
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw lastError || new Error("Unable to load Products sheet.");
+    }
+
+    function deriveColumns(rawRows) {
+      const headerRows = rawRows.slice(0, 3);
+      const maxColumns = headerRows.reduce((max, row) => Math.max(max, row.length), 0);
+      const columns = [];
+      for (let index = 0; index < maxColumns; index += 1) {
+        const row1 = headerRows[0]?.[index] ?? "";
+        const row2 = headerRows[1]?.[index] ?? "";
+        const row3 = headerRows[2]?.[index] ?? "";
+        const label = row2 || row1 || "Column " + (index + 1);
+        const baseKey = normalizeKey(row1 || row2 || "column" + (index + 1));
+        columns.push({ index, key: baseKey || "column" + (index + 1), label, type: row3 || "" });
+      }
+      return columns;
+    }
+
+    function findColumnKey(columns, aliases) {
+      const normalizedAliases = aliases.map(normalizeKey);
+      for (const alias of normalizedAliases) {
+        const exact = columns.find((c) => c.key === alias || normalizeKey(c.label) === alias);
+        if (exact) return exact.key;
+      }
+      for (const alias of normalizedAliases) {
+        const contains = columns.find((c) => c.key.includes(alias) || normalizeKey(c.label).includes(alias));
+        if (contains) return contains.key;
+      }
+      return null;
+    }
+
+    function buildFieldMap(columns) {
+      const map = {};
+      Object.entries(FIELD_ALIASES).forEach(([field, aliases]) => {
+        map[field] = findColumnKey(columns, aliases);
+      });
+      return map;
+    }
+
+    function buildRecord(row, columns) {
+      const record = { __cells: row };
+      columns.forEach((column) => { record[column.key] = row[column.index] ?? ""; });
+      return record;
+    }
+
+    function getValue(record, fieldName) {
+      const key = state.fieldMap[fieldName];
+      return key ? (record[key] ?? "") : "";
+    }
+
+    function isDisplayableProduct(product) {
+      const sku = String(product.sku || "").trim().toLowerCase();
+      const name = String(product.name || "").trim().toLowerCase();
+      const errorValue = /^#(?:num|value|ref|div\/0|n\/a|name|error)!?$/i;
+      if (!sku && !name) return false;
+      if (errorValue.test(sku) || errorValue.test(name)) return false;
+      if (name === "unnamed product") return false;
+      return true;
+    }
+
+    function hasReliableData(product) {
+      if (product.available <= 0) return false;
+      if (!product.averageSales) return false;
+      if (product.fourMonthSales <= 0 && product.last12Month <= 0) return false;
+      return product.activeSalesMonths >= 4;
+    }
+
+    function applyAverageSales(product) {
+      const averageSales = state.averageSalesMap.get(product.skuKey);
+      if (!averageSales) {
+        product.averageSales = null;
+        product.activeSalesMonths = 0;
+        product.monthlySales = [];
+        product.last12Month = 0;
+        product.fourMonthSales = 0;
+        return product;
+      }
+      product.averageSales = averageSales;
+      product.last12Month = averageSales.last12Month;
+      product.fourMonthSales = averageSales.last4Month;
+      product.activeSalesMonths = averageSales.activeSalesMonths;
+      product.monthlySales = averageSales.monthlySales;
+      return product;
+    }
+
+    function formatSize(product) {
+      const values = [
+        { value: product.lengthRaw, suffix: "L" },
+        { value: product.widthRaw,  suffix: "W" },
+        { value: product.heightRaw, suffix: "H" }
+      ].filter((item) => hasValue(item.value));
+      if (!values.length) return "";
+      return values.map((item) => String(item.value).trim() + " " + item.suffix).join(" x ");
+    }
+
+    function transformProduct(record, index) {
+      const sku          = getValue(record, "sku");
+      const name         = getValue(record, "name") || "Unnamed product";
+      const brand        = getValue(record, "brand") || "Unknown brand";
+      const category     = getValue(record, "category") || "Uncategorized";
+      const upc          = getValue(record, "upc");
+      const location     = getValue(record, "location");
+      const image        = normalizeExternalUrl(getValue(record, "image"));
+      const lengthRaw    = getValue(record, "length");
+      const widthRaw     = getValue(record, "width");
+      const heightRaw    = getValue(record, "height");
+
+      const onHandTor    = parseNumber(record.__cells?.[36] ?? getValue(record, "onHandTor"));
+      const onHandVan    = parseNumber(record.__cells?.[37] ?? getValue(record, "onHandVan"));
+      const onHandEsna   = parseNumber(record.__cells?.[41] ?? getValue(record, "onHandEsna"));
+      const onHandNew    = parseNumber(record.__cells?.[42] ?? getValue(record, "onHandNew"));
+      const availableTor = parseNumber(record.__cells?.[17] ?? getValue(record, "availableTor"));
+      const availableVan = parseNumber(record.__cells?.[18] ?? getValue(record, "availableVan"));
+      const availableEsna= parseNumber(record.__cells?.[29] ?? getValue(record, "availableEsna"));
+      const availableNew = parseNumber(record.__cells?.[43] ?? getValue(record, "availableNew"));
+      const reservedTor  = parseNumber(record.__cells?.[35] ?? getValue(record, "stockReserved") ?? getValue(record, "reserveTor") ?? getValue(record, "reserve"));
+      const reservedVan  = parseNumber(record.__cells?.[40] ?? getValue(record, "reserveVan") ?? 0);
+
+      const product = {
+        id: "product-" + index,
+        sku, skuKey: formatSku(sku),
+        name, brand, category, upc, image, location,
+        lengthRaw, widthRaw, heightRaw,
+        cost:           parseNumber(getValue(record, "cost")),
+        wholesale:      parseNumber(getValue(record, "wholesale")),
+        retail:         parseNumber(getValue(record, "retail")),
+        fourMonthSales: parseNumber(getValue(record, "last4Month")),
+        last12Month:    parseNumber(record.__cells?.[14] ?? getValue(record, "last12Month")),
+        onHand:    onHandTor + onHandVan + onHandEsna + onHandNew,
+        available: availableTor + availableVan + availableEsna + availableNew,
+        reserved:  reservedTor + reservedVan,
+        searchBlob: ""
+      };
+
+      product.sizeLabel = formatSize(product);
+      product.searchBlob = [product.sku, product.upc, product.name, product.brand, product.category, product.sizeLabel, product.location]
+        .join(" ").toLowerCase();
+
+      return product;
+    }
+
+    function getMfdColumnIndexes(headers) {
+      const result = {};
+      headers.forEach((header, index) => {
+        const key = normalizeKey(header);
+        if (result.expDate  === undefined && key === "expdate")                             result.expDate  = index;
+        if (result.location === undefined && key === "location")                            result.location = index;
+        if (result.sku      === undefined && key.includes("sku"))                           result.sku      = index;
+        if (result.qtyDate  === undefined && (key === "mfdqtydate" || key === "qtydate"))   result.qtyDate  = index;
+        if (result.qtyTotal === undefined && (key === "mfdqtytotal" || key === "qtytotal")) result.qtyTotal = index;
+        if (result.totalQty === undefined && key === "totalqty")                            result.totalQty = index;
+      });
+      return result;
+    }
+
+    function padDateValue(value) {
+      return String(value ?? "").trim().padStart(2, "0");
+    }
+
+    function getMfdQty(record) {
+      const qtyDate = parseNumber(record.qtyDate);
+      if (qtyDate > 0) return qtyDate;
+      const totalQty = parseNumber(record.totalQty);
+      if (totalQty > 0) return totalQty;
+      return parseNumber(record.qtyTotal);
+    }
+
+    function parseGenericMfdRows(sheet, rows) {
+      const headers = rows[0] || [];
+      const data = rows.slice(1);
+      const indexes = getMfdColumnIndexes(headers);
+      const skuIndex = indexes.sku !== undefined ? indexes.sku : sheet.skuIndexFallback;
+      return data.map((row) => {
+        const record = {
+          sku: row[skuIndex] || "",
+          expDate: row[indexes.expDate] || "",
+          qtyDate: row[indexes.qtyDate] || "",
+          qtyTotal: row[indexes.qtyTotal] || "",
+          totalQty: row[indexes.totalQty] || "",
+          location: row[indexes.location] || sheet.label
+        };
+        return {
+          skuKey:    formatSku(record.sku),
+          date:      parseDate(record.expDate),
+          dateLabel: formatMfdDate(record.expDate) || "-",
+          qty:       getMfdQty(record),
+          location:  sheet.label
+        };
+      });
+    }
+
+    function parseEsnaMfdRows(sheet, rows) {
+      return rows.slice(1).map((row) => {
+        const year  = String(row[4] || "").trim();
+        const month = padDateValue(row[5] || "");
+        const day   = padDateValue(row[6] || "");
+        const expDate = year ? year + "-" + month + "-" + day : "";
+        return {
+          skuKey:    formatSku(row[2]),
+          date:      parseDate(expDate),
+          dateLabel: formatMfdDate(expDate) || "-",
+          qty:       parseNumber(row[7]) || parseNumber(row[9]) || parseNumber(row[8]),
+          location:  sheet.label
+        };
+      });
+    }
+
+    async function buildMfdMap() {
+      const map = new Map();
+      const results = await Promise.allSettled(MFD_SHEETS.map(async (sheet) => {
+        const rows = await fetchCsv(sheet.sheetName);
+        return sheet.esnaMode ? parseEsnaMfdRows(sheet, rows) : parseGenericMfdRows(sheet, rows);
+      }));
+      results.forEach((result) => {
+        if (result.status !== "fulfilled") return;
+        result.value.forEach((record) => {
+          if (!record.skuKey || !record.date || !Number.isFinite(record.qty) || record.qty <= 0) return;
+          if (!map.has(record.skuKey)) map.set(record.skuKey, []);
+          map.get(record.skuKey).push(record);
+        });
+      });
+      map.forEach((records) => {
+        records.sort((a, b) => a.date.getTime() - b.date.getTime() || b.qty - a.qty);
+      });
+      return map;
+    }
+
+    function parseAverageMonthHeader(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return null;
+      const yearMonth = raw.match(/^(\d{4})\s+0?(\d{1,2})$/);
+      if (yearMonth) {
+        const year = Number(yearMonth[1]);
+        const month = Number(yearMonth[2]);
+        if (month >= 1 && month <= 12) return new Date(year, month - 1, 1);
+      }
+      const parsed = new Date(raw);
+      if (!Number.isNaN(parsed.getTime())) return new Date(parsed.getFullYear(), parsed.getMonth(), 1);
+      return null;
+    }
+
+    function getAverageMonthIndexes(headers) {
+      const currentMonth = new Date(state.today.getFullYear(), state.today.getMonth(), 1);
+      const indexes = [];
+      for (let index = 7; index < headers.length; index += 1) {
+        const monthDate = parseAverageMonthHeader(headers[index]);
+        if (!monthDate) continue;
+        if (monthDate.getTime() <= currentMonth.getTime()) indexes.push(index);
+      }
+      return indexes;
+    }
+
+    async function buildAverageSalesMap() {
+      try {
+        const rows = await fetchCsv("Average (All)");
+        if (rows.length < 3) return new Map();
+
+        const headers = rows[1] || [];
+        const skuIndex = (() => {
+          const idx = headers.findIndex((h) => {
+            const key = normalizeKey(h);
+            return key === "sku" || key === "productcode" || key === "skucode" || key === "itemcode";
+          });
+          return idx >= 0 ? idx : 0;
+        })();
+
+        const last12Index = 5;
+        const last4Index  = 6;
+        const monthIndexes = getAverageMonthIndexes(headers);
+        const map = new Map();
+
+        rows.slice(2).forEach((row) => {
+          const skuKey = formatSku(row[skuIndex] || "");
+          if (!skuKey) return;
+          const monthlySales = monthIndexes.map((index) => parseNumber(row[index]));
+          const activeSalesMonths = monthlySales.filter((v) => v > 0).length;
+          const last12Month = parseNumber(row[last12Index]);
+          const last4Month  = parseNumber(row[last4Index]);
+          const entry = { skuKey, last12Month, last4Month, activeSalesMonths, monthlySales };
+          const existing = map.get(skuKey);
+          if (!existing || activeSalesMonths > existing.activeSalesMonths || last4Month > existing.last4Month) {
+            map.set(skuKey, entry);
+          }
+        });
+
+        return map;
+      } catch (error) {
+        console.warn("Average (All) sheet could not be loaded:", error);
+        return new Map();
+      }
+    }
+
+    function summarizeMfd(records) {
+      const grouped = new Map();
+      records.forEach((record) => {
+        const key = record.dateLabel + "|" + record.location;
+        if (!grouped.has(key)) {
+          grouped.set(key, { date: record.date, dateLabel: record.dateLabel, location: record.location, qty: 0 });
+        }
+        grouped.get(key).qty += record.qty;
+      });
+      return Array.from(grouped.values())
+        .sort((a, b) => a.date.getTime() - b.date.getTime() || a.location.localeCompare(b.location));
+    }
+
+    function calculateLotRisk(lot, product) {
+      // deadline = MFD date − 6 months
+      const deadline        = addMonths(lot.date, -6);
+      const remainingMonths = monthsBetween(state.today, deadline);
+      const monthlyAvg      = product.fourMonthSales > 0 ? product.fourMonthSales : null;
+
+      // Sellable = how many units can be sold by the deadline at current Last 4M Avg velocity
+      const sellable = (monthlyAvg !== null && Number.isFinite(remainingMonths) && remainingMonths > 0)
+        ? Math.round(monthlyAvg * remainingMonths)
+        : null;
+
+      // Risk is determined by comparing Sellable against the product's total Available.
+      // EA (lot.qty) is display-only and NOT used in risk comparison.
+      const available = product.available;
+
+      let level = "normal";
+      if (deadline.getTime() < state.today.getTime()) {
+        // The 6-month buffer window before MFD has already passed
+        level = "critical";
+      } else if (product.fourMonthSales <= 0 && available > 0) {
+        // Zero sales velocity with inventory — cannot sell anything
+        level = "critical";
+      } else if (sellable !== null && sellable < available) {
+        // Cannot sell all Available inventory before the deadline
+        level = "high";
+      } else if (sellable !== null && monthlyAvg !== null && Number.isFinite(remainingMonths)) {
+        // Can sell all Available, but buffer is less than 1 month
+        const monthsToSellAvailable = available / monthlyAvg;
+        if (remainingMonths - monthsToSellAvailable <= 1) level = "watch";
+      }
+
+      return { ...lot, deadline, remainingMonths, sellable, riskLevel: level };
+    }
+
+    function enrichProduct(product) {
+      const mfdLots = summarizeMfd(state.mfdBySku.get(product.skuKey) || [])
+        .map((lot) => calculateLotRisk(lot, product));
+
+      const counts = {
+        critical: mfdLots.filter((l) => l.riskLevel === "critical").length,
+        high:     mfdLots.filter((l) => l.riskLevel === "high").length,
+        watch:    mfdLots.filter((l) => l.riskLevel === "watch").length,
+        normal:   mfdLots.filter((l) => l.riskLevel === "normal").length
+      };
+
+      const riskLevel       = counts.critical ? "critical" : counts.high ? "high" : counts.watch ? "watch" : "normal";
+      const riskyMfdQty     = mfdLots.filter((l) => l.riskLevel !== "normal").reduce((sum, l) => sum + l.qty, 0);
+      const noSalesVelocity = product.fourMonthSales <= 0 && mfdLots.reduce((sum, l) => sum + l.qty, 0) > 0;
+      const oldestMfdTime   = mfdLots.length ? mfdLots[0].date.getTime() : Infinity;
+      const latestMfdTime   = mfdLots.length ? mfdLots[mfdLots.length - 1].date.getTime() : -Infinity;
+
+      return { ...product, mfdLots, lotRiskCounts: counts, riskLevel, riskyMfdQty, noSalesVelocity, oldestMfdTime, latestMfdTime };
+    }
+
+    function imageHtml(product) {
+      const fallback = escapeHtml((product.brand || product.name || "P").charAt(0).toUpperCase());
+      if (!isMeaningful(product.image)) return '<div class="thumb">' + fallback + '</div>';
+      return '<div class="thumb"><img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy" onerror="this.remove();this.parentElement.textContent=\'' + fallback + '\';" /></div>';
+    }
+
+    function metricStack(items) {
+      return '<div class="metric-stack">' + items.map((item) =>
+        '<div class="metric-line"><span>' + escapeHtml(item.label) + '</span><strong>' + escapeHtml(item.value) + '</strong></div>'
+      ).join("") + '</div>';
+    }
+
+    function renderStats() {
+      const total      = state.products.length;
+      const critical   = state.products.filter((p) => p.lotRiskCounts.critical > 0).length;
+      const high       = state.products.filter((p) => p.lotRiskCounts.high > 0).length;
+      const watch      = state.products.filter((p) => p.lotRiskCounts.watch > 0).length;
+      const noSales    = state.products.filter((p) => p.fourMonthSales <= 0).length;
+
+      const cards = [
+        { filter: "all",      label: "Total",            value: total,    desc: "All analyzed products.",                                                                     dot: "dot-total"    },
+        { filter: "critical", label: "Critical",          value: critical, desc: "Contains at least one MFD lot that cannot sell through before the cutoff date.",             dot: "dot-critical" },
+        { filter: "high",     label: "High Risk",         value: high,     desc: "Contains at least one MFD lot with low sell-through probability before cutoff.",             dot: "dot-high"     },
+        { filter: "watch",    label: "Watch",             value: watch,    desc: "Contains at least one MFD lot that should be monitored closely.",                           dot: "dot-watch"    },
+        { filter: "no-sales", label: "No Sales Velocity", value: noSales,  desc: "Last 4M Avg is 0.",                                                                         dot: "dot-nosales"  }
+      ];
+
+      elements.statsGrid.innerHTML = cards.map((card) =>
+        '<button type="button" class="stat-card' + (state.cardFilter === card.filter ? ' active' : '') + '" data-card-filter="' + card.filter + '">' +
+          '<span class="card-label"><span class="card-dot ' + card.dot + '"></span>' + escapeHtml(card.label) + '</span>' +
+          '<strong>' + escapeHtml(formatNumber(card.value)) + '</strong>' +
+          '<small>' + escapeHtml(card.desc) + '</small>' +
+        '</button>'
+      ).join("");
+    }
+
+    function renderBrandOptions() {
+      const brands = Array.from(new Set(state.products.map((p) => p.brand))).sort((a, b) => a.localeCompare(b));
+      elements.brandFilter.innerHTML = '<option value="all">All brands</option>' + brands.map((brand) => {
+        const selected = state.brand === brand ? " selected" : "";
+        return '<option value="' + escapeHtml(brand) + '"' + selected + '>' + escapeHtml(brand) + '</option>';
+      }).join("");
+    }
+
+    function filterProducts() {
+      const tokens = state.search.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      const filtered = state.products.filter((product) => {
+        const matchesSearch = !tokens.length || tokens.every((t) => product.searchBlob.includes(t));
+        const matchesBrand  = state.brand === "all" || product.brand === state.brand;
+        let matchesCard = true;
+        if      (state.cardFilter === "critical")  matchesCard = product.lotRiskCounts.critical > 0;
+        else if (state.cardFilter === "high")      matchesCard = product.lotRiskCounts.high > 0;
+        else if (state.cardFilter === "watch")     matchesCard = product.lotRiskCounts.watch > 0;
+        else if (state.cardFilter === "no-sales")  matchesCard = product.fourMonthSales <= 0;
+        return matchesSearch && matchesBrand && matchesCard;
+      });
+      state.filtered = sortProducts(filtered);
+    }
+
+    function sortProducts(products) {
+      const list = [...products];
+
+      // Stock sort overrides everything when set
+      if (state.stockSort !== "all") {
+        switch (state.stockSort) {
+          case "onhand-desc":    return list.sort((a, b) => b.onHand    - a.onHand    || a.name.localeCompare(b.name));
+          case "available-desc": return list.sort((a, b) => b.available - a.available || a.name.localeCompare(b.name));
+          case "reserved-desc":  return list.sort((a, b) => b.reserved  - a.reserved  || a.name.localeCompare(b.name));
+        }
+      }
+
+      // MFD sort overrides Sort By when set
+      if (state.mfdSort !== "all") {
+        switch (state.mfdSort) {
+          case "mfd-earliest": return list.sort((a, b) => a.oldestMfdTime - b.oldestMfdTime || a.name.localeCompare(b.name));
+          case "mfd-latest":   return list.sort((a, b) => b.latestMfdTime - a.latestMfdTime || a.name.localeCompare(b.name));
+        }
+      }
+
+      // Sort By
+      switch (state.sort) {
+        case "name-desc":      return list.sort((a, b) => b.name.localeCompare(a.name));
+        case "risk-priority":  return list.sort((a, b) => RISK_META[a.riskLevel].order - RISK_META[b.riskLevel].order || b.riskyMfdQty - a.riskyMfdQty || a.oldestMfdTime - b.oldestMfdTime || a.name.localeCompare(b.name));
+        case "critical-first": return list.sort((a, b) => b.lotRiskCounts.critical - a.lotRiskCounts.critical || a.name.localeCompare(b.name));
+        case "high-first":     return list.sort((a, b) => b.lotRiskCounts.high     - a.lotRiskCounts.high     || a.name.localeCompare(b.name));
+        case "watch-first":    return list.sort((a, b) => b.lotRiskCounts.watch    - a.lotRiskCounts.watch    || a.name.localeCompare(b.name));
+        case "last4m-asc":     return list.sort((a, b) => a.fourMonthSales - b.fourMonthSales || a.name.localeCompare(b.name));
+        case "last4m-desc":    return list.sort((a, b) => b.fourMonthSales - a.fourMonthSales || a.name.localeCompare(b.name));
+        case "retail-desc":    return list.sort((a, b) => b.retail - a.retail || a.name.localeCompare(b.name));
+        case "name-asc":
+        default:               return list.sort((a, b) => a.name.localeCompare(b.name));
+      }
+    }
+
+    function getTotalPages() {
+      if (!state.filtered.length) return 1;
+      return Math.max(1, Math.ceil(state.filtered.length / state.pageSize));
+    }
+
+    function getVisibleRange() {
+      if (!state.filtered.length) return { start: 0, end: 0 };
+      const start = (state.currentPage - 1) * state.pageSize + 1;
+      const end   = Math.min(state.currentPage * state.pageSize, state.filtered.length);
+      return { start, end };
+    }
+
+    function getVisibleProducts() {
+      const start = (state.currentPage - 1) * state.pageSize;
+      return state.filtered.slice(start, start + state.pageSize);
+    }
+
+    function renderProductLot(lot) {
+      const sellableText = lot.sellable !== null ? formatNumber(lot.sellable) : "-";
+      const dotClass = "lot-dot-" + lot.riskLevel;
+      const riskLabel = RISK_META[lot.riskLevel].label;
+
+      return '<div class="mfd-lot-line">' +
+        '<span class="lot-dot ' + dotClass + '" title="' + riskLabel + '"></span>' +
+        '<span class="lot-line-date">' + escapeHtml(lot.dateLabel) + '</span>' +
+        '<span class="lot-line-sep">/</span>' +
+        '<span class="lot-line-qty">' + escapeHtml(formatNumber(lot.qty)) + '</span>' +
+        '<span class="lot-line-sep">/</span>' +
+        '<span class="lot-line-est">' + escapeHtml(sellableText) + '</span>' +
+      '</div>';
+    }
+
+    function renderMfdLots(product) {
+      const lots = product.mfdLots;
+
+      if (!lots.length) {
+        return '<div class="mfd-lots"><span class="empty-lots">No MFD lots</span></div>';
+      }
+
+      const VISIBLE_COUNT = 3;
+      const isExpanded  = state.expandedLots.has(product.id);
+      const visibleLots = isExpanded ? lots : lots.slice(0, VISIBLE_COUNT);
+      const hiddenCount = Math.max(0, lots.length - VISIBLE_COUNT);
+
+      return '<div class="mfd-lots">' +
+        visibleLots.map(renderProductLot).join("") +
+        (hiddenCount
+          ? '<button type="button" class="more-lots-btn" data-toggle-lots="' + escapeHtml(product.id) + '">' +
+              (isExpanded ? "Show less" : "+" + hiddenCount + " more") +
+            '</button>'
+          : "") +
+      '</div>';
+    }
+
+    function renderProductRow(product) {
+      const metaParts = [];
+      if (product.brand)    metaParts.push(escapeHtml(product.brand));
+      if (product.sku)      metaParts.push("SKU " + escapeHtml(product.sku));
+      if (product.upc)      metaParts.push(escapeHtml(product.upc));
+      if (product.location) metaParts.push(escapeHtml(product.location));
+
+      const productCell =
+        '<div class="product-cell">' +
+          imageHtml(product) +
+          '<div>' +
+          '<div class="product-name" title="' + escapeHtml(product.name) + '">' + escapeHtml(product.name) + '</div>' +
+          (metaParts.length ? '<div class="product-meta">' + metaParts.join(' · ') + '</div>' : '') +
+          '</div>' +
+        '</div>';
+
+      const priceCell = metricStack([
+        { label: "Cost",      value: formatCurrency(product.cost) },
+        { label: "Wholesale", value: formatCurrency(product.wholesale) },
+        { label: "Retail",    value: formatCurrency(product.retail) }
+      ]);
+      const stockCell = metricStack([
+        { label: "On hand",   value: formatNumber(product.onHand) },
+        { label: "Available", value: formatNumber(product.available) },
+        { label: "Reserved",  value: formatNumber(product.reserved) }
+      ]);
+      const salesCell = metricStack([
+        { label: "Last 4M Avg",  value: formatAverage(product.fourMonthSales) },
+        { label: "Last 12M Avg", value: formatAverage(product.last12Month) }
+      ]);
+
+      return '<tr class="data-row" data-risk="' + escapeHtml(product.riskLevel) + '">' +
+        '<td>' + productCell + '</td>' +
+        '<td>' + priceCell + '</td>' +
+        '<td>' + stockCell + '</td>' +
+        '<td>' + salesCell + '</td>' +
+        '<td>' + renderMfdLots(product) + '</td>' +
+      '</tr>';
+    }
+
+    function renderTable() {
+      if (!state.products.length) {
+        elements.tableBody.innerHTML = '<tr><td colspan="5"><div class="empty"><strong>No products found.</strong>Check the Products sheet data.</div></td></tr>';
+        return;
+      }
+      if (!state.filtered.length) {
+        elements.tableBody.innerHTML = '<tr><td colspan="5"><div class="empty"><strong>No matching products.</strong>Adjust search, brand, or filter.</div></td></tr>';
+        return;
+      }
+      elements.tableBody.innerHTML = getVisibleProducts().map(renderProductRow).join("");
+    }
+
+    function updatePaginationControls() {
+      const totalPages = getTotalPages();
+      const { start, end } = getVisibleRange();
+      const pageLabel = "Page " + formatNumber(state.currentPage) + " / " + formatNumber(totalPages);
+      elements.pageIndicator.textContent       = pageLabel;
+      elements.pageIndicatorBottom.textContent = pageLabel;
+      elements.paginationSummary.textContent   = state.filtered.length
+        ? "Showing " + formatNumber(start) + "–" + formatNumber(end) + " of " + formatNumber(state.filtered.length) + " products"
+        : "Showing 0 products";
+
+      const disablePrev = state.currentPage <= 1;
+      const disableNext = state.currentPage >= totalPages;
+      elements.prevPageButton.disabled        = disablePrev;
+      elements.prevPageButtonBottom.disabled  = disablePrev;
+      elements.nextPageButton.disabled        = disableNext;
+      elements.nextPageButtonBottom.disabled  = disableNext;
+    }
+
+    function updateResultsMeta() {
+      const total    = state.products.length;
+      const matching = state.filtered.length;
+      const { start, end } = getVisibleRange();
+      elements.resultsTitle.textContent = formatNumber(matching) + " matching products";
+      if (!matching) {
+        elements.resultsSubtitle.textContent = "Adjust filters to find MFD lot risk.";
+      } else if (matching === total) {
+        elements.resultsSubtitle.textContent = "Showing " + formatNumber(start) + "–" + formatNumber(end) + " of " + formatNumber(total) + " analyzed products.";
+      } else {
+        elements.resultsSubtitle.textContent = "Showing " + formatNumber(start) + "–" + formatNumber(end) + " of " + formatNumber(matching) + " filtered from " + formatNumber(total) + " total.";
+      }
+    }
+
+    function renderAll() {
+      filterProducts();
+      state.currentPage = Math.min(Math.max(state.currentPage, 1), getTotalPages());
+      renderStats();
+      renderBrandOptions();
+      elements.pageSizeSelect.value   = String(state.pageSize);
+      elements.stockSortSelect.value  = state.stockSort;
+      elements.mfdSortSelect.value    = state.mfdSort;
+      elements.sortSelect.value       = state.sort;
+      renderTable();
+      updateResultsMeta();
+      updatePaginationControls();
+    }
+
+    function resetFilters() {
+      state.search      = "";
+      state.brand       = "all";
+      state.cardFilter  = DEFAULT_CARD;
+      state.stockSort   = "all";
+      state.mfdSort     = "all";
+      state.sort        = DEFAULT_SORT;
+      state.currentPage = 1;
+      state.expandedLots.clear();
+      elements.searchInput.value      = "";
+      elements.brandFilter.value      = "all";
+      elements.stockSortSelect.value  = "all";
+      elements.mfdSortSelect.value    = "all";
+      elements.sortSelect.value       = DEFAULT_SORT;
+      renderAll();
+    }
+
+    function changePage(pageNumber) {
+      const nextPage = Math.min(Math.max(pageNumber, 1), getTotalPages());
+      if (nextPage === state.currentPage) return;
+      state.currentPage = nextPage;
+      state.expandedLots.clear();
+      renderAll();
+      requestAnimationFrame(() => {
+        elements.resultsTitle.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+
+    function attachEvents() {
+      elements.searchInput.addEventListener("input", (e) => {
+        state.search = e.target.value; state.currentPage = 1; renderAll();
+      });
+      elements.brandFilter.addEventListener("change", (e) => {
+        state.brand = e.target.value; state.currentPage = 1; renderAll();
+      });
+      elements.stockSortSelect.addEventListener("change", (e) => {
+        state.stockSort = e.target.value; state.currentPage = 1; renderAll();
+      });
+      elements.mfdSortSelect.addEventListener("change", (e) => {
+        state.mfdSort = e.target.value; state.currentPage = 1; renderAll();
+      });
+      elements.sortSelect.addEventListener("change", (e) => {
+        state.sort = e.target.value; state.currentPage = 1; renderAll();
+      });
+      elements.pageSizeSelect.addEventListener("change", (e) => {
+        state.pageSize = Number(e.target.value) || 50; state.currentPage = 1; renderAll();
+      });
+      elements.resetButton.addEventListener("click", resetFilters);
+      elements.prevPageButton.addEventListener("click", () => changePage(state.currentPage - 1));
+      elements.nextPageButton.addEventListener("click", () => changePage(state.currentPage + 1));
+      elements.prevPageButtonBottom.addEventListener("click", () => changePage(state.currentPage - 1));
+      elements.nextPageButtonBottom.addEventListener("click", () => changePage(state.currentPage + 1));
+
+      elements.statsGrid.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-card-filter]");
+        if (!button) return;
+        const filter = button.getAttribute("data-card-filter");
+        if (!filter) return;
+        state.currentPage = 1;
+        state.expandedLots.clear();
+        // Toggle: clicking the active card resets to Total
+        state.cardFilter = (state.cardFilter === filter && filter !== "all") ? "all" : filter;
+        renderAll();
+      });
+
+      elements.tableBody.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-toggle-lots]");
+        if (!button) return;
+        const productId = button.getAttribute("data-toggle-lots");
+        if (!productId) return;
+        if (state.expandedLots.has(productId)) {
+          state.expandedLots.delete(productId);
+        } else {
+          state.expandedLots.add(productId);
+        }
+        renderTable();
+      });
+    }
+
+    async function loadData() {
+      try {
+        const [rawRows, mfdMap, averageSalesMap] = await Promise.all([
+          fetchProductRows(), buildMfdMap(), buildAverageSalesMap()
+        ]);
+        state.mfdBySku        = mfdMap;
+        state.averageSalesMap = averageSalesMap;
+        state.columns         = deriveColumns(rawRows);
+        state.fieldMap        = buildFieldMap(state.columns);
+        state.products        = rawRows
+          .slice(3)
+          .map((row, index) => buildRecord(row, state.columns, index))
+          .map((record, index) => transformProduct(record, index))
+          .map(applyAverageSales)
+          .filter(isDisplayableProduct)
+          .map(enrichProduct)
+          .filter((product) => product.mfdLots.length > 0);
+        renderAll();
+      } catch (error) {
+        console.error(error);
+        elements.resultsTitle.textContent    = "Could not load live data";
+        elements.resultsSubtitle.textContent = "Confirm Products, MFD, MFD-ESNA, and MFD-V tabs are accessible.";
+        elements.tableBody.innerHTML = '<tr><td colspan="5"><div class="empty"><strong>Could not load live risk data.</strong>Confirm Products, MFD, MFD-ESNA, and MFD-V tabs are accessible.</div></td></tr>';
+      }
+    }
+
+    attachEvents();
+    loadData();
+  </script>
+</body>
+</html>
