@@ -4282,15 +4282,24 @@
           { fps: 10, qrbox: { width: 260, height: 160 } },
           (decodedText) => {
             closeScanner();
-            elements.searchInput.value = decodedText;
             state.search = decodedText;
+            elements.searchInput.value = decodedText;
             state.currentPage = 1;
             renderAll();
             if (navigator.vibrate) navigator.vibrate(100);
+            setTimeout(() => { scrollToResultsAfterScan(); }, 150);
           },
           () => {}
         ).catch((err) => showScannerError("Camera error: " + err));
       }).catch((err) => showScannerError("Camera permission denied or unavailable: " + err));
+    }
+
+    function scrollToResultsAfterScan() {
+      const target = document.getElementById("resultsTitle") || document.getElementById("productGrid");
+      if (!target) return;
+      requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
     }
 
     function closeScanner() {
