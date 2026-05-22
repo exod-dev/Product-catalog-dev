@@ -507,7 +507,22 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .filter-action-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
       grid-column: 1 / -1;
+    }
+    .view-export-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .pagination-bar {
@@ -2565,85 +2580,90 @@
     }
 
     /* ── Table View ── */
-    /* grid를 block으로 override해서 table이 좁아지지 않게 */
-    .product-grid.table-mode {
-      display: block;
-      width: 100%;
-      margin-top: 18px;
-    }
+    .product-grid.table-mode { display: block; width: 100%; margin-top: 14px; }
     .product-table-wrap {
-      width: 100%;
-      max-width: 100%;
-      overflow-x: auto;
-      background: var(--panel-solid);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
+      width: 100%; overflow-x: hidden;
+      background: #fff; border: 1px solid #e2e8f0;
+      border-radius: 14px; box-shadow: var(--shadow);
     }
-    .product-table {
-      width: 100%;
-      min-width: 1150px;
-      border-collapse: collapse;
-      table-layout: auto;
-    }
-    .product-table colgroup col.col-product  { width: 380px; }
-    .product-table colgroup col.col-sku      { width: 110px; }
-    .product-table colgroup col.col-price    { width: 140px; }
-    .product-table colgroup col.col-stock    { width: 145px; }
-    .product-table colgroup col.col-sales    { width: 130px; }
-    .product-table colgroup col.col-status   { width: 110px; }
+    .product-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    /* 8-column layout */
+    .product-table col.col-product   { width: 28%; }
+    .product-table col.col-sku-block { width: 10%; }
+    .product-table col.col-sup-block { width: 10%; }
+    .product-table col.col-price     { width: 11%; }
+    .product-table col.col-tor       { width: 10.25%; }
+    .product-table col.col-esna      { width: 10.25%; }
+    .product-table col.col-binex     { width: 10.25%; }
+    .product-table col.col-van       { width: 10.25%; }
+    /* Sticky header */
     .product-table thead th {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: #f1f5f9;
-      padding: 10px 14px;
-      font-size: 0.77rem;
-      font-weight: 600;
-      color: var(--muted);
-      white-space: nowrap;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      user-select: none;
-      text-align: left;
+      position: sticky; top: 0; z-index: 10;
+      background: #f8fafc;
+      padding: 9px 12px;
+      font-size: 0.67rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      text-align: left; cursor: pointer; user-select: none;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .product-table thead th:hover { background: #e8edf5; color: var(--text); }
+    .product-table thead th:last-child { border-right: 0; }
+    .product-table thead th:not([data-sort-col]) { cursor: default; }
+    .product-table thead th[data-sort-col]:hover { background: #f1f5f9; }
     .product-table thead th[data-sort-col].sorted-asc::after  { content: " ↑"; color: var(--accent); }
     .product-table thead th[data-sort-col].sorted-desc::after { content: " ↓"; color: var(--accent); }
-    .product-table thead th:not([data-sort-col]) { cursor: default; }
+    /* tbody */
     .product-table tbody td {
-      padding: 10px 14px;
-      border-bottom: 1px solid rgba(15,23,42,0.06);
-      vertical-align: middle;
-      font-size: 0.82rem;
+      padding: 9px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      border-right: 1px solid #f1f5f9;
+      vertical-align: top;
+      font-size: 0.74rem;
       background: #fff;
-      white-space: nowrap;
+      color: #1e293b;
     }
-    .product-table tbody td.cell-product { white-space: normal; }
+    .product-table tbody td:last-child { border-right: 0; }
     .product-table tbody tr:last-child td { border-bottom: 0; }
     .product-table tbody tr:hover td { background: #f8faff; }
+    /* Vertical stack inside cells */
+    .tv-stack { display: flex; flex-direction: column; gap: 3px; }
+    .tv-stack-row { font-size: 0.72rem; line-height: 1.45; color: #1e293b; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tv-lbl { font-size: 0.65rem; color: #94a3b8; font-weight: 400; margin-right: 3px; }
+    .tv-dim { color: #94a3b8; }
+    .tv-zero { color: #cbd5e1; }
+    .tv-mono { font-family: ui-monospace, 'Courier New', monospace; }
+    /* Product cell */
+    .product-table tbody td.cell-product { padding: 9px 12px; }
+    .tv-badges { display: flex; gap: 4px; flex-wrap: nowrap; overflow: hidden; margin-bottom: 6px; }
+    .tv-sbadge {
+      display: inline-flex; align-items: center;
+      padding: 2px 7px; border-radius: 999px;
+      font-size: 0.59rem; font-weight: 500; line-height: 1.6;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .tv-sbadge.in-stock     { background: #dcfce7; color: #15803d; }
+    .tv-sbadge.low-stock    { background: #fef9c3; color: #a16207; }
+    .tv-sbadge.out-of-stock { background: #fee2e2; color: #b91c1c; }
+    .tv-sbadge.incoming     { background: #dbeafe; color: #1d4ed8; }
+    .tv-sbadge.discontinued { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+    .tv-product-cell { display: flex; gap: 9px; align-items: flex-start; }
     .tv-thumb {
-      width: 40px; height: 40px;
-      border-radius: 10px; overflow: hidden;
+      width: 40px; height: 40px; border-radius: 8px; overflow: hidden; flex-shrink: 0;
       border: 1px solid var(--border);
-      background: linear-gradient(135deg,rgba(37,99,235,0.08),transparent 55%),rgba(15,23,42,0.03);
+      background: linear-gradient(135deg,rgba(37,99,235,0.07),transparent 55%),rgba(15,23,42,0.03);
       display: inline-flex; align-items: center; justify-content: center;
-      flex-shrink: 0; color: var(--muted); font-size: 0.8rem; font-weight: 600;
+      color: var(--muted); font-size: 0.72rem; font-weight: 600;
     }
     .tv-thumb img { width:100%; height:100%; object-fit:cover; display:block; background:#fff; }
-    .tv-product-cell { display:flex; align-items:center; gap:10px; min-width: 260px; }
-    .tv-product-info { min-width:0; }
+    .tv-product-info { min-width: 0; flex: 1 1 auto; overflow: hidden; }
     .tv-product-name {
-      font-weight:600; font-size:0.88rem; color:var(--text);
-      white-space:normal; overflow:hidden; word-break: break-word;
+      font-weight: 600; font-size: 0.79rem; color: #0f172a;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; line-height: 1.4; white-space: normal; margin-bottom: 3px;
     }
-    .tv-product-meta {
-      font-size:0.72rem; color:var(--muted-soft); margin-top:2px;
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:320px;
-    }
-    .tv-metric-stack { display:grid; gap:2px; }
-    .tv-metric-line { display:flex; justify-content:space-between; gap:10px; font-size:0.77rem; color:var(--muted); white-space:nowrap; }
-    .tv-metric-line strong { color:var(--text); font-weight:500; }
+    .tv-product-sub { font-size: 0.64rem; color: #94a3b8; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     /* View toggle */
     .view-toggle {
       display:inline-flex;
@@ -2651,9 +2671,9 @@
     }
     .view-toggle-btn {
       display:inline-flex; align-items:center; gap:5px;
-      min-height:44px; padding:0 11px;
+      min-height:36px; padding:0 10px;
       background:transparent; border:none; color:var(--muted);
-      font-size:0.79rem; font-weight:600; cursor:pointer;
+      font-size:0.76rem; font-weight:600; cursor:pointer;
       transition:background 140ms ease, color 140ms ease;
     }
     .view-toggle-btn + .view-toggle-btn { border-left:1px solid var(--border); }
@@ -2662,9 +2682,9 @@
     /* Export button */
     .export-btn {
       display:inline-flex; align-items:center; gap:6px;
-      min-height:44px; padding:0 13px;
+      min-height:36px; padding:0 11px;
       border:1px solid var(--border); border-radius:10px; background:#fff;
-      color:var(--text); font-size:0.79rem; font-weight:600; cursor:pointer;
+      color:var(--text); font-size:0.76rem; font-weight:600; cursor:pointer;
       transition:transform 140ms ease, box-shadow 140ms ease; white-space:nowrap;
     }
     .export-btn:hover { transform:translateY(-1px); box-shadow:0 8px 18px rgba(15,23,42,0.08); }
@@ -2716,16 +2736,85 @@
     #scanner-preview > * { border-radius:12px !important; }
     .scanner-hint { text-align:center; color:var(--muted); font-size:0.78rem; line-height:1.55; }
     .scanner-error { color:var(--bad); font-size:0.81rem; text-align:center; padding:6px 0; }
-    /* MFD modal – mobile header wrap */
-    @media (max-width:680px) {
-      .mfd-preview-table { table-layout:fixed; width:100%; }
-      .mfd-location-body { overflow-x:auto; }
-      .mfd-preview-table thead th {
-        white-space:normal !important; line-height:1.2 !important;
-        font-size:0.68rem !important; padding:5px 4px !important; text-align:center !important;
+    /* MFD modal – mobile layout */
+    .mfd-modal-card .mfd-preview-table {
+      width: 100% !important;
+      table-layout: fixed !important;
+      border-collapse: collapse !important;
+    }
+
+    .mfd-modal-card .mfd-preview-table thead th {
+      white-space: nowrap !important;
+      text-align: left !important;
+      font-size: 0.79rem !important;
+      line-height: 1.2 !important;
+      padding: 10px 8px !important;
+    }
+
+    .mfd-modal-card .mfd-preview-table tbody td {
+      white-space: nowrap !important;
+      text-align: left !important;
+      font-size: 0.85rem !important;
+      line-height: 1.25 !important;
+      padding: 11px 8px !important;
+    }
+
+    /* MFD table - mobile only */
+    @media (max-width: 680px) {
+      .mfd-modal-card .mfd-location-body {
+        overflow-x: auto !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        -webkit-overflow-scrolling: touch;
       }
-      .mfd-preview-table tbody td {
-        white-space:nowrap; font-size:0.72rem !important; padding:6px 4px !important;
+
+      .mfd-modal-card .mfd-preview-table {
+        width: 390px !important;
+        min-width: 390px !important;
+        max-width: none !important;
+      }
+
+      .mfd-modal-card .mfd-preview-table thead th {
+        white-space: normal !important;
+        font-size: 0.66rem !important;
+        line-height: 1.15 !important;
+        padding: 6px 2px !important;
+        text-align: center !important;
+      }
+
+      .mfd-modal-card .mfd-preview-table tbody td {
+        font-size: 0.70rem !important;
+        line-height: 1.2 !important;
+        padding: 7px 2px !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+        overflow: hidden !important;
+        text-overflow: clip !important;
+      }
+
+      .mfd-modal-card .mfd-preview-table th:nth-child(1),
+      .mfd-modal-card .mfd-preview-table td:nth-child(1) {
+        width: 24% !important;
+      }
+
+      .mfd-modal-card .mfd-preview-table th:nth-child(2),
+      .mfd-modal-card .mfd-preview-table td:nth-child(2) {
+        width: 18% !important;
+      }
+
+      .mfd-modal-card .mfd-preview-table th:nth-child(3),
+      .mfd-modal-card .mfd-preview-table td:nth-child(3) {
+        width: 18% !important;
+      }
+
+      .mfd-modal-card .mfd-preview-table th:nth-child(4),
+      .mfd-modal-card .mfd-preview-table td:nth-child(4) {
+        width: 14% !important;
+      }
+
+      .mfd-modal-card .mfd-preview-table th:nth-child(5),
+      .mfd-modal-card .mfd-preview-table td:nth-child(5) {
+        width: 26% !important;
       }
     }
 
@@ -2840,20 +2929,6 @@
         <span id="resultsSubtitle">The catalog will appear here once the live sheet is loaded.</span>
       </div>
       <div class="results-actions">
-        <button type="button" class="export-btn" id="exportExcelButton">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export Excel
-        </button>
-        <div class="view-toggle" role="group" aria-label="View mode">
-          <button type="button" class="view-toggle-btn active" id="viewCardBtn" title="Card View">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-            Card
-          </button>
-          <button type="button" class="view-toggle-btn" id="viewTableBtn" title="Table View">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            Table
-          </button>
-        </div>
         <div class="field compact">
           <label for="pageSizeSelect">Per page</label>
           <select id="pageSizeSelect">
@@ -2868,7 +2943,25 @@
           <button type="button" class="pager-button" id="nextPageButton">Next</button>
         </div>
       </div>
-      <div class="active-filter-row" id="activeFilterRow"></div>
+      <div class="filter-action-bar">
+        <div class="active-filter-row" id="activeFilterRow"></div>
+        <div class="view-export-bar">
+          <div class="view-toggle" role="group" aria-label="View mode">
+            <button type="button" class="view-toggle-btn active" id="viewCardBtn" title="Card View">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              Card
+            </button>
+            <button type="button" class="view-toggle-btn" id="viewTableBtn" title="Table View">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+              Table
+            </button>
+          </div>
+          <button type="button" class="export-btn" id="exportExcelButton">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="state-card" id="stateCard">
@@ -3984,23 +4077,17 @@
       elements.productGrid.innerHTML = html;
     }
 
-    const TABLE_SORT_COLS = [
-      { key: "name",           label: "Product" },
-      { key: "sku",            label: "SKU" },
-      { key: "retail",         label: "Retail" },
-      { key: "totalAvailable", label: "Available" },
-      { key: "last4MonthRaw",  label: "Last 4M" },
-      { key: "last12MonthRaw", label: "Last 12M" }
-    ];
+    const TABLE_SORT_STRING_KEYS = new Set(["name", "sku", "upc", "stockLocator", "supplier", "status"]);
 
     function getTableSortedProducts() {
       const { col, dir } = state.tableSort;
       if (!col) return getVisibleProducts();
       const page = [...state.filtered];
       page.sort((a, b) => {
-        const av = (col === "name" || col === "sku") ? String(a[col] || "") : parseFloat(a[col]) || 0;
-        const bv = (col === "name" || col === "sku") ? String(b[col] || "") : parseFloat(b[col]) || 0;
-        if (typeof av === "string") return dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+        const isStr = TABLE_SORT_STRING_KEYS.has(col);
+        const av = isStr ? String(a[col] || "") : parseFloat(a[col]) || 0;
+        const bv = isStr ? String(b[col] || "") : parseFloat(b[col]) || 0;
+        if (isStr) return dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
         return dir === "asc" ? av - bv : bv - av;
       });
       const start = (state.currentPage - 1) * state.pageSize;
@@ -4011,71 +4098,122 @@
       const products = getTableSortedProducts();
       const { col, dir } = state.tableSort;
 
-      const thHtml = TABLE_SORT_COLS.map((c) => {
-        const sorted = col === c.key ? (dir === "asc" ? " sorted-asc" : " sorted-desc") : "";
-        return '<th data-sort-col="' + escapeHtml(c.key) + '" class="' + sorted + '">' + escapeHtml(c.label) + '</th>';
-      }).join("") + '<th>Status</th>';
+      function th(key, label) {
+        const sc = key && col === key ? (dir === "asc" ? " sorted-asc" : " sorted-desc") : "";
+        return '<th' +
+          (key ? ' data-sort-col="' + key + '"' : '') +
+          (sc ? ' class="' + sc.trim() + '"' : '') +
+          '>' + label + '</th>';
+      }
+
+      const theadHtml =
+        '<thead><tr>' +
+          th("name",          "Product") +
+          th("sku",           "SKU / Barcode / Loc") +
+          th("supplier",      "Supplier / Size") +
+          th("retail",        "Price") +
+          th("availableTor",  "Toronto") +
+          th("availableEsna", "Esna") +
+          th("availableNew",  "Binex") +
+          th("availableVan",  "Vancouver") +
+        '</tr></thead>';
+
+      const colgroup =
+        '<colgroup>' +
+          '<col class="col-product"/><col class="col-sku-block"/><col class="col-sup-block"/>' +
+          '<col class="col-price"/><col class="col-tor"/><col class="col-esna"/>' +
+          '<col class="col-binex"/><col class="col-van"/>' +
+        '</colgroup>';
 
       const tbodyHtml = products.map((product) => {
+        // Status badges (compact, above product name)
+        const statuses = product.statuses || (product.status ? [product.status] : []);
+        const badgesHtml = statuses.length
+          ? '<div class="tv-badges">' +
+              statuses.map((s) => {
+                const m = STATUS_META[s] || STATUS_META["out-of-stock"];
+                return '<span class="tv-sbadge ' + escapeHtml(m.className) + '">' + escapeHtml(m.label) + '</span>';
+              }).join("") +
+            '</div>'
+          : '';
+
         const fallbackChar = (product.brand || product.name || "P").charAt(0).toUpperCase();
         const thumbHtml = isMeaningful(product.image)
           ? '<div class="tv-thumb"><img src="' + escapeHtml(product.image) + '" alt="" loading="lazy" onerror="this.parentElement.textContent=\'' + escapeHtml(fallbackChar) + '\';"></div>'
           : '<div class="tv-thumb">' + escapeHtml(fallbackChar) + '</div>';
 
-        const metaParts = [];
-        if (product.brand) metaParts.push(escapeHtml(product.brand));
-        if (product.sku)   metaParts.push(escapeHtml(product.sku));
-        if (product.upc)   metaParts.push(escapeHtml(product.upc));
-        if (product.stockLocator) metaParts.push(escapeHtml(product.stockLocator));
+        const subParts = [];
+        if (product.brand)    subParts.push(escapeHtml(product.brand));
+        if (product.category) subParts.push(escapeHtml(product.category));
 
-        const productCell = '<div class="tv-product-cell">' +
-          thumbHtml +
-          '<div class="tv-product-info">' +
-            '<div class="tv-product-name" title="' + escapeHtml(product.name) + '">' + escapeHtml(product.name) + '</div>' +
-            (metaParts.length ? '<div class="tv-product-meta">' + metaParts.join(' · ') + '</div>' : '') +
-          '</div>' +
-        '</div>';
+        const productCell =
+          badgesHtml +
+          '<div class="tv-product-cell">' +
+            thumbHtml +
+            '<div class="tv-product-info">' +
+              '<div class="tv-product-name">' + escapeHtml(product.name) + '</div>' +
+              (subParts.length ? '<div class="tv-product-sub">' + subParts.join(' · ') + '</div>' : '') +
+            '</div>' +
+          '</div>';
 
-        const skuCell = escapeHtml(product.sku || '--');
+        function stackRow(label, val) {
+          return '<div class="tv-stack-row"><span class="tv-lbl">' + label + '</span>' + val + '</div>';
+        }
+        function n(val) {
+          const v = typeof val === "number" ? val : (parseFloat(String(val || "")) || 0);
+          return v === 0 ? '<span class="tv-zero">–</span>' : escapeHtml(String(v));
+        }
+        function p(raw) {
+          const s = formatCurrency(null, raw);
+          return s === "--" ? '<span class="tv-zero">–</span>' : escapeHtml(s);
+        }
 
-        const priceCell = '<div class="tv-metric-stack">' +
-          '<div class="tv-metric-line"><span>Cost</span><strong>' + escapeHtml(formatCurrency(product.cost, product.costRaw)) + '</strong></div>' +
-          '<div class="tv-metric-line"><span>Whl</span><strong>' + escapeHtml(formatCurrency(product.wholesale, product.wholesaleRaw)) + '</strong></div>' +
-          '<div class="tv-metric-line"><span>Retail</span><strong>' + escapeHtml(formatCurrency(product.retail, product.retailRaw)) + '</strong></div>' +
-        '</div>';
+        const skuBlockCell =
+          '<div class="tv-stack">' +
+            '<div class="tv-stack-row">' + escapeHtml(product.sku || '–') + '</div>' +
+            '<div class="tv-stack-row tv-mono tv-dim">' + escapeHtml(product.upc || '–') + '</div>' +
+            '<div class="tv-stack-row tv-dim">' + escapeHtml(product.stockLocator || '–') + '</div>' +
+          '</div>';
 
-        const stockCell = '<div class="tv-metric-stack">' +
-          '<div class="tv-metric-line"><span>On hand</span><strong>' + escapeHtml(String(product.onHandTor + product.onHandVan + product.onHandEsna + product.onHandNew)) + '</strong></div>' +
-          '<div class="tv-metric-line"><span>Available</span><strong>' + escapeHtml(String(product.totalAvailable)) + '</strong></div>' +
-          '<div class="tv-metric-line"><span>Reserved</span><strong>' + escapeHtml(String(product.reserveTor + product.reserveVan)) + '</strong></div>' +
-        '</div>';
+        const hasSize = isMeaningful(product.lengthRaw) || isMeaningful(product.widthRaw) || isMeaningful(product.heightRaw);
+        const supBlockCell =
+          '<div class="tv-stack">' +
+            '<div class="tv-stack-row">' + escapeHtml(product.supplier || '–') + '</div>' +
+            '<div class="tv-stack-row tv-dim">' + (hasSize ? escapeHtml(formatSize(product)) : '<span class="tv-zero">–</span>') + '</div>' +
+          '</div>';
 
-        const salesCell = '<div class="tv-metric-stack">' +
-          '<div class="tv-metric-line"><span>Last 4M</span><strong>' + escapeHtml(isMeaningful(product.last4MonthRaw) ? product.last4MonthRaw : '--') + '</strong></div>' +
-          '<div class="tv-metric-line"><span>Last 12M</span><strong>' + escapeHtml(isMeaningful(product.last12MonthRaw) ? product.last12MonthRaw : '--') + '</strong></div>' +
-        '</div>';
+        const priceCell =
+          '<div class="tv-stack">' +
+            stackRow("Cost",   p(product.costRaw)) +
+            stackRow("Whl",    p(product.wholesaleRaw)) +
+            stackRow("Retail", p(product.retailRaw)) +
+          '</div>';
 
-        const statusMeta = STATUS_META[product.status] || STATUS_META["out-of-stock"];
-        const statusCell = '<span class="status-badge ' + escapeHtml(statusMeta.className) + '" style="position:static;display:inline-flex;">' + escapeHtml(statusMeta.label) + '</span>';
+        function whCell(oh, ava, rev, ord) {
+          return '<div class="tv-stack">' +
+            stackRow("On hand",   n(oh)) +
+            stackRow("Available", n(ava)) +
+            stackRow("Reserved",  n(rev)) +
+            stackRow("On order",  n(ord)) +
+          '</div>';
+        }
 
         return '<tr>' +
           '<td class="cell-product">' + productCell + '</td>' +
-          '<td>' + skuCell + '</td>' +
+          '<td>' + skuBlockCell + '</td>' +
+          '<td>' + supBlockCell + '</td>' +
           '<td>' + priceCell + '</td>' +
-          '<td>' + stockCell + '</td>' +
-          '<td>' + salesCell + '</td>' +
-          '<td>' + statusCell + '</td>' +
+          '<td>' + whCell(product.onHandTor,  product.availableTor,  product.reserveTor,  product.onOrderTor)  + '</td>' +
+          '<td>' + whCell(product.onHandEsna, product.availableEsna, product.reserveEsna, product.onOrderEsna) + '</td>' +
+          '<td>' + whCell(product.onHandNew,  product.availableNew,  product.reserveNew,  product.onOrderNew)  + '</td>' +
+          '<td>' + whCell(product.onHandVan,  product.availableVan,  product.reserveVan,  product.onOrderVan)  + '</td>' +
         '</tr>';
       }).join('');
 
       const tableHtml =
         '<div class="product-table-wrap">' +
           '<table class="product-table">' +
-            '<colgroup>' +
-              '<col class="col-product"/><col class="col-sku"/><col class="col-price"/>' +
-              '<col class="col-stock"/><col class="col-sales"/><col class="col-status"/>' +
-            '</colgroup>' +
-            '<thead><tr>' + thHtml + '</tr></thead>' +
+            colgroup + theadHtml +
             '<tbody>' + tbodyHtml + '</tbody>' +
           '</table>' +
         '</div>';
@@ -5202,21 +5340,27 @@
       const hiddenId = nextExpandSectionId("mfd");
       const hasViewAll = rows.length > limit;
 
+      const hiddenHtml = hiddenRows.map(function(row) {
+        return '<tr class="hidden" data-expand-group="' + hiddenId + '">' +
+          '<td>' + escapeHtml(row.expDate || "--") + '</td>' +
+          '<td>' + escapeHtml(row.qtyDate || "--") + '</td>' +
+          '<td>' + escapeHtml(row.qtyTotal || "--") + '</td>' +
+          '<td>' + escapeHtml(row.totalQty || "--") + '</td>' +
+          '<td>' + escapeHtml(row.updatedOn || "--") + '</td>' +
+        '</tr>';
+      }).join("");
+
       const tableHtml = '<table class="mfd-preview-table">' +
-        '<thead><tr><th>Exp<br>Date</th><th>MFD Qty<br>(Date)</th><th>MFD Qty<br>(Total)</th><th>Total<br>Qty</th><th>Updated<br>on</th></tr></thead>' +
+        '<thead><tr>' +
+          '<th>Exp Date</th>' +
+          '<th>MFD Qty (Date)</th>' +
+          '<th>MFD Qty (Total)</th>' +
+          '<th>Total Qty</th>' +
+          '<th>Updated on</th>' +
+        '</tr></thead>' +
         '<tbody>' +
           renderMfdRows(previewRows) +
-          (hiddenRows.length
-            ? hiddenRows.map(function(row) {
-                return '<tr class="hidden" data-expand-group="' + hiddenId + '">' +
-                  '<td>' + escapeHtml(row.expDate || "--") + '</td>' +
-                  '<td>' + escapeHtml(row.qtyDate || "--") + '</td>' +
-                  '<td>' + escapeHtml(row.qtyTotal || "--") + '</td>' +
-                  '<td>' + escapeHtml(row.totalQty || "--") + '</td>' +
-                  '<td>' + escapeHtml(row.updatedOn || "--") + '</td>' +
-                '</tr>';
-              }).join("")
-            : '') +
+          hiddenHtml +
         '</tbody>' +
       '</table>';
 
@@ -5229,9 +5373,7 @@
           '</h6>' +
         '</div>' +
         '<div class="mfd-location-body">' +
-          (rows.length
-            ? tableHtml + (hasViewAll ? renderMfdExpandButton(hiddenId) : '')
-            : renderEmptyState(emptyText)) +
+          (rows.length ? tableHtml + (hasViewAll ? renderMfdExpandButton(hiddenId) : '') : renderEmptyState(emptyText)) +
         '</div>' +
       '</section>';
     }
