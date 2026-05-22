@@ -25,7 +25,7 @@
     /* Allow the page to scroll horizontally on narrow viewports where the table
        exceeds the viewport width. No overflow:hidden/auto on html or body so
        position:sticky on thead th works relative to the viewport. */
-    html, body { overflow-x: auto; }
+    html, body { overflow-x: visible; }
 
     body {
       margin: 0;
@@ -278,15 +278,12 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       box-shadow: var(--shadow);
-      /* overflow:clip: clips border-radius corners without creating a scroll container.
-         Any overflow:auto/hidden would confine position:sticky to the container
-         instead of the viewport. clip avoids that. */
-      overflow: clip;
+      overflow: visible !important;
     }
     /* No overflow on .table-scroll — let the page handle all scrolling.
        Even overflow-x:auto alone causes browsers to treat overflow-y as auto,
        which breaks viewport-level position:sticky on thead th. */
-    .table-scroll { width: 100%; }
+    .table-scroll { width: 100%; overflow: visible !important;}
 
     table {
       width: 100%;
@@ -302,16 +299,16 @@
     col.mfd-col     { width: 260px; }
 
     th {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: #f1f5f9;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 100 !important;
+      background: #d8e0eb;
+      color: #0f172a;
+      border-bottom: 1px solid #b8c4d4;
       padding: 10px 14px;
       font-size: 0.74rem;
       text-align: center;
-      font-weight: 500;
+      font-weight: 700;
       white-space: nowrap;
     }
     td {
