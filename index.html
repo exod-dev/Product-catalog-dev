@@ -2645,8 +2645,13 @@
       color: #0f172a;
       border-bottom: 1px solid #cbd5e1;
       border-right: 1px solid #d7e0eb;
-      text-align: left;
+      text-align: center;
       white-space: normal;
+    }
+
+    .product-table thead th:nth-child(2),
+    .product-table thead th:nth-child(3) {
+      text-align: left;
     }
 
     .product-table thead th:last-child {
@@ -2799,6 +2804,19 @@
     .tv-mono {
       color: #0f172a;
       font-family: inherit;
+    }
+
+    .th-label {
+      display: inline;
+    }
+
+    .th-sort-icon {
+      display: inline-block;
+      width: 10px;
+      margin-left: 4px;
+      font-size: 0.68rem;
+      color: #2563eb;
+      vertical-align: middle;
     }
     
     
@@ -4249,18 +4267,24 @@
       const products = getTableSortedProducts();
       const { col, dir } = state.tableSort;
 
-      function th(key, label) {
-        const sc = key && col === key ? (dir === "asc" ? " sorted-asc" : " sorted-desc") : "";
-        return '<th' +
-          (key ? ' data-sort-col="' + key + '"' : '') +
-          (sc ? ' class="' + sc.trim() + '"' : '') +
-          '>' + label + '</th>';
-      }
+    function th(key, label) {
+      const isSorted = key && col === key;
+      const sc = isSorted ? (dir === "asc" ? " sorted-asc" : " sorted-desc") : "";
+      const icon = isSorted ? (dir === "asc" ? "▲" : "▼") : "";
+
+      return '<th' +
+        (key ? ' data-sort-col="' + key + '"' : '') +
+        (sc ? ' class="' + sc.trim() + '"' : '') +
+        '>' +
+          '<span class="th-label">' + label + '</span>' +
+          '<span class="th-sort-icon">' + icon + '</span>' +
+        '</th>';
+    }
 
       const theadHtml =
         '<thead><tr>' +
           th("name",          "Product") +
-          th("sku",           "SKU / Barcode<br>Location") +
+          th("sku",           "SKU<br>Barcode<br>Location") +
           th("supplier",      "Supplier<br>Size") +
           th("retail",        "Price") +
           th("availableTor",  "Toronto") +
@@ -4334,7 +4358,7 @@
         const hasSize = isMeaningful(product.lengthRaw) || isMeaningful(product.widthRaw) || isMeaningful(product.heightRaw);
         const supBlockCell =
           '<div class="tv-stack">' +
-            '<div class="tv-stack-row">' + escapeHtml(product.supplier || '0') + '</div>' +
+            '<div class="tv-stack-row" title="' + escapeHtml(product.supplier || '0') + '">' + escapeHtml(product.supplier || '0') + '</div>' +
             '<div class="tv-stack-row tv-dim">' + (hasSize ? formatSizeForTable(product) : '0') + '</div>'
           '</div>';
 
@@ -4809,12 +4833,14 @@
         const th = event.target.closest("th[data-sort-col]");
         if (!th) return;
         const col = th.getAttribute("data-sort-col");
-        if (state.tableSort.col === col) {
-          state.tableSort.dir = state.tableSort.dir === "asc" ? "desc" : "asc";
+        if (state.tableSort.col !== col) {
+          state.tableSort = { col, dir: "asc" };
+        } else if (state.tableSort.dir === "asc") {
+          state.tableSort = { col, dir: "desc" };
         } else {
-          state.tableSort.col = col;
-          state.tableSort.dir = "asc";
+          state.tableSort = { col: null, dir: "asc" };
         }
+
         renderProducts();
       });
 
