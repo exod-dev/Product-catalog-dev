@@ -4530,6 +4530,19 @@
         return;
       }
       _html5QrScanner = new Html5Qrcode("scanner-preview");
+
+      // iOS Safari: set playsinline the moment Html5Qrcode injects the video element
+      const _previewEl = document.getElementById("scanner-preview");
+      const _observer = new MutationObserver(() => {
+        const video = _previewEl.querySelector("video");
+        if (video) {
+          video.setAttribute("playsinline", "");
+          video.setAttribute("webkit-playsinline", "");
+          _observer.disconnect();
+        }
+      });
+      _observer.observe(_previewEl, { childList: true, subtree: true });
+
       _html5QrScanner.start(
         { facingMode: "environment" },
         { fps: 10, qrbox: { width: 260, height: 160 } },
@@ -4543,14 +4556,7 @@
           setTimeout(() => { scrollToResultsAfterScan(); }, 150);
         },
         () => {}
-      ).then(() => {
-        const video = document.querySelector("#scanner-preview video");
-        if (video) {
-          video.setAttribute("playsinline", "");
-          video.setAttribute("muted", "");
-          video.play().catch(() => {});
-        }
-      }).catch((err) => showScannerError("Camera error: " + err));
+      ).catch((err) => { _observer.disconnect(); showScannerError("Camera error: " + err); });
     }
 
     function scrollToResultsAfterScan() {
