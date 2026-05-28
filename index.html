@@ -4574,9 +4574,9 @@
             if ((10 - (sum % 10)) % 10 !== check) return;
           }
 
-          // 3. Require 3 consecutive identical reads
+          // 3. Require 2 consecutive identical reads
           _hits[code] = (_hits[code] || 0) + 1;
-          if (_hits[code] < 3) return;
+          if (_hits[code] < 2) return;
 
           Quagga.offDetected(onBarcode);
           closeScanner();
