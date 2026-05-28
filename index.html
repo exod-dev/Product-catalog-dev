@@ -4550,9 +4550,34 @@
         if (!_scannerRunning) return;
         if (err) { showScannerError("Camera error: " + err); return; }
         Quagga.start();
+
+        const _hits = {};
+
         Quagga.onDetected(function onBarcode(result) {
           const code = result.codeResult.code;
           if (!code) return;
+
+          // 1. Confidence filter: reject high-error reads
+          const errors = (result.codeResult.decodedCodes || [])
+            .filter(x => x.error !== undefined)
+            .map(x => x.error);
+          if (errors.length) {
+            const avgError = errors.reduce((a, b) => a + b, 0) / errors.length;
+            if (avgError > 0.25) return;
+          }
+
+          // 2. EAN-8 / EAN-13 / UPC-A checksum validation
+          if (/^\d{8}$|^\d{12,13}$/.test(code)) {
+            const digits = code.split("").map(Number);
+            const check = digits[digits.length - 1];
+            const sum = digits.slice(0, -1).reduce((acc, d, i) => acc + d * (i % 2 === 0 ? 1 : 3), 0);
+            if ((10 - (sum % 10)) % 10 !== check) return;
+          }
+
+          // 3. Require 3 consecutive identical reads
+          _hits[code] = (_hits[code] || 0) + 1;
+          if (_hits[code] < 3) return;
+
           Quagga.offDetected(onBarcode);
           closeScanner();
           state.search = code;
