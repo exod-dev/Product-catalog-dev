@@ -2788,8 +2788,9 @@
     }
     .scanner-modal-head h3 { margin:0; font-size:1rem; font-weight:700; }
     .scanner-modal-body { padding:16px 18px 20px; display:grid; gap:12px; }
-    #scanner-preview { width:100%; border-radius:12px; overflow:visible; background:#111; min-height:260px; }
-    #scanner-preview > * { border-radius:12px !important; }
+    #scanner-preview { width:100%; border-radius:12px; overflow:hidden; background:#111; min-height:260px; position:relative; }
+    #scanner-preview video { width:100% !important; height:auto !important; display:block; border-radius:12px; }
+    #scanner-preview canvas { display:none; }
     .scanner-hint { text-align:center; color:var(--muted); font-size:0.78rem; line-height:1.55; }
     .scanner-error { color:var(--bad); font-size:0.81rem; text-align:center; padding:6px 0; }
     /* MFD modal – mobile layout */
@@ -2876,7 +2877,7 @@
 
   </style>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2@1.7.4/dist/quagga.min.js"></script>
 </head>
 <body>
   <div class="page-shell">
@@ -4515,58 +4516,53 @@
     }
 
     // ── Barcode Scanner ────────────────────────────────────────────────────────
-    let _html5QrScanner = null;
+    let _scannerRunning = false;
 
     function openScanner() {
       if (!window.matchMedia("(max-width:768px)").matches) return;
       elements.scannerError.textContent = "";
       elements.scannerError.classList.add("hidden");
       elements.scannerModalLayer.classList.add("open");
-      elements.scannerModalLayer.setAttribute("aria-hidden","false");
+      elements.scannerModalLayer.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
 
-      if (typeof Html5Qrcode === "undefined") {
+      if (typeof Quagga === "undefined") {
         showScannerError("Barcode scanner library not loaded. Check your internet connection.");
         return;
       }
-      _html5QrScanner = new Html5Qrcode("scanner-preview", {
-        formatsToSupport: [
-          Html5QrcodeSupportedFormats.EAN_13,
-          Html5QrcodeSupportedFormats.EAN_8,
-          Html5QrcodeSupportedFormats.UPC_A,
-          Html5QrcodeSupportedFormats.UPC_E,
-          Html5QrcodeSupportedFormats.CODE_128,
-          Html5QrcodeSupportedFormats.CODE_39,
-          Html5QrcodeSupportedFormats.QR_CODE,
-        ]
-      });
 
-      // iOS Safari: set playsinline the moment Html5Qrcode injects the video element
-      const _previewEl = document.getElementById("scanner-preview");
-      const _observer = new MutationObserver(() => {
-        const video = _previewEl.querySelector("video");
-        if (video) {
-          video.setAttribute("playsinline", "");
-          video.setAttribute("webkit-playsinline", "");
-          _observer.disconnect();
-        }
-      });
-      _observer.observe(_previewEl, { childList: true, subtree: true });
+      _scannerRunning = true;
 
-      _html5QrScanner.start(
-        { facingMode: "environment" },
-        { fps: 15, qrbox: { width: 280, height: 100 } },
-        (decodedText) => {
+      Quagga.init({
+        inputStream: {
+          name: "Live",
+          type: "LiveStream",
+          target: document.getElementById("scanner-preview"),
+          constraints: { facingMode: "environment" }
+        },
+        locator: { patchSize: "medium", halfSample: true },
+        numOfWorkers: 0,
+        decoder: {
+          readers: ["ean_reader", "ean_8_reader", "upc_reader", "upc_e_reader", "code_128_reader", "code_39_reader"]
+        },
+        locate: true
+      }, function(err) {
+        if (!_scannerRunning) return;
+        if (err) { showScannerError("Camera error: " + err); return; }
+        Quagga.start();
+        Quagga.onDetected(function onBarcode(result) {
+          const code = result.codeResult.code;
+          if (!code) return;
+          Quagga.offDetected(onBarcode);
           closeScanner();
-          state.search = decodedText;
-          elements.searchInput.value = decodedText;
+          state.search = code;
+          elements.searchInput.value = code;
           state.currentPage = 1;
           renderAll();
           if (navigator.vibrate) navigator.vibrate(100);
           setTimeout(() => { scrollToResultsAfterScan(); }, 150);
-        },
-        () => {}
-      ).catch((err) => { _observer.disconnect(); showScannerError("Camera error: " + err); });
+        });
+      });
     }
 
     function scrollToResultsAfterScan() {
@@ -4578,14 +4574,13 @@
     }
 
     function closeScanner() {
-      if (_html5QrScanner) {
-        _html5QrScanner.stop().catch(() => {}).finally(() => {
-          try { _html5QrScanner.clear(); } catch(e) {}
-          _html5QrScanner = null;
-        });
+      _scannerRunning = false;
+      if (typeof Quagga !== "undefined") {
+        try { Quagga.offDetected(); } catch(e) {}
+        try { Quagga.stop(); } catch(e) {}
       }
       elements.scannerModalLayer.classList.remove("open");
-      elements.scannerModalLayer.setAttribute("aria-hidden","true");
+      elements.scannerModalLayer.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
     }
 
