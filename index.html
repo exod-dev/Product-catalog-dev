@@ -4616,24 +4616,20 @@
         return;
       }
       _html5QrScanner = new Html5Qrcode("scanner-preview");
-      Html5Qrcode.getCameras().then((cameras) => {
-        if (!cameras || !cameras.length) { showScannerError("No camera found."); return; }
-        const cam = cameras[cameras.length - 1]; // prefer back camera
-        _html5QrScanner.start(
-          cam.id,
-          { fps: 10, qrbox: { width: 260, height: 160 } },
-          (decodedText) => {
-            closeScanner();
-            state.search = decodedText;
-            elements.searchInput.value = decodedText;
-            state.currentPage = 1;
-            renderAll();
-            if (navigator.vibrate) navigator.vibrate(100);
-            setTimeout(() => { scrollToResultsAfterScan(); }, 150);
-          },
-          () => {}
-        ).catch((err) => showScannerError("Camera error: " + err));
-      }).catch((err) => showScannerError("Camera permission denied or unavailable: " + err));
+      _html5QrScanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: { width: 260, height: 160 } },
+        (decodedText) => {
+          closeScanner();
+          state.search = decodedText;
+          elements.searchInput.value = decodedText;
+          state.currentPage = 1;
+          renderAll();
+          if (navigator.vibrate) navigator.vibrate(100);
+          setTimeout(() => { scrollToResultsAfterScan(); }, 150);
+        },
+        () => {}
+      ).catch((err) => showScannerError("Camera error: " + err));
     }
 
     function scrollToResultsAfterScan() {
