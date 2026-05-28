@@ -2604,219 +2604,119 @@
       margin-top: 14px;
       overflow: visible;
     }
-
     .product-table-wrap {
       width: 100%;
-      overflow: visible;
+      overflow-x: auto;
+      overflow-y: visible;
       background: #fff;
       border: 1px solid #e2e8f0;
       border-radius: 14px;
       box-shadow: var(--shadow);
+      -webkit-overflow-scrolling: touch;
     }
-
     .product-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: auto;
+      white-space: nowrap;
+      min-width: 100%;
     }
-
-    /* column width */
-    .product-table col.col-product   { width: 43%; }
-    .product-table col.col-sku-block { width: 8%; }
-    .product-table col.col-sup-block { width: 8%; }
-    .product-table col.col-price     { width: 7%; }
-    .product-table col.col-tor       { width: 8.5%; }
-    .product-table col.col-esna      { width: 8.5%; }
-    .product-table col.col-binex     { width: 8.5%; }
-    .product-table col.col-van       { width: 8.5%; }
-
-    /* header */
-    .product-table thead th {
+    /* header – group row (row 1) */
+    .product-table thead tr.th-group-row th {
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 51;
       background: #e5ebf3;
-      padding: 7px 8px;
+      padding: 7px 10px;
       font-size: 0.73rem;
       font-weight: 750;
-      line-height: 1.2;
       text-transform: uppercase;
-      letter-spacing: 0.035em;
+      letter-spacing: 0.04em;
       color: #0f172a;
       border-bottom: 1px solid #cbd5e1;
       border-right: 1px solid #d7e0eb;
       text-align: center;
-      white-space: normal;
     }
-
-    .product-table thead th:nth-child(2),
-    .product-table thead th:nth-child(3) {
-      text-align: left;
+    /* header – sub row (row 2) */
+    .product-table thead tr.th-sub-row th {
+      position: sticky;
+      top: 32px;
+      z-index: 50;
+      background: #eef2f8;
+      padding: 5px 8px;
+      font-size: 0.69rem;
+      font-weight: 650;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #334155;
+      border-bottom: 2px solid #cbd5e1;
+      border-right: 1px solid #d7e0eb;
+      text-align: center;
     }
-
-    .product-table thead th:last-child {
-      border-right: 0;
-    }
-
-    .product-table thead th[data-sort-col]:hover {
-      background: #dbe3ee;
-    }
-
-    /* body */
+    /* location group-row header colours (higher specificity than default th) */
+    .product-table thead tr.th-group-row .th-tor   { background: #dbeafe; color: #1e40af; border-left: 2px solid #60a5fa; }
+    .product-table thead tr.th-group-row .th-esna  { background: #dcfce7; color: #166534; border-left: 2px solid #4ade80; }
+    .product-table thead tr.th-group-row .th-binex { background: #fef9c3; color: #92400e; border-left: 2px solid #facc15; }
+    .product-table thead tr.th-group-row .th-van   { background: #fce7f3; color: #9d174d; border-left: 2px solid #f472b6; }
+    /* sub-row first header of each location (left border separator) */
+    .product-table thead tr.th-sub-row .th-tor        { background: #eff6ff; color: #1d4ed8; border-left: 2px solid #60a5fa; }
+    .product-table thead tr.th-sub-row .th-esna       { background: #f0fdf4; color: #15803d; border-left: 2px solid #4ade80; }
+    .product-table thead tr.th-sub-row .th-binex      { background: #fefce8; color: #a16207; border-left: 2px solid #facc15; }
+    .product-table thead tr.th-sub-row .th-van        { background: #fdf2f8; color: #be185d; border-left: 2px solid #f472b6; }
+    /* sub-row remaining headers of each location */
+    .product-table thead tr.th-sub-row .th-tor-sub    { background: #eff6ff; color: #1d4ed8; }
+    .product-table thead tr.th-sub-row .th-esna-sub   { background: #f0fdf4; color: #15803d; }
+    .product-table thead tr.th-sub-row .th-binex-sub  { background: #fefce8; color: #a16207; }
+    .product-table thead tr.th-sub-row .th-van-sub    { background: #fdf2f8; color: #be185d; }
+    /* sort */
+    .product-table thead th[data-sort-col] { cursor: pointer; }
+    .product-table thead th[data-sort-col]:hover { filter: brightness(0.93); }
+    .product-table thead th:last-child { border-right: 0; }
+    /* body cells */
     .product-table tbody td {
-      padding: 6px 8px;
+      padding: 7px 10px;
       border-bottom: 1px solid #eef2f7;
       border-right: 1px solid #eef2f7;
-      vertical-align: top;
-      font-size: 0.72rem;
+      vertical-align: middle;
+      font-size: 0.84rem;
       font-weight: 450;
-      line-height: 1.36;
+      line-height: 1.3;
       background: #fff;
       color: #0f172a;
-    }
-
-    .product-table tbody td:last-child {
-      border-right: 0;
-    }
-
-    .product-table tbody tr:hover td {
-      background: #f8faff;
-    }
-
-    /* product cell */
-    .product-table tbody td.cell-product {
-      padding: 6px 8px;
-    }
-
-    .tv-product-cell {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-    }
-
-    .tv-thumb {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
-      overflow: hidden;
-      flex-shrink: 0;
-      border: 1px solid var(--border);
-      background: rgba(15,23,42,0.03);
-    }
-
-    .tv-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .tv-product-info {
-      min-width: 0;
-      flex: 1 1 auto;
-    }
-
-    .tv-product-name {
-      font-weight: 620;
-      font-size: 0.86rem;
-      line-height: 1.32;
-      color: #0f172a;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
-
-    .tv-product-sub {
-      margin-top: 2px;
-      font-size: 0.69rem;
-      line-height: 1.3;
-      color: #64748b;
-      font-weight: 450;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* badges - keep original pill feel, smaller */
-    .tv-badges {
-      display: flex;
-      gap: 4px;
-      flex-wrap: nowrap;
-      overflow: hidden;
-      margin-bottom: 5px;
-    }
-
-    .tv-sbadge {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.62rem;
-      font-weight: 600;
-      line-height: 1.45;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .tv-sbadge.in-stock     { background: #dcfce7; color: #15803d; }
-    .tv-sbadge.low-stock    { background: #fef9c3; color: #a16207; }
-    .tv-sbadge.out-of-stock { background: #fee2e2; color: #b91c1c; }
-    .tv-sbadge.incoming     { background: #dbeafe; color: #1d4ed8; }
-    .tv-sbadge.discontinued { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
-
-    /* stacked rows */
-    .tv-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-
-    .tv-stack-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 5px;
-      font-size: 0.71rem;
-      line-height: 1.34;
-      color: #0f172a;
-      font-weight: 450;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-    .tv-lbl {
-      color: #0f172a;
-      font-size: 0.71rem;
-      font-weight: 450;
-      flex-shrink: 0;
-    }
-
-    .tv-val {
-      color: #0f172a;
-      font-size: 0.71rem;
-      font-weight: 450;
-      text-align: right;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
-    }
-
-    .tv-dim,
-    .tv-zero,
-    .tv-mono {
-      color: #0f172a;
-      font-family: inherit;
-    }
-
-    .th-label {
-      display: inline;
-    }
-
+    .product-table tbody td:last-child { border-right: 0; }
+    .product-table tbody tr:hover td { background: #eef4ff; }
+    .product-table tbody tr:nth-child(even) td { background: #f9fbff; }
+    .product-table tbody tr:nth-child(even):hover td { background: #e8f0ff; }
+    /* alignment */
+    .product-table .td-num  { text-align: right; font-variant-numeric: tabular-nums; }
+    .product-table .td-text { text-align: left; }
+    /* column min-widths */
+    .product-table .td-sku     { min-width: 76px; }
+    .product-table .td-name    { min-width: 160px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; }
+    .product-table .td-cat     { min-width: 90px; }
+    .product-table .td-brand   { min-width: 90px; }
+    .product-table .td-barcode { min-width: 110px; }
+    .product-table .td-price   { min-width: 68px; }
+    .product-table .td-metric  { min-width: 64px; }
+    .product-table .td-supp    { min-width: 100px; }
+    .product-table .td-size    { min-width: 74px; }
+    .product-table .td-wgt     { min-width: 74px; }
+    .product-table .td-loc     { min-width: 70px; }
+    /* location data-cell left-border separators */
+    .product-table .td-tor-start   { border-left: 2px solid #60a5fa; }
+    .product-table .td-esna-start  { border-left: 2px solid #4ade80; }
+    .product-table .td-binex-start { border-left: 2px solid #facc15; }
+    .product-table .td-van-start   { border-left: 2px solid #f472b6; }
+    .th-label { display: inline; }
     .th-sort-icon {
       display: inline-block;
-      width: 10px;
-      margin-left: 4px;
-      font-size: 0.68rem;
+      margin-left: 3px;
+      font-size: 0.6rem;
       color: #2563eb;
       vertical-align: middle;
+      min-width: 8px;
     }
     
     
@@ -2888,7 +2788,7 @@
     }
     .scanner-modal-head h3 { margin:0; font-size:1rem; font-weight:700; }
     .scanner-modal-body { padding:16px 18px 20px; display:grid; gap:12px; }
-    #scanner-preview { width:100%; border-radius:12px; overflow:hidden; background:#111; min-height:260px; }
+    #scanner-preview { width:100%; border-radius:12px; overflow:visible; background:#111; min-height:260px; }
     #scanner-preview > * { border-radius:12px !important; }
     .scanner-hint { text-align:center; color:var(--muted); font-size:0.78rem; line-height:1.55; }
     .scanner-error { color:var(--bad); font-size:0.81rem; text-align:center; padding:6px 0; }
@@ -4246,17 +4146,20 @@
       elements.productGrid.innerHTML = html;
     }
 
-    const TABLE_SORT_STRING_KEYS = new Set(["name", "sku", "upc", "stockLocator", "supplier", "status"]);
+    const TABLE_SORT_STRING_KEYS = new Set(["name", "sku", "upc", "category", "brand", "supplier"]);
 
     function getTableSortedProducts() {
       const { col, dir } = state.tableSort;
       if (!col) return getVisibleProducts();
       const page = [...state.filtered];
       page.sort((a, b) => {
-        const isStr = TABLE_SORT_STRING_KEYS.has(col);
-        const av = isStr ? String(a[col] || "") : parseFloat(a[col]) || 0;
-        const bv = isStr ? String(b[col] || "") : parseFloat(b[col]) || 0;
-        if (isStr) return dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+        if (TABLE_SORT_STRING_KEYS.has(col)) {
+          const av = String(a[col] || "").toLowerCase();
+          const bv = String(b[col] || "").toLowerCase();
+          return dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+        }
+        const av = typeof a[col] === "number" ? a[col] : (parseFloat(String(a[col] || "").replace(/[^\d.]/g, "")) || 0);
+        const bv = typeof b[col] === "number" ? b[col] : (parseFloat(String(b[col] || "").replace(/[^\d.]/g, "")) || 0);
         return dir === "asc" ? av - bv : bv - av;
       });
       const start = (state.currentPage - 1) * state.pageSize;
@@ -4267,133 +4170,135 @@
       const products = getTableSortedProducts();
       const { col, dir } = state.tableSort;
 
-    function th(key, label) {
-      const isSorted = key && col === key;
-      const sc = isSorted ? (dir === "asc" ? " sorted-asc" : " sorted-desc") : "";
-      const icon = isSorted ? (dir === "asc" ? "▲" : "▼") : "";
-
-      return '<th' +
-        (key ? ' data-sort-col="' + key + '"' : '') +
-        (sc ? ' class="' + sc.trim() + '"' : '') +
-        '>' +
+      function thS(key, label) {
+        const isSorted = key && col === key;
+        const sc = isSorted ? (dir === "asc" ? " sorted-asc" : " sorted-desc") : "";
+        return '<th' +
+          ' data-sort-col="' + key + '"' +
+          (sc ? ' class="' + sc.trim() + '"' : '') +
+          ' rowspan="2">' +
           '<span class="th-label">' + label + '</span>' +
-          '<span class="th-sort-icon">' + icon + '</span>' +
-        '</th>';
-    }
+          '<span class="th-sort-icon">' + (isSorted ? (dir === "asc" ? "▲" : "▼") : "") + '</span>' +
+          '</th>';
+      }
+
+      function thG(label, colspan, cls) {
+        return '<th colspan="' + colspan + '" class="' + cls + '">' + label + '</th>';
+      }
+
+      function thSub(key, label, cls) {
+        const isSorted = key && col === key;
+        const sc = isSorted ? " " + (dir === "asc" ? "sorted-asc" : "sorted-desc") : "";
+        const clsFull = ((cls || "") + sc).trim();
+        return '<th' +
+          ' data-sort-col="' + key + '"' +
+          (clsFull ? ' class="' + clsFull + '"' : '') +
+          '>' +
+          '<span class="th-label">' + label + '</span>' +
+          '<span class="th-sort-icon">' + (isSorted ? (dir === "asc" ? "▲" : "▼") : "") + '</span>' +
+          '</th>';
+      }
 
       const theadHtml =
-        '<thead><tr>' +
-          th("name",          "Product") +
-          th("sku",           "SKU<br>Barcode<br>Location") +
-          th("supplier",      "Supplier<br>Size") +
-          th("retail",        "Price") +
-          th("availableTor",  "Toronto") +
-          th("availableEsna", "Esna") +
-          th("availableNew",  "Binex") +
-          th("availableVan",  "Vancouver") +
-        '</tr></thead>';
+        '<thead>' +
+        '<tr class="th-group-row">' +
+          thS("sku",            "SKU") +
+          thS("name",           "Name") +
+          thS("category",       "Category") +
+          thS("brand",          "Brand") +
+          thS("upc",            "Barcode") +
+          thS("costRaw",        "Cost") +
+          thS("wholesaleRaw",   "Wholesale") +
+          thS("retailRaw",      "Retail") +
+          thS("last4MonthRaw",  "Last 4M") +
+          thS("last12MonthRaw", "Last 12M") +
+          thS("supplier",       "Supplier") +
+          thG("Size", 3, "") +
+          thS("weight",         "Weight(g)") +
+          thG("Toronto",   4, "th-tor") +
+          thG("Esna",      3, "th-esna") +
+          thG("Binex",     3, "th-binex") +
+          thG("Vancouver", 4, "th-van") +
+        '</tr>' +
+        '<tr class="th-sub-row">' +
+          thSub("lengthRaw",     "Length(cm)") +
+          thSub("widthRaw",      "Width(cm)") +
+          thSub("heightRaw",     "Height(cm)") +
+          thSub("onHandTor",     "On hand",   "th-tor") +
+          thSub("availableTor",  "Available", "th-tor-sub") +
+          thSub("reserveTor",    "Reserved",  "th-tor-sub") +
+          thSub("onOrderTor",    "On order",  "th-tor-sub") +
+          thSub("onHandEsna",    "On hand",   "th-esna") +
+          thSub("availableEsna", "Available", "th-esna-sub") +
+          thSub("onOrderEsna",   "On order",  "th-esna-sub") +
+          thSub("onHandNew",     "On hand",   "th-binex") +
+          thSub("availableNew",  "Available", "th-binex-sub") +
+          thSub("onOrderNew",    "On order",  "th-binex-sub") +
+          thSub("onHandVan",     "On hand",   "th-van") +
+          thSub("availableVan",  "Available", "th-van-sub") +
+          thSub("reserveVan",    "Reserved",  "th-van-sub") +
+          thSub("onOrderVan",    "On order",  "th-van-sub") +
+        '</tr>' +
+        '</thead>';
 
-      const colgroup =
-        '<colgroup>' +
-          '<col class="col-product"/><col class="col-sku-block"/><col class="col-sup-block"/>' +
-          '<col class="col-price"/><col class="col-tor"/><col class="col-esna"/>' +
-          '<col class="col-binex"/><col class="col-van"/>' +
-        '</colgroup>';
+      function numOnly(val) {
+        if (val === null || val === undefined || val === "") return "—";
+        const s = String(val).replace(/[^\d.]/g, "").trim();
+        return s || "—";
+      }
+
+      function tdText(val, cls) {
+        const v = (val === null || val === undefined || val === "") ? "—" : String(val);
+        return '<td class="td-text ' + cls + '">' + escapeHtml(v) + '</td>';
+      }
+
+      function tdNum(val, cls) {
+        return '<td class="td-num ' + cls + '">' + escapeHtml(numOnly(val)) + '</td>';
+      }
+
+      function tdPrice(raw, cls) {
+        const s = formatCurrency(null, raw);
+        return '<td class="td-num ' + cls + '">' + escapeHtml(s === "--" ? "—" : s) + '</td>';
+      }
 
       const tbodyHtml = products.map((product) => {
-        // Status badges (compact, above product name)
-        const statuses = product.statuses || (product.status ? [product.status] : []);
-        const badgesHtml = statuses.length
-          ? '<div class="tv-badges">' +
-              statuses.map((s) => {
-                const m = STATUS_META[s] || STATUS_META["out-of-stock"];
-                return '<span class="tv-sbadge ' + escapeHtml(m.className) + '">' + escapeHtml(m.label) + '</span>';
-              }).join("") +
-            '</div>'
-          : '';
-
-        const fallbackChar = (product.brand || product.name || "P").charAt(0).toUpperCase();
-        const thumbHtml = isMeaningful(product.image)
-          ? '<div class="tv-thumb"><img src="' + escapeHtml(product.image) + '" alt="" loading="lazy" onerror="this.parentElement.textContent=\'' + escapeHtml(fallbackChar) + '\';"></div>'
-          : '<div class="tv-thumb">' + escapeHtml(fallbackChar) + '</div>';
-
-        const subParts = [];
-        if (product.brand) subParts.push(escapeHtml(product.brand));
-        if (product.category) subParts.push(escapeHtml(product.category));
-
-        const productCell =
-          badgesHtml +
-          '<div class="tv-product-cell">' +
-            thumbHtml +
-            '<div class="tv-product-info">' +
-              '<div class="tv-product-name" title="' + escapeHtml(product.name) + '">' + escapeHtml(product.name) + '</div>' +
-              (subParts.length ? '<div class="tv-product-sub">' + subParts.join(' · ') + '</div>' : '') +
-            '</div>' +
-          '</div>';
-
-        function stackRow(label, val) {
-          const plain = String(val).replace(/<[^>]*>/g, "");
-          return '<div class="tv-stack-row" title="' + escapeHtml(label + " " + plain) + '">' +
-            '<span class="tv-lbl">' + escapeHtml(label) + '</span>' +
-            '<span class="tv-val">' + val + '</span>' +
-          '</div>';
-        }
-        function n(val) {
-          const v = typeof val === "number" ? val : (parseFloat(String(val || "")) || 0);
-          return escapeHtml(String(v));
-        }
-
-        function p(raw) {
-          const s = formatCurrency(null, raw);
-          return s === "--" ? "0" : escapeHtml(s);
-        }
-
-        const skuBlockCell =
-          '<div class="tv-stack">' +
-            '<div class="tv-stack-row">' + escapeHtml(product.sku || '0') + '</div>' +
-            '<div class="tv-stack-row tv-mono tv-dim">' + escapeHtml(product.upc || '0') + '</div>' +
-            '<div class="tv-stack-row tv-dim">' + escapeHtml(product.stockLocator || '0') + '</div>'
-          '</div>';
-
-        const hasSize = isMeaningful(product.lengthRaw) || isMeaningful(product.widthRaw) || isMeaningful(product.heightRaw);
-        const supBlockCell =
-          '<div class="tv-stack">' +
-            '<div class="tv-stack-row" title="' + escapeHtml(product.supplier || '0') + '">' + escapeHtml(product.supplier || '0') + '</div>' +
-            '<div class="tv-stack-row tv-dim">' + (hasSize ? formatSizeForTable(product) : '0') + '</div>'
-          '</div>';
-
-        const priceCell =
-          '<div class="tv-stack">' +
-            stackRow("Cost",   p(product.costRaw)) +
-            stackRow("Whl",    p(product.wholesaleRaw)) +
-            stackRow("Retail", p(product.retailRaw)) +
-          '</div>';
-
-        function whCell(oh, ava, rev, ord) {
-          return '<div class="tv-stack">' +
-            stackRow("On hand",   n(oh)) +
-            stackRow("Available", n(ava)) +
-            stackRow("Reserved",  n(rev)) +
-            stackRow("On order",  n(ord)) +
-          '</div>';
-        }
-
         return '<tr>' +
-          '<td class="cell-product">' + productCell + '</td>' +
-          '<td>' + skuBlockCell + '</td>' +
-          '<td>' + supBlockCell + '</td>' +
-          '<td>' + priceCell + '</td>' +
-          '<td>' + whCell(product.onHandTor,  product.availableTor,  product.reserveTor,  product.onOrderTor)  + '</td>' +
-          '<td>' + whCell(product.onHandEsna, product.availableEsna, product.reserveEsna, product.onOrderEsna) + '</td>' +
-          '<td>' + whCell(product.onHandNew,  product.availableNew,  product.reserveNew,  product.onOrderNew)  + '</td>' +
-          '<td>' + whCell(product.onHandVan,  product.availableVan,  product.reserveVan,  product.onOrderVan)  + '</td>' +
+          tdText(product.sku,              "td-sku") +
+          tdText(product.name,             "td-name") +
+          tdText(product.category,         "td-cat") +
+          tdText(product.brand,            "td-brand") +
+          tdText(product.upc,              "td-barcode") +
+          tdPrice(product.costRaw,         "td-price") +
+          tdPrice(product.wholesaleRaw,    "td-price") +
+          tdPrice(product.retailRaw,       "td-price") +
+          tdText(product.last4MonthRaw,    "td-metric") +
+          tdText(product.last12MonthRaw,   "td-metric") +
+          tdText(product.supplier,         "td-supp") +
+          tdNum(product.lengthRaw,         "td-size") +
+          tdNum(product.widthRaw,          "td-size") +
+          tdNum(product.heightRaw,         "td-size") +
+          tdNum(product.weight,            "td-wgt") +
+          tdNum(product.onHandTor,         "td-loc td-tor-start") +
+          tdNum(product.availableTor,      "td-loc") +
+          tdNum(product.reserveTor,        "td-loc") +
+          tdNum(product.onOrderTor,        "td-loc") +
+          tdNum(product.onHandEsna,        "td-loc td-esna-start") +
+          tdNum(product.availableEsna,     "td-loc") +
+          tdNum(product.onOrderEsna,       "td-loc") +
+          tdNum(product.onHandNew,         "td-loc td-binex-start") +
+          tdNum(product.availableNew,      "td-loc") +
+          tdNum(product.onOrderNew,        "td-loc") +
+          tdNum(product.onHandVan,         "td-loc td-van-start") +
+          tdNum(product.availableVan,      "td-loc") +
+          tdNum(product.reserveVan,        "td-loc") +
+          tdNum(product.onOrderVan,        "td-loc") +
         '</tr>';
       }).join('');
 
       const tableHtml =
         '<div class="product-table-wrap">' +
           '<table class="product-table">' +
-            colgroup + theadHtml +
+            theadHtml +
             '<tbody>' + tbodyHtml + '</tbody>' +
           '</table>' +
         '</div>';
@@ -4402,6 +4307,15 @@
       elements.productGrid.classList.add("table-mode");
       elements.productGrid.classList.remove("hidden");
       elements.productGrid.innerHTML = tableHtml;
+
+      // Fix sub-row sticky top to actual group-row height
+      requestAnimationFrame(() => {
+        const groupRow = elements.productGrid.querySelector("tr.th-group-row");
+        if (groupRow) {
+          const h = Math.ceil(groupRow.getBoundingClientRect().height);
+          elements.productGrid.querySelectorAll("tr.th-sub-row th").forEach((t) => { t.style.top = h + "px"; });
+        }
+      });
     }
 
     function renderAll() {
@@ -4629,7 +4543,14 @@
           setTimeout(() => { scrollToResultsAfterScan(); }, 150);
         },
         () => {}
-      ).catch((err) => showScannerError("Camera error: " + err));
+      ).then(() => {
+        const video = document.querySelector("#scanner-preview video");
+        if (video) {
+          video.setAttribute("playsinline", "");
+          video.setAttribute("muted", "");
+          video.play().catch(() => {});
+        }
+      }).catch((err) => showScannerError("Camera error: " + err));
     }
 
     function scrollToResultsAfterScan() {
