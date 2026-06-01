@@ -2636,13 +2636,14 @@
       border-bottom: 1px solid #cbd5e1;
       border-right: 1px solid #d7e0eb;
       text-align: center;
+      height: 36px;
     }
     /* header – sub row (row 2) */
     .product-table thead tr.th-sub-row th {
       position: sticky;
       top: 32px;
       z-index: 50;
-      background: #eef2f8;
+      background: #e5ebf3;
       padding: 5px 8px;
       font-size: 0.69rem;
       font-weight: 650;
@@ -2653,24 +2654,15 @@
       border-right: 1px solid #d7e0eb;
       text-align: center;
     }
-    /* location group-row header colours (higher specificity than default th) */
-    .product-table thead tr.th-group-row .th-tor   { background: #dbeafe; color: #1e40af; border-left: 2px solid #60a5fa; }
-    .product-table thead tr.th-group-row .th-esna  { background: #dcfce7; color: #166534; border-left: 2px solid #4ade80; }
-    .product-table thead tr.th-group-row .th-binex { background: #fef9c3; color: #92400e; border-left: 2px solid #facc15; }
-    .product-table thead tr.th-group-row .th-van   { background: #fce7f3; color: #9d174d; border-left: 2px solid #f472b6; }
-    /* sub-row first header of each location (left border separator) */
-    .product-table thead tr.th-sub-row .th-tor        { background: #eff6ff; color: #1d4ed8; border-left: 2px solid #60a5fa; }
-    .product-table thead tr.th-sub-row .th-esna       { background: #f0fdf4; color: #15803d; border-left: 2px solid #4ade80; }
-    .product-table thead tr.th-sub-row .th-binex      { background: #fefce8; color: #a16207; border-left: 2px solid #facc15; }
-    .product-table thead tr.th-sub-row .th-van        { background: #fdf2f8; color: #be185d; border-left: 2px solid #f472b6; }
-    /* sub-row remaining headers of each location */
-    .product-table thead tr.th-sub-row .th-tor-sub    { background: #eff6ff; color: #1d4ed8; }
-    .product-table thead tr.th-sub-row .th-esna-sub   { background: #f0fdf4; color: #15803d; }
-    .product-table thead tr.th-sub-row .th-binex-sub  { background: #fefce8; color: #a16207; }
-    .product-table thead tr.th-sub-row .th-van-sub    { background: #fdf2f8; color: #be185d; }
-    /* sort */
-    .product-table thead th[data-sort-col] { cursor: pointer; }
-    .product-table thead th[data-sort-col]:hover { filter: brightness(0.93); }
+    /* location header separators – subtle gray */
+    .product-table thead tr.th-group-row .th-tor,
+    .product-table thead tr.th-group-row .th-esna,
+    .product-table thead tr.th-group-row .th-binex,
+    .product-table thead tr.th-group-row .th-van   { border-left: 2px solid #b0bccf; }
+    .product-table thead tr.th-sub-row .th-tor,
+    .product-table thead tr.th-sub-row .th-esna,
+    .product-table thead tr.th-sub-row .th-binex,
+    .product-table thead tr.th-sub-row .th-van     { border-left: 2px solid #b0bccf; }
     .product-table thead th:last-child { border-right: 0; }
     /* body cells */
     .product-table tbody td {
@@ -2689,26 +2681,39 @@
     .product-table tbody tr:hover td { background: #eef4ff; }
     .product-table tbody tr:nth-child(even) td { background: #f9fbff; }
     .product-table tbody tr:nth-child(even):hover td { background: #e8f0ff; }
+    /* cell drag-selection */
+    .product-table td.cell-selected { background: rgba(37, 99, 235, 0.13) !important; box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.32); }
+    .product-table.is-selecting, .product-table.is-selecting * { user-select: none; -webkit-user-select: none; cursor: crosshair; }
     /* alignment */
     .product-table .td-num  { text-align: right; font-variant-numeric: tabular-nums; }
     .product-table .td-text { text-align: left; }
+    /* image column */
+    .product-table .td-img { min-width: 52px; max-width: 52px; width: 52px; padding: 2px 3px; text-align: center; vertical-align: middle; }
+    .product-table .td-img img { width: 46px; height: 46px; object-fit: contain; border-radius: 4px; background: #f8fafc; display: block; margin: 0 auto; }
+    .product-table tbody tr { height: 50px; }
     /* column min-widths */
+    .product-table .td-status  { min-width: 90px; white-space: normal; line-height: 1.6; }
+    .product-table .td-status .st-in-stock     { color: #0f9f6e; font-weight: 600; font-size: 0.80rem; display: block; }
+    .product-table .td-status .st-low-stock    { color: #d97706; font-weight: 600; font-size: 0.80rem; display: block; }
+    .product-table .td-status .st-out-of-stock { color: #dc2626; font-weight: 600; font-size: 0.80rem; display: block; }
+    .product-table .td-status .st-discontinued { color: #dc2626; font-weight: 600; font-size: 0.80rem; display: block; }
+    .product-table .td-status .st-incoming     { color: #d97706; font-weight: 600; font-size: 0.80rem; display: block; }
     .product-table .td-sku     { min-width: 76px; }
-    .product-table .td-name    { min-width: 160px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; }
-    .product-table .td-cat     { min-width: 90px; }
-    .product-table .td-brand   { min-width: 90px; }
+    .product-table .td-name    { min-width: 320px; max-width: 480px; overflow: hidden; text-overflow: ellipsis; }
+    .product-table .td-cat     { min-width: 65px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
+    .product-table .td-brand   { min-width: 65px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
     .product-table .td-barcode { min-width: 110px; }
     .product-table .td-price   { min-width: 68px; }
     .product-table .td-metric  { min-width: 64px; }
-    .product-table .td-supp    { min-width: 100px; }
+    .product-table .td-supp    { min-width: 40px; max-width: 60px; overflow: hidden; text-overflow: ellipsis; }
     .product-table .td-size    { min-width: 74px; }
     .product-table .td-wgt     { min-width: 74px; }
     .product-table .td-loc     { min-width: 70px; }
     /* location data-cell left-border separators */
-    .product-table .td-tor-start   { border-left: 2px solid #60a5fa; }
-    .product-table .td-esna-start  { border-left: 2px solid #4ade80; }
-    .product-table .td-binex-start { border-left: 2px solid #facc15; }
-    .product-table .td-van-start   { border-left: 2px solid #f472b6; }
+    .product-table .td-tor-start,
+    .product-table .td-esna-start,
+    .product-table .td-binex-start,
+    .product-table .td-van-start   { border-left: 2px solid #d0d9e6; }
     .th-label { display: inline; }
     .th-sort-icon {
       display: inline-block;
@@ -2876,7 +2881,7 @@
     }
 
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2@1.7.4/dist/quagga.min.js"></script>
 </head>
 <body>
@@ -4172,15 +4177,7 @@
       const { col, dir } = state.tableSort;
 
       function thS(key, label) {
-        const isSorted = key && col === key;
-        const sc = isSorted ? (dir === "asc" ? " sorted-asc" : " sorted-desc") : "";
-        return '<th' +
-          ' data-sort-col="' + key + '"' +
-          (sc ? ' class="' + sc.trim() + '"' : '') +
-          ' rowspan="2">' +
-          '<span class="th-label">' + label + '</span>' +
-          '<span class="th-sort-icon">' + (isSorted ? (dir === "asc" ? "▲" : "▼") : "") + '</span>' +
-          '</th>';
+        return '<th rowspan="2"><span class="th-label">' + label + '</span></th>';
       }
 
       function thG(label, colspan, cls) {
@@ -4188,21 +4185,14 @@
       }
 
       function thSub(key, label, cls) {
-        const isSorted = key && col === key;
-        const sc = isSorted ? " " + (dir === "asc" ? "sorted-asc" : "sorted-desc") : "";
-        const clsFull = ((cls || "") + sc).trim();
-        return '<th' +
-          ' data-sort-col="' + key + '"' +
-          (clsFull ? ' class="' + clsFull + '"' : '') +
-          '>' +
-          '<span class="th-label">' + label + '</span>' +
-          '<span class="th-sort-icon">' + (isSorted ? (dir === "asc" ? "▲" : "▼") : "") + '</span>' +
-          '</th>';
+        return '<th' + (cls ? ' class="' + cls + '"' : '') + '><span class="th-label">' + label + '</span></th>';
       }
 
       const theadHtml =
         '<thead>' +
         '<tr class="th-group-row">' +
+          '<th rowspan="2"><span class="th-label">Img</span></th>' +
+          '<th rowspan="2"><span class="th-label">Status</span></th>' +
           thS("sku",            "SKU") +
           thS("name",           "Name") +
           thS("category",       "Category") +
@@ -4250,20 +4240,50 @@
 
       function tdText(val, cls) {
         const v = (val === null || val === undefined || val === "") ? "—" : String(val);
-        return '<td class="td-text ' + cls + '">' + escapeHtml(v) + '</td>';
+        const e = escapeHtml(v);
+        return '<td class="td-text ' + cls + '" title="' + e + '">' + e + '</td>';
       }
 
       function tdNum(val, cls) {
-        return '<td class="td-num ' + cls + '">' + escapeHtml(numOnly(val)) + '</td>';
+        const e = escapeHtml(numOnly(val));
+        return '<td class="td-num ' + cls + '" title="' + e + '">' + e + '</td>';
       }
 
       function tdPrice(raw, cls) {
         const s = formatCurrency(null, raw);
-        return '<td class="td-num ' + cls + '">' + escapeHtml(s === "--" ? "—" : s) + '</td>';
+        const e = escapeHtml(s === "--" ? "—" : s);
+        return '<td class="td-num ' + cls + '" title="' + e + '">' + e + '</td>';
+      }
+
+      function tdImg(product) {
+        if (isMeaningful(product.image)) {
+          return '<td class="td-img"><img src="' + escapeHtml(product.image) + '" alt="" loading="lazy" onerror="this.style.display=\'none\'"></td>';
+        }
+        return '<td class="td-img"></td>';
+      }
+
+      function tdStatus(product) {
+        const statuses = getStatuses(product);
+        const STATUS_META = {
+          "discontinued":  { cls: "st-discontinued",  label: "Discontinued" },
+          "in-stock":      { cls: "st-in-stock",       label: "In Stock" },
+          "low-stock":     { cls: "st-low-stock",      label: "Low Stock" },
+          "out-of-stock":  { cls: "st-out-of-stock",   label: "Out of Stock" },
+          "incoming":      { cls: "st-incoming",        label: "Incoming" }
+        };
+        if (!statuses.length) return '<td class="td-status td-text"></td>';
+        const inner = statuses.map((s) => {
+          const m = STATUS_META[s] || { cls: "", label: s };
+          return '<span class="' + m.cls + '">' + m.label + '</span>';
+        }).join('');
+        const title = statuses.map((s) => (STATUS_META[s] || { label: s }).label).join(", ");
+        return '<td class="td-status td-text" title="' + escapeHtml(title) + '">' + inner + '</td>';
       }
 
       const tbodyHtml = products.map((product) => {
         return '<tr>' +
+          tdImg(product) +
+          tdStatus(product) +
           tdText(product.sku,              "td-sku") +
           tdText(product.name,             "td-name") +
           tdText(product.category,         "td-cat") +
@@ -4439,74 +4459,104 @@
     // ── Export Excel ──────────────────────────────────────────────────────────
     function exportToExcel() {
       if (!state.filtered.length) { alert("No products to export."); return; }
-      const headers = [
-        "SKU","Name","Category","Brand","Barcode",
-        "Cost","Wholesale","Retail","Last 4M","Last 12M",
-        "Supplier","Size","Weight",
-        "On hand Tor","Available Tor","Reserved Tor","On order Tor",
-        "On hand Esna","Available Esna","On order Esna",
-        "On hand Binex","Available Binex","On order Binex",
-        "On hand Van","Available Van","Reserved Van","On order Van"
+
+      function numVal(val) {
+        if (val === null || val === undefined || val === "") return "";
+        const n = parseFloat(String(val).replace(/[^\d.-]/g, ""));
+        return isNaN(n) ? "" : n;
+      }
+
+      // Row 0: group headers (29 cols)
+      const row0 = [
+        "SKU", "Name", "Category", "Brand", "Barcode",
+        "Cost", "Wholesale", "Retail", "Last 4M", "Last 12M", "Supplier",
+        "Size", "", "",          // cols 11-13, merged → 3
+        "Weight(g)",             // col 14, rowspan 2
+        "Toronto", "", "", "",   // cols 15-18, merged → 4
+        "Esna", "", "",          // cols 19-21, merged → 3
+        "Binex", "", "",         // cols 22-24, merged → 3
+        "Vancouver", "", "", ""  // cols 25-28, merged → 4
       ];
-      const rows = state.filtered.map((p) => [
-        { v: String(p.sku || ""),  t: "s" },
-        { v: String(p.name || ""), t: "s" },
-        { v: String(p.category || ""), t: "s" },
-        { v: String(p.brand || ""),    t: "s" },
-        { v: String(p.upc || ""),      t: "s" },
-        { v: String(p.costRaw || ""),      t: "s" },
-        { v: String(p.wholesaleRaw || ""), t: "s" },
-        { v: String(p.retailRaw || ""),    t: "s" },
-        { v: String(p.last4MonthRaw || ""),  t: "s" },
-        { v: String(p.last12MonthRaw || ""), t: "s" },
-        { v: String(p.supplier || ""),     t: "s" },
-        { v: formatSize(p),                t: "s" },
-        { v: String(p.weight || ""),       t: "s" },
-        p.onHandTor,    p.availableTor,  p.reserveTor,  p.onOrderTor,
-        p.onHandEsna,   p.availableEsna, p.onOrderEsna,
-        p.onHandNew,    p.availableNew,  p.onOrderNew,
-        p.onHandVan,    p.availableVan,  p.reserveVan,  p.onOrderVan
+
+      // Row 1: sub-headers
+      const row1 = [
+        "", "", "", "", "", "", "", "", "", "", "",  // cols 0-10: rowspan from row0
+        "Length(cm)", "Width(cm)", "Height(cm)",     // cols 11-13
+        "",                                           // col 14: rowspan from row0
+        "On hand", "Available", "Reserved", "On order",  // Toronto
+        "On hand", "Available", "On order",               // Esna
+        "On hand", "Available", "On order",               // Binex
+        "On hand", "Available", "Reserved", "On order"    // Vancouver
+      ];
+
+      const dataRows = state.filtered.map((p) => [
+        String(p.sku || ""),
+        String(p.name || ""),
+        String(p.category || ""),
+        String(p.brand || ""),
+        String(p.upc || ""),
+        String(p.costRaw || ""),
+        String(p.wholesaleRaw || ""),
+        String(p.retailRaw || ""),
+        String(p.last4MonthRaw || ""),
+        String(p.last12MonthRaw || ""),
+        String(p.supplier || ""),
+        numVal(p.lengthRaw),
+        numVal(p.widthRaw),
+        numVal(p.heightRaw),
+        numVal(p.weight),
+        numVal(p.onHandTor),   numVal(p.availableTor),  numVal(p.reserveTor),  numVal(p.onOrderTor),
+        numVal(p.onHandEsna),  numVal(p.availableEsna), numVal(p.onOrderEsna),
+        numVal(p.onHandNew),   numVal(p.availableNew),  numVal(p.onOrderNew),
+        numVal(p.onHandVan),   numVal(p.availableVan),  numVal(p.reserveVan),  numVal(p.onOrderVan)
       ]);
 
-      const wsData = [headers, ...rows.map((row) =>
-        row.map((cell) => (typeof cell === "object" && cell !== null && "v" in cell) ? cell : { v: cell, t: "n" })
-      )];
-
       const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.aoa_to_sheet(
-        wsData.map((row) =>
-          row.map((c) =>
-            (typeof c === "object" && c !== null && "v" in c) ? c.v : c
-          )
-        )
-      );
-      // Header row style
-      headers.forEach(function(header, index) {
-        const cellAddress = XLSX.utils.encode_cell({ r: 0, c: index });
-        if (!ws[cellAddress]) {
-          ws[cellAddress] = { v: header, t: "s" };
-        }
+      const ws = XLSX.utils.aoa_to_sheet([row0, row1, ...dataRows]);
 
-        ws[cellAddress].t = "s";
-        ws[cellAddress].s = {
-          font: { bold: true },
-          fill: { fgColor: { rgb: "E2E8F0" } },
-          alignment: { horizontal: "center", vertical: "center" }
-        };
-      });
-      // Force SKU, Name, Barcode columns as text
-      rows.forEach((row, ri) => {
-        row.forEach((cell, ci) => {
-          if (typeof cell === "object" && cell !== null && cell.t === "s") {
-            const addr = XLSX.utils.encode_cell({ r: ri + 1, c: ci });
-            if (ws[addr]) ws[addr].t = "s";
-          }
+      // Merged cells
+      ws["!merges"] = [
+        ...Array.from({ length: 11 }, function(_, i) { return { s: { r: 0, c: i }, e: { r: 1, c: i } }; }),
+        { s: { r: 0, c: 11 }, e: { r: 0, c: 13 } },  // Size
+        { s: { r: 0, c: 14 }, e: { r: 1, c: 14 } },  // Weight(g)
+        { s: { r: 0, c: 15 }, e: { r: 0, c: 18 } },  // Toronto
+        { s: { r: 0, c: 19 }, e: { r: 0, c: 21 } },  // Esna
+        { s: { r: 0, c: 22 }, e: { r: 0, c: 24 } },  // Binex
+        { s: { r: 0, c: 25 }, e: { r: 0, c: 28 } }   // Vancouver
+      ];
+
+      // Style group row
+      for (var c0 = 0; c0 < row0.length; c0++) {
+        var addr0 = XLSX.utils.encode_cell({ r: 0, c: c0 });
+        if (!ws[addr0]) ws[addr0] = { v: row0[c0] || "", t: "s" };
+        ws[addr0].s = { font: { bold: true }, fill: { fgColor: { rgb: "E2E8F0" } }, alignment: { horizontal: "center", vertical: "center", wrapText: true } };
+      }
+      // Style sub row
+      for (var c1 = 0; c1 < row1.length; c1++) {
+        var addr1 = XLSX.utils.encode_cell({ r: 1, c: c1 });
+        if (!ws[addr1]) ws[addr1] = { v: row1[c1] || "", t: "s" };
+        ws[addr1].s = { font: { bold: true }, fill: { fgColor: { rgb: "EEF2F8" } }, alignment: { horizontal: "center", vertical: "center" } };
+      }
+      // Force text type for text columns
+      var TEXT_COLS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      dataRows.forEach(function(row, ri) {
+        TEXT_COLS.forEach(function(ci) {
+          var addr = XLSX.utils.encode_cell({ r: ri + 2, c: ci });
+          if (ws[addr]) ws[addr].t = "s";
         });
       });
-      ws["!freeze"] = { xSplit: 0, ySplit: 1, topLeftCell: "A2", activePane: "bottomLeft", state: "frozen" };
-      const colWidths = [12,40,18,18,16,10,10,10,10,10,20,14,10,
-                         10,10,10,10, 10,10,10, 10,10,10, 10,10,10,10];
-      ws["!cols"] = colWidths.map((w) => ({ wch: w }));
+
+      ws["!freeze"] = { xSplit: 0, ySplit: 2, topLeftCell: "A3", activePane: "bottomLeft", state: "frozen" };
+      ws["!rows"] = [{ hpt: 20 }, { hpt: 18 }];
+      var colWidths = [
+        12, 40, 18, 18, 16, 10, 10, 10, 10, 10, 20,
+        14, 14, 14, 10,
+        10, 10, 10, 10,
+        10, 10, 10,
+        10, 10, 10,
+        10, 10, 10, 10
+      ];
+      ws["!cols"] = colWidths.map(function(w) { return { wch: w }; });
       XLSX.utils.book_append_sheet(wb, ws, "Products");
       const today = new Date();
       const dateStr = today.getFullYear() + "-" +
@@ -4796,6 +4846,90 @@
 
         renderProducts();
       });
+
+      // ── Table cell drag-selection ─────────────────────────────────────────
+      (function () {
+        const sel = { on: false, r0: -1, c0: -1, r1: -1, c1: -1 };
+
+        function getCoords(target) {
+          const td = target.closest("td");
+          if (!td) return null;
+          const tr = td.parentElement;
+          if (!tr || tr.parentElement.tagName.toLowerCase() !== "tbody") return null;
+          return { r: tr.sectionRowIndex, c: td.cellIndex };
+        }
+
+        function clearSel(table) {
+          table.querySelectorAll("td.cell-selected").forEach((td) => td.classList.remove("cell-selected"));
+        }
+
+        function applySel(table) {
+          const minR = Math.min(sel.r0, sel.r1), maxR = Math.max(sel.r0, sel.r1);
+          const minC = Math.min(sel.c0, sel.c1), maxC = Math.max(sel.c0, sel.c1);
+          table.querySelectorAll("tbody tr").forEach((tr, ri) => {
+            tr.querySelectorAll("td").forEach((td, ci) => {
+              td.classList.toggle("cell-selected", ri >= minR && ri <= maxR && ci >= minC && ci <= maxC);
+            });
+          });
+        }
+
+        elements.productGrid.addEventListener("mousedown", (e) => {
+          if (e.button !== 0) return;
+          const coords = getCoords(e.target);
+          if (!coords) return;
+          const table = e.target.closest(".product-table");
+          if (!table) return;
+          e.preventDefault();
+          clearSel(table);
+          sel.on = true;
+          sel.r0 = sel.r1 = coords.r;
+          sel.c0 = sel.c1 = coords.c;
+          table.classList.add("is-selecting");
+          applySel(table);
+        });
+
+        elements.productGrid.addEventListener("mousemove", (e) => {
+          if (!sel.on) return;
+          const coords = getCoords(e.target);
+          if (!coords) return;
+          const table = e.target.closest(".product-table");
+          if (!table) return;
+          if (coords.r === sel.r1 && coords.c === sel.c1) return;
+          sel.r1 = coords.r;
+          sel.c1 = coords.c;
+          clearSel(table);
+          applySel(table);
+        });
+
+        document.addEventListener("mouseup", () => {
+          if (!sel.on) return;
+          sel.on = false;
+          const table = elements.productGrid.querySelector(".product-table");
+          if (table) table.classList.remove("is-selecting");
+        });
+
+        // Ctrl+C: copy selection as tab-separated values (paste into Excel/Sheets)
+        document.addEventListener("keydown", (e) => {
+          if (!(e.ctrlKey || e.metaKey) || e.key !== "c") return;
+          const table = elements.productGrid.querySelector(".product-table");
+          if (!table || sel.r0 === -1 || !table.querySelector("td.cell-selected")) return;
+          e.preventDefault();
+          const minR = Math.min(sel.r0, sel.r1), maxR = Math.max(sel.r0, sel.r1);
+          const minC = Math.min(sel.c0, sel.c1), maxC = Math.max(sel.c0, sel.c1);
+          const trs = Array.from(table.querySelectorAll("tbody tr"));
+          const lines = [];
+          for (let ri = minR; ri <= maxR; ri++) {
+            if (!trs[ri]) continue;
+            const cells = trs[ri].querySelectorAll("td");
+            const vals = [];
+            for (let ci = minC; ci <= maxC; ci++) {
+              vals.push(cells[ci] ? cells[ci].textContent.trim() : "");
+            }
+            lines.push(vals.join("\t"));
+          }
+          navigator.clipboard.writeText(lines.join("\n")).catch(() => {});
+        });
+      })();
 
       // Barcode scanner (icon inside search input)
       if (elements.scanBarcodeButton) {
