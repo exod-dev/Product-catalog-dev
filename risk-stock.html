@@ -12,19 +12,21 @@
       --panel: rgba(255, 255, 255, 0.78);
       --panel-solid: #ffffff;
       --border: rgba(15, 23, 42, 0.09);
+      --border-col: rgba(15, 23, 42, 0.10);
       --text: #0f172a;
       --muted: #5b6475;
       --muted-soft: #8592a3;
       --accent: #2563eb;
       --shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
-      --content-width: 1440px;
+      --content-width: 1600px;
+      --c-critical: #FF0000;
+      --c-high:     #FFC400;
+      --c-watch:    #00A6B8;
+      --c-normal:   #64748b;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    /* Allow the page to scroll horizontally on narrow viewports where the table
-       exceeds the viewport width. No overflow:hidden/auto on html or body so
-       position:sticky on thead th works relative to the viewport. */
     html, body { overflow-x: visible; }
 
     body {
@@ -120,52 +122,24 @@
       cursor: pointer;
       transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
     }
-    .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.1);
-    }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(15,23,42,0.1); }
     .stat-card.active {
-      border-color: rgba(37, 99, 235, 0.28);
-      background: linear-gradient(180deg, rgba(37, 99, 235, 0.08), rgba(255, 255, 255, 0.96));
+      border-color: rgba(37,99,235,0.28);
+      background: linear-gradient(180deg, rgba(37,99,235,0.08), rgba(255,255,255,0.96));
     }
-    .stat-card:focus-visible {
-      outline: 2px solid rgba(37, 99, 235, 0.24);
-      outline-offset: 2px;
-    }
+    .stat-card:focus-visible { outline: 2px solid rgba(37,99,235,0.24); outline-offset: 2px; }
     .card-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--muted);
-      font-size: 0.82rem;
-      margin-bottom: 8px;
-      font-weight: 400;
+      display: flex; align-items: center; gap: 6px;
+      color: var(--muted); font-size: 0.82rem; margin-bottom: 8px; font-weight: 400;
     }
-    .card-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .card-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; }
     .dot-total    { background: #94a3b8; }
-    .dot-critical { background: #ef4444; }
-    .dot-high     { background: #f97316; }
-    .dot-watch    { background: #eab308; }
-    .dot-nosales  { background: #a855f7; }
-    .stat-card strong {
-      display: block;
-      font-size: clamp(1.15rem, 1.8vw, 1.5rem);
-      font-weight: 700;
-      color: var(--text);
-    }
-    .stat-card small {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted-soft);
-      font-size: 0.75rem;
-      line-height: 1.4;
-      font-weight: 400;
-    }
+    .dot-critical { background: var(--c-critical); }
+    .dot-high     { background: var(--c-high); }
+    .dot-watch    { background: var(--c-watch); }
+    .dot-nosales  { background: #8B00FF; }
+    .stat-card strong { display: block; font-size: clamp(1.15rem,1.8vw,1.5rem); font-weight: 700; color: var(--text); }
+    .stat-card small { display: block; margin-top: 4px; color: var(--muted-soft); font-size: 0.75rem; line-height: 1.4; font-weight: 400; }
 
     /* ── Toolbar ── */
     .toolbar {
@@ -180,7 +154,7 @@
     }
     .toolbar-grid {
       display: grid;
-      grid-template-columns: 1.6fr repeat(4, minmax(0, 1fr)) auto;
+      grid-template-columns: 1.6fr repeat(4, minmax(0,1fr)) auto;
       gap: 12px;
       align-items: end;
     }
@@ -205,22 +179,15 @@
       background: linear-gradient(180deg, rgba(239,246,255,0.92), rgba(255,255,255,0.98));
     }
     .field-search::before {
-      content: "";
-      position: absolute; left: 16px; bottom: 16px;
-      width: 11px; height: 11px;
-      border: 1.6px solid #2563eb;
-      border-radius: 999px;
-      pointer-events: none; z-index: 2;
+      content: ""; position: absolute; left: 16px; bottom: 16px;
+      width: 11px; height: 11px; border: 1.6px solid #2563eb;
+      border-radius: 999px; pointer-events: none; z-index: 2;
     }
     .field-search::after {
-      content: "";
-      position: absolute; left: 26px; bottom: 14px;
-      width: 6px; height: 1.6px;
-      background: #2563eb;
-      border-radius: 999px;
-      transform: rotate(45deg);
-      transform-origin: left center;
-      pointer-events: none; z-index: 2;
+      content: ""; position: absolute; left: 26px; bottom: 14px;
+      width: 6px; height: 1.6px; background: #2563eb;
+      border-radius: 999px; transform: rotate(45deg);
+      transform-origin: left center; pointer-events: none; z-index: 2;
     }
     .field input:focus, .field select:focus,
     .toolbar button:focus, .pager-button:focus, .more-lots-btn:focus {
@@ -230,41 +197,57 @@
     }
     .toolbar-actions { display: flex; gap: 6px; justify-content: flex-end; align-items: stretch; }
     .secondary-action, .pager-button {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 46px; border: 1px solid var(--border); border-radius: 10px;
+      background: #fff; color: var(--text); padding: 0 14px;
+      font-weight: 400; cursor: pointer; transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .secondary-action:hover, .pager-button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(15,23,42,0.08); }
+    .pager-button:disabled { cursor: not-allowed; opacity: 0.4; transform: none; box-shadow: none; }
+
+    /* ── Location segmented control ── */
+    .location-buttons {
+      display: flex;
+      align-items: center;
+      background: #e2e8f0;
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .loc-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 46px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #fff;
-      color: var(--text);
+      min-height: 36px;
       padding: 0 14px;
-      font-weight: 400;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: #64748b;
+      font-size: 0.82rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: transform 150ms ease, box-shadow 150ms ease;
+      transition: all 140ms ease;
+      white-space: nowrap;
     }
-    .secondary-action:hover, .pager-button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(15,23,42,0.08);
+    .loc-btn:hover { color: var(--text); }
+    .loc-btn.active {
+      background: #ffffff;
+      color: #1d4ed8;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.14), 0 0 0 1px rgba(15,23,42,0.06);
     }
-    .pager-button:disabled { cursor: not-allowed; opacity: 0.4; transform: none; box-shadow: none; }
 
     /* ── Results head ── */
     .results-head {
       display: grid;
       grid-template-columns: minmax(0,1fr) auto;
-      gap: 10px;
-      align-items: center;
-      margin-top: 20px;
+      gap: 10px; align-items: center; margin-top: 20px;
     }
     .results-meta { display: grid; gap: 3px; }
     .results-meta strong { font-size: 0.98rem; font-weight: 500; }
     .results-meta span { color: var(--muted); font-size: 0.86rem; font-weight: 400; }
-    .results-actions {
-      display: flex; flex-wrap: wrap;
-      gap: 10px; align-items: end;
-      justify-self: end;
-    }
+    .results-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-self: end; }
     .field.compact { min-width: 110px; }
     .field.compact select { min-width: 90px; min-height: 42px; }
     .pager { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -280,40 +263,48 @@
       box-shadow: var(--shadow);
       overflow: visible !important;
     }
-    /* No overflow on .table-scroll — let the page handle all scrolling.
-       Even overflow-x:auto alone causes browsers to treat overflow-y as auto,
-       which breaks viewport-level position:sticky on thead th. */
-    .table-scroll { width: 100%; overflow: visible !important;}
+    .table-scroll { width: 100%; overflow: visible !important; }
 
     table {
       width: 100%;
-      min-width: 860px;
+      min-width: 900px;
       border-collapse: separate;
       border-spacing: 0;
+      table-layout: auto;
     }
+    /* Product col gets width:9999px in colgroup → takes all remaining space.
+       Other cols get width:1px → sized to their min-content (no clipping). */
 
-    col.product-col { width: 640px; }
-    col.price-col   { width: 108px; }
-    col.stock-col   { width: 108px; }
-    col.sales-col   { width: 100px; }
-    col.mfd-col     { width: 260px; }
-
+    /* ── Two-row sticky header ── */
     th {
       position: sticky !important;
       top: 0 !important;
       z-index: 100 !important;
-      background: #d8e0eb;
+      background: #d0daea;
       color: #0f172a;
-      border-bottom: 1px solid #b8c4d4;
-      padding: 10px 14px;
+      border-bottom: 1px solid #b0bfcf;
+      padding: 9px 12px;
       font-size: 0.74rem;
       text-align: center;
       font-weight: 700;
       white-space: nowrap;
     }
+    th:not(:last-child) { border-right: 1px solid #b0bfcf; }
+
+    /* Sub-header row (Toronto / ESNA / Vancouver) */
+    .th-sub {
+      top: 36px !important;
+      z-index: 99 !important;
+      background: #c4d2e2 !important;
+      font-size: 0.70rem !important;
+      padding: 5px 12px !important;
+      font-weight: 600 !important;
+      border-top: 1px solid #b0bfcf;
+    }
+
     td {
       border-bottom: 1px solid rgba(15,23,42,0.065);
-      padding: 10px 14px;
+      padding: 10px 12px;
       text-align: left;
       vertical-align: top;
       font-size: 0.82rem;
@@ -321,202 +312,156 @@
       background: #fff;
       font-weight: 400;
     }
-    tbody tr:hover td { background: #f8faff; }
+    td:not(:last-child) { border-right: 1px solid var(--border-col); }
+
     tbody tr:last-child td { border-bottom: 0; }
 
-    tr[data-risk="critical"] td:first-child { border-left: 3px solid rgba(239,68,68,0.45); }
-    tr[data-risk="high"]     td:first-child { border-left: 3px solid rgba(249,115,22,0.40); }
-    tr[data-risk="watch"]    td:first-child { border-left: 3px solid rgba(234,179,8,0.40); }
+    /* Risk row left border */
+    tr[data-risk="critical"] td:first-child { border-left: 3px solid var(--c-critical); }
+    tr[data-risk="high"]     td:first-child { border-left: 3px solid var(--c-high); }
+    tr[data-risk="watch"]    td:first-child { border-left: 3px solid var(--c-watch); }
     tr[data-risk="normal"]   td:first-child { border-left: 3px solid transparent; }
+
+    /* Row background tint */
+    tr[data-risk="critical"] td { background: rgba(255,0,0,0.03); }
+    tr[data-risk="high"]     td { background: rgba(255,196,0,0.03); }
+    tr[data-risk="watch"]    td { background: rgba(0,166,184,0.03); }
+    tbody tr[data-risk="critical"]:hover td { background: rgba(255,0,0,0.06); }
+    tbody tr[data-risk="high"]:hover     td { background: rgba(255,196,0,0.06); }
+    tbody tr[data-risk="watch"]:hover    td { background: rgba(0,166,184,0.06); }
+    tbody tr[data-risk="normal"]:hover   td { background: #f8faff; }
+
+    /* ── Drag row selection ── */
+    td.cell-selected { background: rgba(37,99,235,0.11) !important; box-shadow: inset 0 0 0 1px rgba(37,99,235,0.28); }
+    table.is-selecting, table.is-selecting * { user-select: none; -webkit-user-select: none; cursor: crosshair; }
 
     /* ── Product cell ── */
     .product-cell {
       min-width: 0;
       display: grid;
-      grid-template-columns: 44px minmax(0, 1fr);
+      grid-template-columns: 44px minmax(0,1fr);
       gap: 10px;
       align-items: start;
     }
     .thumb {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      background:
-        linear-gradient(135deg, rgba(37, 99, 235, 0.10), transparent 55%),
-        linear-gradient(180deg, rgba(15, 23, 42, 0.05), rgba(15, 23, 42, 0.03));
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-weight: 400;
+      width: 44px; height: 44px; border-radius: 10px; overflow: hidden;
+      border: 1px solid rgba(15,23,42,0.08);
+      background: linear-gradient(135deg, rgba(37,99,235,0.10), transparent 55%),
+                  linear-gradient(180deg, rgba(15,23,42,0.05), rgba(15,23,42,0.03));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 0.82rem; font-weight: 400;
     }
-    .thumb img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      background: #fff;
-    }
+    .thumb img { width: 100%; height: 100%; display: block; object-fit: cover; background: #fff; }
     .product-name {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      color: var(--text);
-      font-weight: 500;
-      font-size: 0.88rem;
-      line-height: 1.35;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; color: var(--text); font-weight: 500; font-size: 0.88rem; line-height: 1.35;
     }
     .product-meta {
-      margin-top: 4px;
-      color: var(--muted-soft);
-      font-size: 0.72rem;
-      font-weight: 400;
-      line-height: 1.4;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      margin-top: 4px; color: var(--muted-soft); font-size: 0.72rem;
+      font-weight: 400; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+
+    /* ── SKU cell ── */
+    .sku-cell {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
 
     /* ── Metric stack ── */
     .metric-stack { display: grid; gap: 3px; font-variant-numeric: tabular-nums; }
     .metric-line {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 0.77rem;
-      white-space: nowrap;
+      display: flex; justify-content: space-between; gap: 8px;
+      color: var(--muted); font-size: 0.77rem; white-space: nowrap;
     }
     .metric-line strong { color: var(--text); font-weight: 400; }
 
     /* ── MFD lots ── */
     .mfd-lots { display: grid; gap: 0; }
-
     .mfd-lot-line {
-      display: flex;
-      align-items: center;
-      padding: 2px 0;
-      font-size: 0.78rem;
-      font-variant-numeric: tabular-nums;
-      line-height: 1.6;
-      color: var(--text);
-      gap: 0;
-      flex-wrap: nowrap;
+      display: flex; align-items: center; padding: 2px 0;
+      font-size: 0.78rem; font-variant-numeric: tabular-nums;
+      line-height: 1.6; color: var(--text); flex-wrap: nowrap;
     }
     .lot-dot {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      margin-right: 7px;
-      flex-shrink: 0;
-      cursor: help;
+      display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+      margin-right: 7px; flex-shrink: 0; cursor: help;
     }
-    .lot-dot-critical { background: #ef4444; }
-    .lot-dot-high     { background: #f97316; }
-    .lot-dot-watch    { background: #eab308; }
+    .lot-dot-critical { background: var(--c-critical); }
+    .lot-dot-high     { background: var(--c-high); }
+    .lot-dot-watch    { background: var(--c-watch); }
     .lot-dot-normal   { background: #cbd5e1; }
-    .lot-line-date {
-      font-weight: 400;
-      white-space: nowrap;
-      flex-shrink: 0;
-      min-width: 80px;
+    .lot-line-date { font-weight: 400; white-space: nowrap; flex-shrink: 0; }
+
+    /* ── EA column ── */
+    .ea-lots { display: grid; gap: 0; }
+    .ea-lot-line {
+      display: flex; align-items: center; padding: 2px 0;
+      font-size: 0.78rem; font-variant-numeric: tabular-nums;
+      line-height: 1.6; justify-content: flex-end;
     }
-    .lot-line-sep {
-      color: var(--muted-soft);
-      margin: 0 5px;
-      flex-shrink: 0;
-    }
-    .lot-line-qty {
-      color: var(--text);
-      white-space: nowrap;
-      flex-shrink: 0;
-      min-width: 40px;
-      text-align: right;
-      font-weight: 400;
-    }
-    .lot-line-est {
-      color: var(--muted);
-      white-space: nowrap;
-      flex-shrink: 0;
-      min-width: 40px;
-      text-align: right;
-      font-weight: 400;
-    }
+    .ea-lot-qty { color: var(--text); font-weight: 400; white-space: nowrap; }
 
     .more-lots-btn {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      min-height: 24px;
-      padding: 2px 8px;
-      border-radius: 5px;
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--muted-soft);
-      font-size: 0.72rem;
-      font-weight: 400;
-      margin-top: 4px;
-      cursor: pointer;
+      display: flex; justify-content: center; align-items: center;
+      width: 100%; min-height: 24px; padding: 2px 8px;
+      border-radius: 5px; background: transparent; border: 1px solid transparent;
+      color: var(--muted-soft); font-size: 0.72rem; font-weight: 400;
+      margin-top: 4px; cursor: pointer;
       transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
     }
-    .more-lots-btn:hover {
-      background: rgba(37, 99, 235, 0.07);
-      color: var(--accent);
-      border-color: rgba(37, 99, 235, 0.14);
-    }
-    .more-lots-btn:focus-visible {
-      outline: 2px solid rgba(37,99,235,0.2);
-      outline-offset: 2px;
-    }
+    .more-lots-btn:hover { background: rgba(37,99,235,0.07); color: var(--accent); border-color: rgba(37,99,235,0.14); }
 
     .empty-lots {
-      display: inline-flex;
-      color: var(--muted-soft);
-      background: rgba(15,23,42,0.04);
-      border: 1px solid rgba(15,23,42,0.06);
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 0.76rem;
-      font-weight: 400;
+      display: inline-flex; color: var(--muted-soft);
+      background: rgba(15,23,42,0.04); border: 1px solid rgba(15,23,42,0.06);
+      border-radius: 6px; padding: 4px 8px; font-size: 0.76rem; font-weight: 400;
     }
+
+    /* ── Sellout cell ── */
+    .sellout-cell { display: grid; gap: 3px; }
+    .sellout-date { font-size: 0.82rem; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text); white-space: nowrap; }
+    .sellout-sub { font-size: 0.72rem; color: var(--muted-soft); line-height: 1.4; }
+    .sellout-none { font-size: 0.76rem; color: var(--muted-soft); }
+    .sellout-over3y { font-size: 13px; font-weight: 500; color: var(--text); }
 
     /* ── Empty state ── */
     .empty {
-      margin: 18px;
-      background: rgba(255,255,255,0.82);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      padding: 28px;
-      color: var(--muted);
-      line-height: 1.6;
+      margin: 18px; background: rgba(255,255,255,0.82);
+      border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: var(--shadow); padding: 28px; color: var(--muted); line-height: 1.6;
     }
     .empty strong { color: var(--text); display: block; margin-bottom: 8px; font-size: 1.04rem; font-weight: 500; }
 
     /* ── Pagination ── */
     .pagination-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      padding: 13px 16px;
-      border-top: 1px solid var(--border);
-      background: rgba(248,250,252,0.7);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; flex-wrap: wrap; padding: 13px 16px;
+      border-top: 1px solid var(--border); background: rgba(248,250,252,0.7);
     }
     .pagination-summary { color: var(--muted); font-size: 0.81rem; font-weight: 400; }
-
     .hidden { display: none !important; }
 
+    /* ── Grid text: base 13px, SKU/Name 14px ── */
+    #mainTable th                        { font-size: 13px; }
+    #mainTable .th-sub                   { font-size: 13px !important; }
+    #mainTable td                        { font-size: 13px; }
+    #mainTable .sku-cell                 { font-size: 14px; }
+    #mainTable .product-name             { font-size: 14px; }
+    #mainTable .product-meta             { font-size: 13px; }
+    #mainTable .metric-line              { font-size: 13px; }
+    #mainTable .mfd-lot-line             { font-size: 13px; }
+    #mainTable .ea-lot-line              { font-size: 13px; }
+    #mainTable .more-lots-btn            { font-size: 13px; }
+    #mainTable .empty-lots               { font-size: 13px; }
+    #mainTable .sellout-date             { font-size: 13px; }
+    #mainTable .sellout-sub              { font-size: 13px; }
+    #mainTable .sellout-none             { font-size: 13px; }
+
     @media (max-width: 1180px) {
-      .stats-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .toolbar-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .stats-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .toolbar-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .toolbar-actions { justify-content: stretch; }
       .secondary-action { width: 100%; }
       .results-head { grid-template-columns: 1fr; }
@@ -542,28 +487,23 @@
     <section class="stats-grid" id="statsGrid">
       <button type="button" class="stat-card active" data-card-filter="all">
         <span class="card-label"><span class="card-dot dot-total"></span>Total</span>
-        <strong>--</strong>
-        <small>All analyzed products.</small>
+        <strong>--</strong><small>All analyzed products.</small>
       </button>
       <button type="button" class="stat-card" data-card-filter="critical">
         <span class="card-label"><span class="card-dot dot-critical"></span>Critical</span>
-        <strong>--</strong>
-        <small>Contains at least one MFD lot that cannot sell through before the cutoff date.</small>
+        <strong>--</strong><small>MFD within 6 months.</small>
       </button>
       <button type="button" class="stat-card" data-card-filter="high">
         <span class="card-label"><span class="card-dot dot-high"></span>High Risk</span>
-        <strong>--</strong>
-        <small>Contains at least one MFD lot with low sell-through probability before cutoff.</small>
+        <strong>--</strong><small>MFD within 6–12 months.</small>
       </button>
       <button type="button" class="stat-card" data-card-filter="watch">
         <span class="card-label"><span class="card-dot dot-watch"></span>Watch</span>
-        <strong>--</strong>
-        <small>Contains at least one MFD lot that should be monitored closely.</small>
+        <strong>--</strong><small>MFD within 12–18 months.</small>
       </button>
       <button type="button" class="stat-card" data-card-filter="no-sales">
-        <span class="card-label"><span class="card-dot dot-nosales"></span>No Sales Velocity</span>
-        <strong>--</strong>
-        <small>Last 4M Avg is 0.</small>
+        <span class="card-label"><span class="card-dot dot-nosales"></span>No Sales</span>
+        <strong>--</strong><small>Last 4M Avg is 0.</small>
       </button>
     </section>
 
@@ -575,9 +515,7 @@
         </div>
         <div class="field">
           <label for="brandFilter">Brand</label>
-          <select id="brandFilter">
-            <option value="all">All brands</option>
-          </select>
+          <select id="brandFilter"><option value="all">All brands</option></select>
         </div>
         <div class="field">
           <label for="stockSortSelect">Stock</label>
@@ -622,6 +560,10 @@
         <span id="resultsSubtitle">The lot-level risk list will appear once Products and MFD sheets load.</span>
       </div>
       <div class="results-actions">
+        <div class="location-buttons">
+          <button type="button" class="loc-btn active" id="locToronto">Toronto</button>
+          <button type="button" class="loc-btn" id="locVancouver">Vancouver</button>
+        </div>
         <div class="field compact">
           <label for="pageSizeSelect">Per page</label>
           <select id="pageSizeSelect">
@@ -641,32 +583,16 @@
 
     <section class="table-card">
       <div class="table-scroll">
-        <table>
-          <colgroup>
-            <col class="product-col" />
-            <col class="price-col" />
-            <col class="stock-col" />
-            <col class="sales-col" />
-            <col class="mfd-col" />
-          </colgroup>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th>Sales</th>
-              <th>MFD / EA / Sellable</th>
-            </tr>
-          </thead>
+        <table id="mainTable">
+          <colgroup id="mainColgroup"></colgroup>
+          <thead id="mainThead"></thead>
           <tbody id="tableBody">
-            <tr>
-              <td colspan="5">
-                <div class="empty">
-                  <strong>Loading live product and MFD data...</strong>
-                  Reading Products and MFD tabs, then calculating each lot against MFD − 6 months.
-                </div>
-              </td>
-            </tr>
+            <tr><td colspan="9">
+              <div class="empty">
+                <strong>Loading live product and MFD data...</strong>
+                Reading Products and MFD tabs, then calculating each lot against MFD date.
+              </div>
+            </td></tr>
           </tbody>
         </table>
       </div>
@@ -687,37 +613,37 @@
       sheetName: "Products",
       currency: "USD"
     };
-    const DEFAULT_SORT      = "name-asc";
-    const DEFAULT_CARD      = "all";
+    const DEFAULT_SORT = "name-asc";
+    const DEFAULT_CARD = "all";
 
     const FIELD_ALIASES = {
-      sku: ["productcode", "sku", "product code"],
-      name: ["name", "product name"],
+      sku: ["productcode","sku","product code"],
+      name: ["name","product name"],
       category: ["category"],
       brand: ["brand"],
-      upc: ["barcode", "upc"],
-      image: ["image", "photo", "picture"],
-      cost: ["averagecost", "cost"],
-      wholesale: ["pricetier1", "wholesale"],
-      retail: ["pricetier2", "retail", "price"],
-      last4Month: ["last4month", "last 4 month", "last 4m"],
-      last12Month: ["last12month", "last 12 month", "12 month", "12month"],
+      upc: ["barcode","upc"],
+      image: ["image","photo","picture"],
+      cost: ["averagecost","cost"],
+      wholesale: ["pricetier1","wholesale"],
+      retail: ["pricetier2","retail","price"],
+      last4Month: ["last4month","last 4 month","last 4m"],
+      last12Month: ["last12month","last 12 month","12 month","12month"],
       length: ["length"],
       width: ["width"],
       height: ["height"],
-      onHandTor: ["onhandtor", "on hand (tor)", "on hand tor"],
-      onHandVan: ["onhandvan", "on hand (van)", "on hand van"],
-      onHandEsna: ["onhandesna", "on hand (esna)", "on hand esna"],
-      onHandNew: ["onhandnew", "on hand (new)", "on hand new"],
-      availableTor: ["availabletor", "available (tor)", "available tor"],
-      availableVan: ["availablevan", "available (van)", "available van"],
-      availableEsna: ["availableesna", "available (esna)", "available esna"],
-      availableNew: ["availablenew", "available (new)", "available new"],
+      onHandTor: ["onhandtor","on hand (tor)","on hand tor"],
+      onHandVan: ["onhandvan","on hand (van)","on hand van"],
+      onHandEsna: ["onhandesna","on hand (esna)","on hand esna"],
+      onHandNew: ["onhandnew","on hand (new)","on hand new"],
+      availableTor: ["availabletor","available (tor)","available tor"],
+      availableVan: ["availablevan","available (van)","available van"],
+      availableEsna: ["availableesna","available (esna)","available esna"],
+      availableNew: ["availablenew","available (new)","available new"],
       reserve: ["reserve"],
-      stockReserved: ["stockreserved", "stock reserved"],
-      reserveTor: ["reservetor", "reserve (tor)", "reserve tor", "reservedtor", "reserved (tor)", "reserved tor"],
-      reserveVan: ["reservevan", "reserve (van)", "reserve van", "reservedvan", "reserved (van)", "reserved van"],
-      location: ["location", "loc", "bin", "bin location", "binlocation", "shelf", "shelf location"]
+      stockReserved: ["stockreserved","stock reserved"],
+      reserveTor: ["reservetor","reserve (tor)","reserve tor","reservedtor","reserved (tor)","reserved tor"],
+      reserveVan: ["reservevan","reserve (van)","reserve van","reservedvan","reserved (van)","reserved van"],
+      location: ["location","loc","bin","bin location","binlocation","shelf","shelf location"]
     };
 
     const RISK_META = {
@@ -734,6 +660,7 @@
     ];
 
     const state = {
+      rawProducts: [],
       products: [],
       filtered: [],
       columns: [],
@@ -749,85 +676,133 @@
       sort: DEFAULT_SORT,
       pageSize: 50,
       currentPage: 1,
+      location: "toronto",
       today: startOfDay(new Date())
     };
 
     const elements = {
-      statsGrid:              document.getElementById("statsGrid"),
-      searchInput:            document.getElementById("searchInput"),
-      brandFilter:            document.getElementById("brandFilter"),
-      stockSortSelect:        document.getElementById("stockSortSelect"),
-      mfdSortSelect:          document.getElementById("mfdSortSelect"),
-      sortSelect:             document.getElementById("sortSelect"),
-      resetButton:            document.getElementById("resetButton"),
-      tableBody:              document.getElementById("tableBody"),
-      resultsTitle:           document.getElementById("resultsTitle"),
-      resultsSubtitle:        document.getElementById("resultsSubtitle"),
-      paginationSummary:      document.getElementById("paginationSummary"),
-      pageSizeSelect:         document.getElementById("pageSizeSelect"),
-      pageIndicator:          document.getElementById("pageIndicator"),
-      pageIndicatorBottom:    document.getElementById("pageIndicatorBottom"),
-      prevPageButton:         document.getElementById("prevPageButton"),
-      nextPageButton:         document.getElementById("nextPageButton"),
-      prevPageButtonBottom:   document.getElementById("prevPageButtonBottom"),
-      nextPageButtonBottom:   document.getElementById("nextPageButtonBottom")
+      statsGrid:            document.getElementById("statsGrid"),
+      searchInput:          document.getElementById("searchInput"),
+      brandFilter:          document.getElementById("brandFilter"),
+      stockSortSelect:      document.getElementById("stockSortSelect"),
+      mfdSortSelect:        document.getElementById("mfdSortSelect"),
+      sortSelect:           document.getElementById("sortSelect"),
+      resetButton:          document.getElementById("resetButton"),
+      tableBody:            document.getElementById("tableBody"),
+      mainTable:            document.getElementById("mainTable"),
+      mainColgroup:         document.getElementById("mainColgroup"),
+      mainThead:            document.getElementById("mainThead"),
+      resultsTitle:         document.getElementById("resultsTitle"),
+      resultsSubtitle:      document.getElementById("resultsSubtitle"),
+      paginationSummary:    document.getElementById("paginationSummary"),
+      pageSizeSelect:       document.getElementById("pageSizeSelect"),
+      pageIndicator:        document.getElementById("pageIndicator"),
+      pageIndicatorBottom:  document.getElementById("pageIndicatorBottom"),
+      prevPageButton:       document.getElementById("prevPageButton"),
+      nextPageButton:       document.getElementById("nextPageButton"),
+      prevPageButtonBottom: document.getElementById("prevPageButtonBottom"),
+      nextPageButtonBottom: document.getElementById("nextPageButtonBottom"),
+      locToronto:           document.getElementById("locToronto"),
+      locVancouver:         document.getElementById("locVancouver")
     };
 
-    function normalizeKey(value) {
-      return String(value || "")
-        .toLowerCase()
-        .replace(/&/g, "and")
-        .replace(/[^a-z0-9]+/g, "")
-        .trim();
+    function colSpan() { return state.location === "toronto" ? 9 : 8; }
+
+    /* ── Render dynamic two-row header ── */
+    function renderTableHeader() {
+      const isTor = state.location === "toronto";
+
+      if (isTor) {
+        // Product=9999px (takes all remainder). Others=1px (auto min-content, no clipping).
+        elements.mainColgroup.innerHTML =
+          '<col style="width:1px" />' +
+          '<col style="width:9999px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />';
+        elements.mainThead.innerHTML =
+          '<tr>' +
+            '<th rowspan="2">SKU</th>' +
+            '<th rowspan="2">Product</th>' +
+            '<th rowspan="2">Price</th>' +
+            '<th colspan="2">Stock</th>' +
+            '<th rowspan="2">Sales</th>' +
+            '<th rowspan="2">MFD Date</th>' +
+            '<th rowspan="2">EA</th>' +
+            '<th rowspan="2">Sellable</th>' +
+          '</tr>' +
+          '<tr>' +
+            '<th class="th-sub">Toronto</th>' +
+            '<th class="th-sub">ESNA</th>' +
+          '</tr>';
+      } else {
+        elements.mainColgroup.innerHTML =
+          '<col style="width:1px" />' +
+          '<col style="width:9999px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
+          '<col style="width:1px" />';
+        elements.mainThead.innerHTML =
+          '<tr>' +
+            '<th rowspan="2">SKU</th>' +
+            '<th rowspan="2">Product</th>' +
+            '<th rowspan="2">Price</th>' +
+            '<th>Stock</th>' +
+            '<th rowspan="2">Sales</th>' +
+            '<th rowspan="2">MFD Date</th>' +
+            '<th rowspan="2">EA</th>' +
+            '<th rowspan="2">Sellable</th>' +
+          '</tr>' +
+          '<tr>' +
+            '<th class="th-sub">Vancouver</th>' +
+          '</tr>';
+      }
     }
 
+    /* ── Utility functions ── */
+    function normalizeKey(value) {
+      return String(value || "").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]+/g,"").trim();
+    }
     function escapeHtml(value) {
       return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
     }
-
     function parseCSV(text) {
       const rows = [];
       let row = [], value = "", inQuotes = false;
-      for (let i = 0; i < text.length; i += 1) {
-        const char = text[i];
-        const next = text[i + 1];
-        if (char === "\"") {
-          if (inQuotes && next === "\"") { value += "\""; i += 1; }
-          else { inQuotes = !inQuotes; }
-          continue;
-        }
-        if (char === "," && !inQuotes) { row.push(value); value = ""; continue; }
-        if (char === "\n" && !inQuotes) { row.push(value); rows.push(row); row = []; value = ""; continue; }
-        if (char !== "\r") value += char;
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i], next = text[i+1];
+        if (char === '"') { if (inQuotes && next === '"') { value += '"'; i++; } else { inQuotes = !inQuotes; } continue; }
+        if (char === ',' && !inQuotes) { row.push(value); value = ""; continue; }
+        if (char === '\n' && !inQuotes) { row.push(value); rows.push(row); row = []; value = ""; continue; }
+        if (char !== '\r') value += char;
       }
-      row.push(value);
-      rows.push(row);
+      row.push(value); rows.push(row);
       return rows;
     }
-
     function parseNumber(value) {
-      if (value === null || value === undefined) return 0;
-      const match = String(value).replace(/,/g, "").match(/-?\d+(?:\.\d+)?/);
-      if (!match) return 0;
-      const numeric = Number(match[0]);
-      return Number.isFinite(numeric) ? numeric : 0;
+      if (value == null) return 0;
+      const m = String(value).replace(/,/g,"").match(/-?\d+(?:\.\d+)?/);
+      if (!m) return 0;
+      const n = Number(m[0]);
+      return Number.isFinite(n) ? n : 0;
     }
-
     function hasValue(value) {
       const n = String(value ?? "").trim().toLowerCase();
       return n !== "" && n !== "n/a" && n !== "#n/a" && n !== "--" && n !== "-";
     }
-
     function isMeaningful(value) {
       const n = String(value || "").trim().toLowerCase();
       return n !== "" && n !== "0" && n !== "0.00" && n !== "n/a" && n !== "#n/a" && n !== "--";
     }
-
     function normalizeExternalUrl(value) {
       const raw = String(value || "").trim();
       if (!raw) return "";
@@ -835,674 +810,574 @@
       if (/^(www\.|[a-z0-9.-]+\.[a-z]{2,})(?:\/|$|#|\?)/i.test(raw)) return "https://" + raw;
       return raw;
     }
-
-    function formatNumber(value, digits = 0) {
+    function formatNumber(value, digits) {
+      const d = digits === undefined ? 0 : digits;
       if (!Number.isFinite(value)) return "-";
-      return new Intl.NumberFormat("en-US", {
-        minimumFractionDigits: digits,
-        maximumFractionDigits: digits
-      }).format(value);
+      return new Intl.NumberFormat("en-US",{minimumFractionDigits:d,maximumFractionDigits:d}).format(value);
     }
-
     function formatAverage(value) {
       if (!Number.isFinite(value)) return "-";
-      return new Intl.NumberFormat("en-US", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-      }).format(value);
+      return new Intl.NumberFormat("en-US",{minimumFractionDigits:0,maximumFractionDigits:2}).format(value);
     }
-
     function formatCurrency(value) {
       if (!Number.isFinite(value) || value <= 0) return "-";
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: CONFIG.currency,
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }).format(value);
+      return new Intl.NumberFormat("en-US",{style:"currency",currency:CONFIG.currency,minimumFractionDigits:2,maximumFractionDigits:2}).format(value);
     }
-
-    function startOfDay(date) {
-      const value = new Date(date);
-      value.setHours(0, 0, 0, 0);
-      return value;
+    function startOfDay(date) { const v = new Date(date); v.setHours(0,0,0,0); return v; }
+    function monthsBetween(from, to) {
+      if (!from || !to) return null;
+      return (startOfDay(to).getTime() - startOfDay(from).getTime()) / (24*60*60*1000) / 30.4375;
     }
-
-    function addMonths(date, monthCount) {
-      const value = new Date(date);
-      const day = value.getDate();
-      value.setDate(1);
-      value.setMonth(value.getMonth() + monthCount);
-      const lastDay = new Date(value.getFullYear(), value.getMonth() + 1, 0).getDate();
-      value.setDate(Math.min(day, lastDay));
-      return startOfDay(value);
-    }
-
-    function monthsBetween(fromDate, toDate) {
-      if (!fromDate || !toDate) return null;
-      const dayMs = 24 * 60 * 60 * 1000;
-      return (startOfDay(toDate).getTime() - startOfDay(fromDate).getTime()) / dayMs / 30.4375;
-    }
-
     function formatDate(date) {
       if (!date || Number.isNaN(date.getTime())) return "-";
-      return new Intl.DateTimeFormat("en-CA", {
-        year: "numeric", month: "2-digit", day: "2-digit"
-      }).format(date);
+      return new Intl.DateTimeFormat("en-CA",{year:"numeric",month:"2-digit",day:"2-digit"}).format(date);
     }
-
     function formatMfdDate(value) {
       const raw = String(value || "").trim();
       if (!raw) return "";
       const iso = raw.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/);
-      if (iso) return iso[1] + "-" + iso[2].padStart(2, "0") + "-" + iso[3].padStart(2, "0");
+      if (iso) return iso[1]+"-"+iso[2].padStart(2,"0")+"-"+iso[3].padStart(2,"0");
       const dmy = raw.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$/);
-      if (dmy) return dmy[3] + "-" + dmy[2].padStart(2, "0") + "-" + dmy[1].padStart(2, "0");
-      const date = new Date(raw);
-      if (!Number.isNaN(date.getTime())) return formatDate(date);
+      if (dmy) return dmy[3]+"-"+dmy[2].padStart(2,"0")+"-"+dmy[1].padStart(2,"0");
+      const d = new Date(raw);
+      if (!Number.isNaN(d.getTime())) return formatDate(d);
       return raw;
     }
-
     function parseDate(value) {
-      const normalized = formatMfdDate(value);
-      const iso = normalized.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      const n = formatMfdDate(value);
+      const iso = n.match(/^(\d{4})-(\d{2})-(\d{2})$/);
       if (!iso) return null;
-      const date = new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
-      return Number.isNaN(date.getTime()) ? null : startOfDay(date);
+      const d = new Date(Number(iso[1]), Number(iso[2])-1, Number(iso[3]));
+      return Number.isNaN(d.getTime()) ? null : startOfDay(d);
     }
+    function formatSku(value) { return String(value || "").trim().toLowerCase(); }
 
-    function formatSku(value) {
-      return String(value || "").trim().toLowerCase();
-    }
-
+    /* ── Fetch helpers ── */
     function buildProductEndpoints() {
       const enc = encodeURIComponent(CONFIG.sheetName);
       return [
-        "https://docs.google.com/spreadsheets/d/" + CONFIG.sheetId + "/gviz/tq?tqx=out:csv&sheet=" + enc,
-        "https://docs.google.com/spreadsheets/d/" + CONFIG.sheetId + "/export?format=csv&sheet=" + enc
+        "https://docs.google.com/spreadsheets/d/"+CONFIG.sheetId+"/gviz/tq?tqx=out:csv&sheet="+enc,
+        "https://docs.google.com/spreadsheets/d/"+CONFIG.sheetId+"/export?format=csv&sheet="+enc
       ];
     }
-
     async function fetchCsv(sheetName) {
-      const url = "https://docs.google.com/spreadsheets/d/" + CONFIG.sheetId + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(sheetName);
-      const response = await fetch(url, { cache: "no-store", mode: "cors" });
-      if (!response.ok) throw new Error("Could not load " + sheetName + ": HTTP " + response.status);
-      const text = await response.text();
-      if (/<!doctype html|<html/i.test(text)) throw new Error("Received HTML instead of CSV for " + sheetName);
-      return parseCSV(text)
-        .map((row) => row.map((cell) => String(cell || "").trim()))
-        .filter((row) => row.some((cell) => cell !== ""));
+      const url = "https://docs.google.com/spreadsheets/d/"+CONFIG.sheetId+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(sheetName);
+      const r = await fetch(url, {cache:"no-store",mode:"cors"});
+      if (!r.ok) throw new Error("Could not load "+sheetName+": HTTP "+r.status);
+      const text = await r.text();
+      if (/<!doctype html|<html/i.test(text)) throw new Error("Received HTML for "+sheetName);
+      return parseCSV(text).map(row=>row.map(c=>String(c||"").trim())).filter(row=>row.some(c=>c!==""));
     }
-
     async function fetchProductRows() {
       let lastError = null;
-      for (const endpoint of buildProductEndpoints()) {
+      for (const ep of buildProductEndpoints()) {
         try {
-          const response = await fetch(endpoint, { cache: "no-store", mode: "cors" });
-          if (!response.ok) throw new Error("HTTP " + response.status);
-          const text = await response.text();
-          if (/<!doctype html|<html/i.test(text)) throw new Error("Received HTML instead of CSV.");
-          return parseCSV(text)
-            .map((row) => row.map((cell) => String(cell || "").trim()))
-            .filter((row) => row.some((cell) => cell !== ""));
-        } catch (error) {
-          lastError = error;
-        }
+          const r = await fetch(ep, {cache:"no-store",mode:"cors"});
+          if (!r.ok) throw new Error("HTTP "+r.status);
+          const text = await r.text();
+          if (/<!doctype html|<html/i.test(text)) throw new Error("Received HTML.");
+          return parseCSV(text).map(row=>row.map(c=>String(c||"").trim())).filter(row=>row.some(c=>c!==""));
+        } catch(e) { lastError = e; }
       }
       throw lastError || new Error("Unable to load Products sheet.");
     }
 
+    /* ── Column/field mapping ── */
     function deriveColumns(rawRows) {
-      const headerRows = rawRows.slice(0, 3);
-      const maxColumns = headerRows.reduce((max, row) => Math.max(max, row.length), 0);
+      const headerRows = rawRows.slice(0,3);
+      const maxCols = headerRows.reduce((m,r)=>Math.max(m,r.length),0);
       const columns = [];
-      for (let index = 0; index < maxColumns; index += 1) {
-        const row1 = headerRows[0]?.[index] ?? "";
-        const row2 = headerRows[1]?.[index] ?? "";
-        const row3 = headerRows[2]?.[index] ?? "";
-        const label = row2 || row1 || "Column " + (index + 1);
-        const baseKey = normalizeKey(row1 || row2 || "column" + (index + 1));
-        columns.push({ index, key: baseKey || "column" + (index + 1), label, type: row3 || "" });
+      for (let i = 0; i < maxCols; i++) {
+        const r1=headerRows[0]?.[i]??"", r2=headerRows[1]?.[i]??"", r3=headerRows[2]?.[i]??"";
+        const label = r2||r1||"Column "+(i+1);
+        const baseKey = normalizeKey(r1||r2||"column"+(i+1));
+        columns.push({index:i, key:baseKey||"column"+(i+1), label, type:r3||""});
       }
       return columns;
     }
-
     function findColumnKey(columns, aliases) {
-      const normalizedAliases = aliases.map(normalizeKey);
-      for (const alias of normalizedAliases) {
-        const exact = columns.find((c) => c.key === alias || normalizeKey(c.label) === alias);
-        if (exact) return exact.key;
-      }
-      for (const alias of normalizedAliases) {
-        const contains = columns.find((c) => c.key.includes(alias) || normalizeKey(c.label).includes(alias));
-        if (contains) return contains.key;
-      }
+      const norm = aliases.map(normalizeKey);
+      for (const a of norm) { const c=columns.find(c=>c.key===a||normalizeKey(c.label)===a); if(c) return c.key; }
+      for (const a of norm) { const c=columns.find(c=>c.key.includes(a)||normalizeKey(c.label).includes(a)); if(c) return c.key; }
       return null;
     }
-
     function buildFieldMap(columns) {
       const map = {};
-      Object.entries(FIELD_ALIASES).forEach(([field, aliases]) => {
-        map[field] = findColumnKey(columns, aliases);
-      });
+      Object.entries(FIELD_ALIASES).forEach(([field,aliases])=>{ map[field]=findColumnKey(columns,aliases); });
       return map;
     }
-
     function buildRecord(row, columns) {
-      const record = { __cells: row };
-      columns.forEach((column) => { record[column.key] = row[column.index] ?? ""; });
+      const record = {__cells:row};
+      columns.forEach(col=>{ record[col.key]=row[col.index]??""; });
       return record;
     }
-
     function getValue(record, fieldName) {
       const key = state.fieldMap[fieldName];
-      return key ? (record[key] ?? "") : "";
+      return key ? (record[key]??"") : "";
     }
-
     function isDisplayableProduct(product) {
-      const sku = String(product.sku || "").trim().toLowerCase();
-      const name = String(product.name || "").trim().toLowerCase();
-      const errorValue = /^#(?:num|value|ref|div\/0|n\/a|name|error)!?$/i;
+      const sku = String(product.sku||"").trim().toLowerCase();
+      const name = String(product.name||"").trim().toLowerCase();
+      const err = /^#(?:num|value|ref|div\/0|n\/a|name|error)!?$/i;
       if (!sku && !name) return false;
-      if (errorValue.test(sku) || errorValue.test(name)) return false;
+      if (err.test(sku)||err.test(name)) return false;
       if (name === "unnamed product") return false;
       return true;
     }
-
-    function hasReliableData(product) {
-      if (product.available <= 0) return false;
-      if (!product.averageSales) return false;
-      if (product.fourMonthSales <= 0 && product.last12Month <= 0) return false;
-      return product.activeSalesMonths >= 4;
-    }
-
-    function applyAverageSales(product) {
-      const averageSales = state.averageSalesMap.get(product.skuKey);
-      if (!averageSales) {
-        product.averageSales = null;
-        product.activeSalesMonths = 0;
-        product.monthlySales = [];
-        product.last12Month = 0;
-        product.fourMonthSales = 0;
-        return product;
-      }
-      product.averageSales = averageSales;
-      product.last12Month = averageSales.last12Month;
-      product.fourMonthSales = averageSales.last4Month;
-      product.activeSalesMonths = averageSales.activeSalesMonths;
-      product.monthlySales = averageSales.monthlySales;
-      return product;
-    }
-
     function formatSize(product) {
-      const values = [
-        { value: product.lengthRaw, suffix: "L" },
-        { value: product.widthRaw,  suffix: "W" },
-        { value: product.heightRaw, suffix: "H" }
-      ].filter((item) => hasValue(item.value));
-      if (!values.length) return "";
-      return values.map((item) => String(item.value).trim() + " " + item.suffix).join(" x ");
+      const vals = [{value:product.lengthRaw,suffix:"L"},{value:product.widthRaw,suffix:"W"},{value:product.heightRaw,suffix:"H"}]
+        .filter(i=>hasValue(i.value));
+      if (!vals.length) return "";
+      return vals.map(i=>String(i.value).trim()+" "+i.suffix).join(" x ");
     }
 
+    /* ── Transform raw row into product object ── */
     function transformProduct(record, index) {
-      const sku          = getValue(record, "sku");
-      const name         = getValue(record, "name") || "Unnamed product";
-      const brand        = getValue(record, "brand") || "Unknown brand";
-      const category     = getValue(record, "category") || "Uncategorized";
-      const upc          = getValue(record, "upc");
-      const location     = getValue(record, "location");
-      const image        = normalizeExternalUrl(getValue(record, "image"));
-      const lengthRaw    = getValue(record, "length");
-      const widthRaw     = getValue(record, "width");
-      const heightRaw    = getValue(record, "height");
+      const sku        = getValue(record,"sku");
+      const name       = getValue(record,"name")||"Unnamed product";
+      const brand      = getValue(record,"brand")||"Unknown brand";
+      const category   = getValue(record,"category")||"Uncategorized";
+      const upc        = getValue(record,"upc");
+      const location   = getValue(record,"location");
+      const image      = normalizeExternalUrl(getValue(record,"image"));
+      const lengthRaw  = getValue(record,"length");
+      const widthRaw   = getValue(record,"width");
+      const heightRaw  = getValue(record,"height");
 
-      const onHandTor    = parseNumber(record.__cells?.[36] ?? getValue(record, "onHandTor"));
-      const onHandVan    = parseNumber(record.__cells?.[37] ?? getValue(record, "onHandVan"));
-      const onHandEsna   = parseNumber(record.__cells?.[41] ?? getValue(record, "onHandEsna"));
-      const onHandNew    = parseNumber(record.__cells?.[42] ?? getValue(record, "onHandNew"));
-      const availableTor = parseNumber(record.__cells?.[17] ?? getValue(record, "availableTor"));
-      const availableVan = parseNumber(record.__cells?.[18] ?? getValue(record, "availableVan"));
-      const availableEsna= parseNumber(record.__cells?.[29] ?? getValue(record, "availableEsna"));
-      const availableNew = parseNumber(record.__cells?.[43] ?? getValue(record, "availableNew"));
-      const reservedTor  = parseNumber(record.__cells?.[35] ?? getValue(record, "stockReserved") ?? getValue(record, "reserveTor") ?? getValue(record, "reserve"));
-      const reservedVan  = parseNumber(record.__cells?.[40] ?? getValue(record, "reserveVan") ?? 0);
+      const onHandTor    = parseNumber(record.__cells?.[36] ?? getValue(record,"onHandTor"));
+      const onHandVan    = parseNumber(record.__cells?.[37] ?? getValue(record,"onHandVan"));
+      const onHandEsna   = parseNumber(record.__cells?.[41] ?? getValue(record,"onHandEsna"));
+      const onHandNew    = parseNumber(record.__cells?.[42] ?? getValue(record,"onHandNew"));
+      const availableTor = parseNumber(record.__cells?.[17] ?? getValue(record,"availableTor"));
+      const availableVan = parseNumber(record.__cells?.[18] ?? getValue(record,"availableVan"));
+      const availableEsna= parseNumber(record.__cells?.[29] ?? getValue(record,"availableEsna"));
+      const availableNew = parseNumber(record.__cells?.[43] ?? getValue(record,"availableNew"));
+      const reservedTor  = parseNumber(record.__cells?.[35] ?? getValue(record,"stockReserved") ?? getValue(record,"reserveTor") ?? getValue(record,"reserve"));
+      const reservedVan  = parseNumber(record.__cells?.[40] ?? getValue(record,"reserveVan") ?? 0);
 
       const product = {
-        id: "product-" + index,
+        id: "product-"+index,
         sku, skuKey: formatSku(sku),
         name, brand, category, upc, image, location,
         lengthRaw, widthRaw, heightRaw,
-        cost:           parseNumber(getValue(record, "cost")),
-        wholesale:      parseNumber(getValue(record, "wholesale")),
-        retail:         parseNumber(getValue(record, "retail")),
-        fourMonthSales: parseNumber(getValue(record, "last4Month")),
-        last12Month:    parseNumber(record.__cells?.[14] ?? getValue(record, "last12Month")),
-        onHand:    onHandTor + onHandVan + onHandEsna + onHandNew,
-        available: availableTor + availableVan + availableEsna + availableNew,
-        reserved:  reservedTor + reservedVan,
+        cost:           parseNumber(getValue(record,"cost")),
+        wholesale:      parseNumber(getValue(record,"wholesale")),
+        retail:         parseNumber(getValue(record,"retail")),
+        fourMonthSales: parseNumber(getValue(record,"last4Month")),
+        last12Month:    parseNumber(record.__cells?.[14] ?? getValue(record,"last12Month")),
+        // Per-location stock values
+        onHandTor, availableTor, reservedTor,
+        onHandEsna, availableEsna,
+        onHandVan, availableVan, reservedVan,
+        // Totals (overwritten by applyLocation)
+        onHand: onHandTor+onHandVan+onHandEsna+onHandNew,
+        available: availableTor+availableVan+availableEsna+availableNew,
+        reserved:  reservedTor+reservedVan,
         searchBlob: ""
       };
-
       product.sizeLabel = formatSize(product);
-      product.searchBlob = [product.sku, product.upc, product.name, product.brand, product.category, product.sizeLabel, product.location]
+      product.searchBlob = [product.sku,product.upc,product.name,product.brand,product.category,product.sizeLabel,product.location]
         .join(" ").toLowerCase();
-
       return product;
     }
 
+    /* ── Location-specific stock values ── */
+    function applyLocation(product) {
+      const p = Object.assign({}, product);
+      if (state.location === "toronto") {
+        p.available = p.availableTor + p.availableEsna;
+        p.reserved  = p.reservedTor;
+        p.onHand    = p.onHandTor + p.onHandEsna;
+      } else {
+        p.available = p.availableVan;
+        p.reserved  = p.reservedVan;
+        p.onHand    = p.onHandVan;
+      }
+      return p;
+    }
+
+    /* ── MFD lots filtered by location ── */
+    function getMfdRecordsForLocation(skuKey) {
+      const all = state.mfdBySku.get(skuKey) || [];
+      if (state.location === "toronto") {
+        return all.filter(r => r.location !== "Vancouver");
+      } else {
+        return all.filter(r => r.location === "Vancouver");
+      }
+    }
+
+    /* ── MFD parsing ── */
     function getMfdColumnIndexes(headers) {
       const result = {};
-      headers.forEach((header, index) => {
-        const key = normalizeKey(header);
-        if (result.expDate  === undefined && key === "expdate")                             result.expDate  = index;
-        if (result.location === undefined && key === "location")                            result.location = index;
-        if (result.sku      === undefined && key.includes("sku"))                           result.sku      = index;
-        if (result.qtyDate  === undefined && (key === "mfdqtydate" || key === "qtydate"))   result.qtyDate  = index;
-        if (result.qtyTotal === undefined && (key === "mfdqtytotal" || key === "qtytotal")) result.qtyTotal = index;
-        if (result.totalQty === undefined && key === "totalqty")                            result.totalQty = index;
+      headers.forEach((h,i) => {
+        const k = normalizeKey(h);
+        if (result.expDate===undefined  && k==="expdate")                              result.expDate  = i;
+        if (result.location===undefined && k==="location")                             result.location = i;
+        if (result.sku===undefined      && k.includes("sku"))                          result.sku      = i;
+        if (result.qtyDate===undefined  && (k==="mfdqtydate"||k==="qtydate"))          result.qtyDate  = i;
+        if (result.qtyTotal===undefined && (k==="mfdqtytotal"||k==="qtytotal"))        result.qtyTotal = i;
+        if (result.totalQty===undefined && k==="totalqty")                             result.totalQty = i;
       });
       return result;
     }
-
-    function padDateValue(value) {
-      return String(value ?? "").trim().padStart(2, "0");
+    function padDateValue(v) { return String(v??"").trim().padStart(2,"0"); }
+    function getMfdQty(r) {
+      const qd=parseNumber(r.qtyDate); if(qd>0) return qd;
+      const tq=parseNumber(r.totalQty); if(tq>0) return tq;
+      return parseNumber(r.qtyTotal);
     }
-
-    function getMfdQty(record) {
-      const qtyDate = parseNumber(record.qtyDate);
-      if (qtyDate > 0) return qtyDate;
-      const totalQty = parseNumber(record.totalQty);
-      if (totalQty > 0) return totalQty;
-      return parseNumber(record.qtyTotal);
-    }
-
     function parseGenericMfdRows(sheet, rows) {
-      const headers = rows[0] || [];
-      const data = rows.slice(1);
-      const indexes = getMfdColumnIndexes(headers);
-      const skuIndex = indexes.sku !== undefined ? indexes.sku : sheet.skuIndexFallback;
-      return data.map((row) => {
-        const record = {
-          sku: row[skuIndex] || "",
-          expDate: row[indexes.expDate] || "",
-          qtyDate: row[indexes.qtyDate] || "",
-          qtyTotal: row[indexes.qtyTotal] || "",
-          totalQty: row[indexes.totalQty] || "",
-          location: row[indexes.location] || sheet.label
-        };
-        return {
-          skuKey:    formatSku(record.sku),
-          date:      parseDate(record.expDate),
-          dateLabel: formatMfdDate(record.expDate) || "-",
-          qty:       getMfdQty(record),
-          location:  sheet.label
-        };
+      const headers = rows[0]||[];
+      const idxs = getMfdColumnIndexes(headers);
+      const skuIdx = idxs.sku!==undefined ? idxs.sku : sheet.skuIndexFallback;
+      return rows.slice(1).map(row => {
+        const rec = {sku:row[skuIdx]||"",expDate:row[idxs.expDate]||"",qtyDate:row[idxs.qtyDate]||"",qtyTotal:row[idxs.qtyTotal]||"",totalQty:row[idxs.totalQty]||""};
+        return {skuKey:formatSku(rec.sku),date:parseDate(rec.expDate),dateLabel:formatMfdDate(rec.expDate)||"-",qty:getMfdQty(rec),location:sheet.label};
       });
     }
-
     function parseEsnaMfdRows(sheet, rows) {
-      return rows.slice(1).map((row) => {
-        const year  = String(row[4] || "").trim();
-        const month = padDateValue(row[5] || "");
-        const day   = padDateValue(row[6] || "");
-        const expDate = year ? year + "-" + month + "-" + day : "";
-        return {
-          skuKey:    formatSku(row[2]),
-          date:      parseDate(expDate),
-          dateLabel: formatMfdDate(expDate) || "-",
-          qty:       parseNumber(row[7]) || parseNumber(row[9]) || parseNumber(row[8]),
-          location:  sheet.label
-        };
+      return rows.slice(1).map(row => {
+        const year=String(row[4]||"").trim(), month=padDateValue(row[5]||""), day=padDateValue(row[6]||"");
+        const expDate = year ? year+"-"+month+"-"+day : "";
+        return {skuKey:formatSku(row[2]),date:parseDate(expDate),dateLabel:formatMfdDate(expDate)||"-",qty:parseNumber(row[7])||parseNumber(row[9])||parseNumber(row[8]),location:sheet.label};
       });
     }
-
     async function buildMfdMap() {
       const map = new Map();
-      const results = await Promise.allSettled(MFD_SHEETS.map(async (sheet) => {
+      const results = await Promise.allSettled(MFD_SHEETS.map(async sheet => {
         const rows = await fetchCsv(sheet.sheetName);
-        return sheet.esnaMode ? parseEsnaMfdRows(sheet, rows) : parseGenericMfdRows(sheet, rows);
+        return sheet.esnaMode ? parseEsnaMfdRows(sheet,rows) : parseGenericMfdRows(sheet,rows);
       }));
-      results.forEach((result) => {
+      results.forEach(result => {
         if (result.status !== "fulfilled") return;
-        result.value.forEach((record) => {
-          if (!record.skuKey || !record.date || !Number.isFinite(record.qty) || record.qty <= 0) return;
-          if (!map.has(record.skuKey)) map.set(record.skuKey, []);
-          map.get(record.skuKey).push(record);
+        result.value.forEach(rec => {
+          if (!rec.skuKey||!rec.date||!Number.isFinite(rec.qty)||rec.qty<=0) return;
+          if (!map.has(rec.skuKey)) map.set(rec.skuKey,[]);
+          map.get(rec.skuKey).push(rec);
         });
       });
-      map.forEach((records) => {
-        records.sort((a, b) => a.date.getTime() - b.date.getTime() || b.qty - a.qty);
-      });
+      map.forEach(recs => recs.sort((a,b)=>a.date.getTime()-b.date.getTime()||b.qty-a.qty));
       return map;
     }
 
+    /* ── Average sales ── */
     function parseAverageMonthHeader(value) {
-      const raw = String(value || "").trim();
+      const raw = String(value||"").trim();
       if (!raw) return null;
-      const yearMonth = raw.match(/^(\d{4})\s+0?(\d{1,2})$/);
-      if (yearMonth) {
-        const year = Number(yearMonth[1]);
-        const month = Number(yearMonth[2]);
-        if (month >= 1 && month <= 12) return new Date(year, month - 1, 1);
-      }
-      const parsed = new Date(raw);
-      if (!Number.isNaN(parsed.getTime())) return new Date(parsed.getFullYear(), parsed.getMonth(), 1);
+      const ym = raw.match(/^(\d{4})\s+0?(\d{1,2})$/);
+      if (ym) { const yr=Number(ym[1]),mo=Number(ym[2]); if(mo>=1&&mo<=12) return new Date(yr,mo-1,1); }
+      const p = new Date(raw);
+      if (!Number.isNaN(p.getTime())) return new Date(p.getFullYear(),p.getMonth(),1);
       return null;
     }
-
     function getAverageMonthIndexes(headers) {
-      const currentMonth = new Date(state.today.getFullYear(), state.today.getMonth(), 1);
-      const indexes = [];
-      for (let index = 7; index < headers.length; index += 1) {
-        const monthDate = parseAverageMonthHeader(headers[index]);
-        if (!monthDate) continue;
-        if (monthDate.getTime() <= currentMonth.getTime()) indexes.push(index);
+      const cur = new Date(state.today.getFullYear(),state.today.getMonth(),1);
+      const idxs = [];
+      for (let i=7;i<headers.length;i++) {
+        const d=parseAverageMonthHeader(headers[i]);
+        if (d&&d.getTime()<=cur.getTime()) idxs.push(i);
       }
-      return indexes;
+      return idxs;
     }
-
     async function buildAverageSalesMap() {
       try {
         const rows = await fetchCsv("Average (All)");
-        if (rows.length < 3) return new Map();
-
-        const headers = rows[1] || [];
-        const skuIndex = (() => {
-          const idx = headers.findIndex((h) => {
-            const key = normalizeKey(h);
-            return key === "sku" || key === "productcode" || key === "skucode" || key === "itemcode";
-          });
-          return idx >= 0 ? idx : 0;
+        if (rows.length<3) return new Map();
+        const headers = rows[1]||[];
+        const skuIdx = (() => {
+          const idx = headers.findIndex(h=>{ const k=normalizeKey(h); return k==="sku"||k==="productcode"||k==="skucode"||k==="itemcode"; });
+          return idx>=0 ? idx : 0;
         })();
-
-        const last12Index = 5;
-        const last4Index  = 6;
-        const monthIndexes = getAverageMonthIndexes(headers);
+        const last12Idx=5, last4Idx=6;
+        const monthIdxs = getAverageMonthIndexes(headers);
         const map = new Map();
-
-        rows.slice(2).forEach((row) => {
-          const skuKey = formatSku(row[skuIndex] || "");
+        rows.slice(2).forEach(row => {
+          const skuKey=formatSku(row[skuIdx]||"");
           if (!skuKey) return;
-          const monthlySales = monthIndexes.map((index) => parseNumber(row[index]));
-          const activeSalesMonths = monthlySales.filter((v) => v > 0).length;
-          const last12Month = parseNumber(row[last12Index]);
-          const last4Month  = parseNumber(row[last4Index]);
-          const entry = { skuKey, last12Month, last4Month, activeSalesMonths, monthlySales };
-          const existing = map.get(skuKey);
-          if (!existing || activeSalesMonths > existing.activeSalesMonths || last4Month > existing.last4Month) {
-            map.set(skuKey, entry);
-          }
+          const ms=monthIdxs.map(i=>parseNumber(row[i]));
+          const asm=ms.filter(v=>v>0).length;
+          const l12=parseNumber(row[last12Idx]), l4=parseNumber(row[last4Idx]);
+          const entry={skuKey,last12Month:l12,last4Month:l4,activeSalesMonths:asm,monthlySales:ms};
+          const ex=map.get(skuKey);
+          if (!ex||asm>ex.activeSalesMonths||l4>ex.last4Month) map.set(skuKey,entry);
         });
-
         return map;
-      } catch (error) {
-        console.warn("Average (All) sheet could not be loaded:", error);
-        return new Map();
-      }
+      } catch(e) { console.warn("Average (All) sheet could not be loaded:",e); return new Map(); }
+    }
+    function applyAverageSales(product) {
+      const avg = state.averageSalesMap.get(product.skuKey);
+      if (!avg) { product.averageSales=null; product.activeSalesMonths=0; product.monthlySales=[]; product.last12Month=0; product.fourMonthSales=0; return product; }
+      product.averageSales=avg; product.last12Month=avg.last12Month; product.fourMonthSales=avg.last4Month;
+      product.activeSalesMonths=avg.activeSalesMonths; product.monthlySales=avg.monthlySales;
+      return product;
     }
 
+    /* ── Risk & enrichment ── */
     function summarizeMfd(records) {
       const grouped = new Map();
-      records.forEach((record) => {
-        const key = record.dateLabel + "|" + record.location;
-        if (!grouped.has(key)) {
-          grouped.set(key, { date: record.date, dateLabel: record.dateLabel, location: record.location, qty: 0 });
-        }
-        grouped.get(key).qty += record.qty;
+      records.forEach(rec => {
+        const key=rec.dateLabel+"|"+rec.location;
+        if (!grouped.has(key)) grouped.set(key,{date:rec.date,dateLabel:rec.dateLabel,location:rec.location,qty:0});
+        grouped.get(key).qty += rec.qty;
       });
-      return Array.from(grouped.values())
-        .sort((a, b) => a.date.getTime() - b.date.getTime() || a.location.localeCompare(b.location));
+      return Array.from(grouped.values()).sort((a,b)=>a.date.getTime()-b.date.getTime()||a.location.localeCompare(b.location));
     }
-
-    function calculateLotRisk(lot, product) {
-      // deadline = MFD date − 6 months
-      const deadline        = addMonths(lot.date, -6);
-      const remainingMonths = monthsBetween(state.today, deadline);
-      const monthlyAvg      = product.fourMonthSales > 0 ? product.fourMonthSales : null;
-
-      // Sellable = how many units can be sold by the deadline at current Last 4M Avg velocity
-      const sellable = (monthlyAvg !== null && Number.isFinite(remainingMonths) && remainingMonths > 0)
-        ? Math.round(monthlyAvg * remainingMonths)
-        : null;
-
-      // Risk is determined by comparing Sellable against the product's total Available.
-      // EA (lot.qty) is display-only and NOT used in risk comparison.
-      const available = product.available;
-
+    // Risk: compare each MFD lot date against the product's sellout date.
+    // gap = MFD date − Sellout date (months).
+    // gap < 6  → Critical  (expires within 6 months of selling out, or before)
+    // gap 6–12 → High Risk
+    // gap 12–18→ Watch
+    // gap ≥ 18 → Normal
+    // If no sellout date (no sales data), fall back to MFD vs today.
+    function calculateLotRisk(lot, selloutDate) {
       let level = "normal";
-      if (deadline.getTime() < state.today.getTime()) {
-        // The 6-month buffer window before MFD has already passed
-        level = "critical";
-      } else if (product.fourMonthSales <= 0 && available > 0) {
-        // Zero sales velocity with inventory — cannot sell anything
-        level = "critical";
-      } else if (sellable !== null && sellable < available) {
-        // Cannot sell all Available inventory before the deadline
-        level = "high";
-      } else if (sellable !== null && monthlyAvg !== null && Number.isFinite(remainingMonths)) {
-        // Can sell all Available, but buffer is less than 1 month
-        const monthsToSellAvailable = available / monthlyAvg;
-        if (remainingMonths - monthsToSellAvailable <= 1) level = "watch";
+      const ref = selloutDate || state.today;
+      const gap = monthsBetween(ref, lot.date);
+      if (gap !== null) {
+        if      (gap < 6)  level = "critical";
+        else if (gap < 12) level = "high";
+        else if (gap < 18) level = "watch";
       }
-
-      return { ...lot, deadline, remainingMonths, sellable, riskLevel: level };
+      return {...lot, riskLevel: level};
     }
-
+    function calcSelloutDate(product) {
+      if (!product.fourMonthSales||product.fourMonthSales<=0) return null;
+      const dailyAvg = (product.fourMonthSales*12)/365;
+      const totalQty = product.available + product.reserved;
+      if (dailyAvg<=0||totalQty<=0) return null;
+      const days = Math.round(totalQty/dailyAvg);
+      return startOfDay(new Date(state.today.getTime()+days*24*60*60*1000));
+    }
     function enrichProduct(product) {
-      const mfdLots = summarizeMfd(state.mfdBySku.get(product.skuKey) || [])
-        .map((lot) => calculateLotRisk(lot, product));
-
+      const selloutDate = calcSelloutDate(product);
+      const mfdLots = summarizeMfd(getMfdRecordsForLocation(product.skuKey))
+        .map(lot => calculateLotRisk(lot, selloutDate));
       const counts = {
-        critical: mfdLots.filter((l) => l.riskLevel === "critical").length,
-        high:     mfdLots.filter((l) => l.riskLevel === "high").length,
-        watch:    mfdLots.filter((l) => l.riskLevel === "watch").length,
-        normal:   mfdLots.filter((l) => l.riskLevel === "normal").length
+        critical: mfdLots.filter(l=>l.riskLevel==="critical").length,
+        high:     mfdLots.filter(l=>l.riskLevel==="high").length,
+        watch:    mfdLots.filter(l=>l.riskLevel==="watch").length,
+        normal:   mfdLots.filter(l=>l.riskLevel==="normal").length
       };
-
-      const riskLevel       = counts.critical ? "critical" : counts.high ? "high" : counts.watch ? "watch" : "normal";
-      const riskyMfdQty     = mfdLots.filter((l) => l.riskLevel !== "normal").reduce((sum, l) => sum + l.qty, 0);
-      const noSalesVelocity = product.fourMonthSales <= 0 && mfdLots.reduce((sum, l) => sum + l.qty, 0) > 0;
-      const oldestMfdTime   = mfdLots.length ? mfdLots[0].date.getTime() : Infinity;
-      const latestMfdTime   = mfdLots.length ? mfdLots[mfdLots.length - 1].date.getTime() : -Infinity;
-
-      return { ...product, mfdLots, lotRiskCounts: counts, riskLevel, riskyMfdQty, noSalesVelocity, oldestMfdTime, latestMfdTime };
+      const riskLevel     = counts.critical?"critical":counts.high?"high":counts.watch?"watch":"normal";
+      const riskyMfdQty   = mfdLots.filter(l=>l.riskLevel!=="normal").reduce((s,l)=>s+l.qty,0);
+      const noSalesVelocity = product.fourMonthSales<=0 && mfdLots.reduce((s,l)=>s+l.qty,0)>0;
+      const oldestMfdTime = mfdLots.length ? mfdLots[0].date.getTime() : Infinity;
+      const latestMfdTime = mfdLots.length ? mfdLots[mfdLots.length-1].date.getTime() : -Infinity;
+      return {...product, mfdLots, lotRiskCounts:counts, riskLevel, riskyMfdQty, noSalesVelocity, oldestMfdTime, latestMfdTime, selloutDate};
     }
 
+    /* ── Rebuild products for a new location ── */
+    function switchLocation(loc) {
+      if (state.location === loc) return;
+      state.location = loc;
+      state.currentPage = 1;
+      state.expandedLots.clear();
+      state.products = state.rawProducts
+        .map(applyLocation)
+        .map(enrichProduct)
+        .filter(p => p.mfdLots.length > 0);
+      renderTableHeader();
+      renderAll();
+    }
+
+    /* ── Render helpers ── */
     function imageHtml(product) {
-      const fallback = escapeHtml((product.brand || product.name || "P").charAt(0).toUpperCase());
-      if (!isMeaningful(product.image)) return '<div class="thumb">' + fallback + '</div>';
-      return '<div class="thumb"><img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy" onerror="this.remove();this.parentElement.textContent=\'' + fallback + '\';" /></div>';
+      const fb = escapeHtml((product.brand||product.name||"P").charAt(0).toUpperCase());
+      if (!isMeaningful(product.image)) return '<div class="thumb">'+fb+'</div>';
+      return '<div class="thumb"><img src="'+escapeHtml(product.image)+'" alt="'+escapeHtml(product.name)+'" loading="lazy" onerror="this.remove();this.parentElement.textContent=\''+fb+'\';" /></div>';
     }
-
-    function metricStack(items) {
-      return '<div class="metric-stack">' + items.map((item) =>
-        '<div class="metric-line"><span>' + escapeHtml(item.label) + '</span><strong>' + escapeHtml(item.value) + '</strong></div>'
-      ).join("") + '</div>';
+    function metricLine(label, value) {
+      return '<div class="metric-line"><span>'+escapeHtml(label)+'</span><strong>'+escapeHtml(value)+'</strong></div>';
     }
 
     function renderStats() {
-      const total      = state.products.length;
-      const critical   = state.products.filter((p) => p.lotRiskCounts.critical > 0).length;
-      const high       = state.products.filter((p) => p.lotRiskCounts.high > 0).length;
-      const watch      = state.products.filter((p) => p.lotRiskCounts.watch > 0).length;
-      const noSales    = state.products.filter((p) => p.fourMonthSales <= 0).length;
-
+      const total    = state.products.length;
+      const critical = state.products.filter(p=>p.lotRiskCounts.critical>0).length;
+      const high     = state.products.filter(p=>p.lotRiskCounts.high>0).length;
+      const watch    = state.products.filter(p=>p.lotRiskCounts.watch>0).length;
+      const noSales  = state.products.filter(p=>p.fourMonthSales<=0).length;
       const cards = [
-        { filter: "all",      label: "Total",            value: total,    desc: "All analyzed products.",                                                                     dot: "dot-total"    },
-        { filter: "critical", label: "Critical",          value: critical, desc: "Contains at least one MFD lot that cannot sell through before the cutoff date.",             dot: "dot-critical" },
-        { filter: "high",     label: "High Risk",         value: high,     desc: "Contains at least one MFD lot with low sell-through probability before cutoff.",             dot: "dot-high"     },
-        { filter: "watch",    label: "Watch",             value: watch,    desc: "Contains at least one MFD lot that should be monitored closely.",                           dot: "dot-watch"    },
-        { filter: "no-sales", label: "No Sales Velocity", value: noSales,  desc: "Last 4M Avg is 0.",                                                                         dot: "dot-nosales"  }
+        {filter:"all",      label:"Total",    value:total,    desc:"All analyzed products.",      dot:"dot-total"},
+        {filter:"critical", label:"Critical", value:critical, desc:"MFD within 6 months.",        dot:"dot-critical"},
+        {filter:"high",     label:"High Risk",value:high,     desc:"MFD within 6–12 months.",     dot:"dot-high"},
+        {filter:"watch",    label:"Watch",    value:watch,    desc:"MFD within 12–18 months.",    dot:"dot-watch"},
+        {filter:"no-sales", label:"No Sales", value:noSales,  desc:"Last 4M Avg is 0.",           dot:"dot-nosales"}
       ];
-
-      elements.statsGrid.innerHTML = cards.map((card) =>
-        '<button type="button" class="stat-card' + (state.cardFilter === card.filter ? ' active' : '') + '" data-card-filter="' + card.filter + '">' +
-          '<span class="card-label"><span class="card-dot ' + card.dot + '"></span>' + escapeHtml(card.label) + '</span>' +
-          '<strong>' + escapeHtml(formatNumber(card.value)) + '</strong>' +
-          '<small>' + escapeHtml(card.desc) + '</small>' +
+      elements.statsGrid.innerHTML = cards.map(c =>
+        '<button type="button" class="stat-card'+(state.cardFilter===c.filter?' active':'')+'" data-card-filter="'+c.filter+'">' +
+          '<span class="card-label"><span class="card-dot '+c.dot+'"></span>'+escapeHtml(c.label)+'</span>' +
+          '<strong>'+escapeHtml(formatNumber(c.value))+'</strong>' +
+          '<small>'+escapeHtml(c.desc)+'</small>' +
         '</button>'
       ).join("");
     }
-
     function renderBrandOptions() {
-      const brands = Array.from(new Set(state.products.map((p) => p.brand))).sort((a, b) => a.localeCompare(b));
-      elements.brandFilter.innerHTML = '<option value="all">All brands</option>' + brands.map((brand) => {
-        const selected = state.brand === brand ? " selected" : "";
-        return '<option value="' + escapeHtml(brand) + '"' + selected + '>' + escapeHtml(brand) + '</option>';
+      const brands = Array.from(new Set(state.products.map(p=>p.brand))).sort((a,b)=>a.localeCompare(b));
+      elements.brandFilter.innerHTML = '<option value="all">All brands</option>' + brands.map(b => {
+        return '<option value="'+escapeHtml(b)+'"'+(state.brand===b?" selected":"")+'>'+escapeHtml(b)+'</option>';
       }).join("");
     }
-
     function filterProducts() {
       const tokens = state.search.trim().toLowerCase().split(/\s+/).filter(Boolean);
-      const filtered = state.products.filter((product) => {
-        const matchesSearch = !tokens.length || tokens.every((t) => product.searchBlob.includes(t));
-        const matchesBrand  = state.brand === "all" || product.brand === state.brand;
-        let matchesCard = true;
-        if      (state.cardFilter === "critical")  matchesCard = product.lotRiskCounts.critical > 0;
-        else if (state.cardFilter === "high")      matchesCard = product.lotRiskCounts.high > 0;
-        else if (state.cardFilter === "watch")     matchesCard = product.lotRiskCounts.watch > 0;
-        else if (state.cardFilter === "no-sales")  matchesCard = product.fourMonthSales <= 0;
-        return matchesSearch && matchesBrand && matchesCard;
+      const filtered = state.products.filter(p => {
+        const ms = !tokens.length||tokens.every(t=>p.searchBlob.includes(t));
+        const mb = state.brand==="all"||p.brand===state.brand;
+        let mc = true;
+        if      (state.cardFilter==="critical") mc = p.lotRiskCounts.critical>0;
+        else if (state.cardFilter==="high")     mc = p.lotRiskCounts.high>0;
+        else if (state.cardFilter==="watch")    mc = p.lotRiskCounts.watch>0;
+        else if (state.cardFilter==="no-sales") mc = p.fourMonthSales<=0;
+        return ms&&mb&&mc;
       });
       state.filtered = sortProducts(filtered);
     }
-
     function sortProducts(products) {
       const list = [...products];
-
-      // Stock sort overrides everything when set
       if (state.stockSort !== "all") {
-        switch (state.stockSort) {
-          case "onhand-desc":    return list.sort((a, b) => b.onHand    - a.onHand    || a.name.localeCompare(b.name));
-          case "available-desc": return list.sort((a, b) => b.available - a.available || a.name.localeCompare(b.name));
-          case "reserved-desc":  return list.sort((a, b) => b.reserved  - a.reserved  || a.name.localeCompare(b.name));
-        }
+        if (state.stockSort==="onhand-desc")    return list.sort((a,b)=>b.onHand-a.onHand||a.name.localeCompare(b.name));
+        if (state.stockSort==="available-desc") return list.sort((a,b)=>b.available-a.available||a.name.localeCompare(b.name));
+        if (state.stockSort==="reserved-desc")  return list.sort((a,b)=>b.reserved-a.reserved||a.name.localeCompare(b.name));
       }
-
-      // MFD sort overrides Sort By when set
       if (state.mfdSort !== "all") {
-        switch (state.mfdSort) {
-          case "mfd-earliest": return list.sort((a, b) => a.oldestMfdTime - b.oldestMfdTime || a.name.localeCompare(b.name));
-          case "mfd-latest":   return list.sort((a, b) => b.latestMfdTime - a.latestMfdTime || a.name.localeCompare(b.name));
-        }
+        if (state.mfdSort==="mfd-earliest") return list.sort((a,b)=>a.oldestMfdTime-b.oldestMfdTime||a.name.localeCompare(b.name));
+        if (state.mfdSort==="mfd-latest")   return list.sort((a,b)=>b.latestMfdTime-a.latestMfdTime||a.name.localeCompare(b.name));
       }
-
-      // Sort By
-      switch (state.sort) {
-        case "name-desc":      return list.sort((a, b) => b.name.localeCompare(a.name));
-        case "risk-priority":  return list.sort((a, b) => RISK_META[a.riskLevel].order - RISK_META[b.riskLevel].order || b.riskyMfdQty - a.riskyMfdQty || a.oldestMfdTime - b.oldestMfdTime || a.name.localeCompare(b.name));
-        case "critical-first": return list.sort((a, b) => b.lotRiskCounts.critical - a.lotRiskCounts.critical || a.name.localeCompare(b.name));
-        case "high-first":     return list.sort((a, b) => b.lotRiskCounts.high     - a.lotRiskCounts.high     || a.name.localeCompare(b.name));
-        case "watch-first":    return list.sort((a, b) => b.lotRiskCounts.watch    - a.lotRiskCounts.watch    || a.name.localeCompare(b.name));
-        case "last4m-asc":     return list.sort((a, b) => a.fourMonthSales - b.fourMonthSales || a.name.localeCompare(b.name));
-        case "last4m-desc":    return list.sort((a, b) => b.fourMonthSales - a.fourMonthSales || a.name.localeCompare(b.name));
-        case "retail-desc":    return list.sort((a, b) => b.retail - a.retail || a.name.localeCompare(b.name));
-        case "name-asc":
-        default:               return list.sort((a, b) => a.name.localeCompare(b.name));
+      switch(state.sort) {
+        case "name-desc":      return list.sort((a,b)=>b.name.localeCompare(a.name));
+        case "risk-priority":  return list.sort((a,b)=>RISK_META[a.riskLevel].order-RISK_META[b.riskLevel].order||b.riskyMfdQty-a.riskyMfdQty||a.oldestMfdTime-b.oldestMfdTime||a.name.localeCompare(b.name));
+        case "critical-first": return list.sort((a,b)=>b.lotRiskCounts.critical-a.lotRiskCounts.critical||a.name.localeCompare(b.name));
+        case "high-first":     return list.sort((a,b)=>b.lotRiskCounts.high-a.lotRiskCounts.high||a.name.localeCompare(b.name));
+        case "watch-first":    return list.sort((a,b)=>b.lotRiskCounts.watch-a.lotRiskCounts.watch||a.name.localeCompare(b.name));
+        case "last4m-asc":     return list.sort((a,b)=>a.fourMonthSales-b.fourMonthSales||a.name.localeCompare(b.name));
+        case "last4m-desc":    return list.sort((a,b)=>b.fourMonthSales-a.fourMonthSales||a.name.localeCompare(b.name));
+        case "retail-desc":    return list.sort((a,b)=>b.retail-a.retail||a.name.localeCompare(b.name));
+        default:               return list.sort((a,b)=>a.name.localeCompare(b.name));
       }
     }
-
-    function getTotalPages() {
-      if (!state.filtered.length) return 1;
-      return Math.max(1, Math.ceil(state.filtered.length / state.pageSize));
-    }
-
+    function getTotalPages() { return !state.filtered.length ? 1 : Math.max(1,Math.ceil(state.filtered.length/state.pageSize)); }
     function getVisibleRange() {
-      if (!state.filtered.length) return { start: 0, end: 0 };
-      const start = (state.currentPage - 1) * state.pageSize + 1;
-      const end   = Math.min(state.currentPage * state.pageSize, state.filtered.length);
-      return { start, end };
+      if (!state.filtered.length) return {start:0,end:0};
+      return {start:(state.currentPage-1)*state.pageSize+1, end:Math.min(state.currentPage*state.pageSize,state.filtered.length)};
     }
-
     function getVisibleProducts() {
-      const start = (state.currentPage - 1) * state.pageSize;
-      return state.filtered.slice(start, start + state.pageSize);
+      const start=(state.currentPage-1)*state.pageSize;
+      return state.filtered.slice(start,start+state.pageSize);
     }
 
-    function renderProductLot(lot) {
-      const sellableText = lot.sellable !== null ? formatNumber(lot.sellable) : "-";
-      const dotClass = "lot-dot-" + lot.riskLevel;
-      const riskLabel = RISK_META[lot.riskLevel].label;
-
-      return '<div class="mfd-lot-line">' +
-        '<span class="lot-dot ' + dotClass + '" title="' + riskLabel + '"></span>' +
-        '<span class="lot-line-date">' + escapeHtml(lot.dateLabel) + '</span>' +
-        '<span class="lot-line-sep">/</span>' +
-        '<span class="lot-line-qty">' + escapeHtml(formatNumber(lot.qty)) + '</span>' +
-        '<span class="lot-line-sep">/</span>' +
-        '<span class="lot-line-est">' + escapeHtml(sellableText) + '</span>' +
-      '</div>';
-    }
-
-    function renderMfdLots(product) {
+    /* ── Row rendering ── */
+    function renderMfdDates(product) {
       const lots = product.mfdLots;
-
-      if (!lots.length) {
-        return '<div class="mfd-lots"><span class="empty-lots">No MFD lots</span></div>';
+      if (!lots.length) return '<div class="mfd-lots"><span class="empty-lots">No MFD lots</span></div>';
+      const VISIBLE=3, isExp=state.expandedLots.has(product.id);
+      const vis = isExp ? lots : lots.slice(0,VISIBLE);
+      const hidden = Math.max(0,lots.length-VISIBLE);
+      const lines = vis.map(lot =>
+        '<div class="mfd-lot-line">' +
+          '<span class="lot-dot lot-dot-'+lot.riskLevel+'" title="'+escapeHtml(RISK_META[lot.riskLevel].label)+' — '+escapeHtml(lot.location)+'"></span>' +
+          '<span class="lot-line-date">'+escapeHtml(lot.dateLabel)+'</span>' +
+        '</div>'
+      ).join("");
+      const btn = hidden ? '<button type="button" class="more-lots-btn" data-toggle-lots="'+escapeHtml(product.id)+'">'+(isExp?"Show less":"+"+hidden+" more")+'</button>' : "";
+      return '<div class="mfd-lots">'+lines+btn+'</div>';
+    }
+    function renderMfdQtys(product) {
+      const lots = product.mfdLots;
+      if (!lots.length) return '<div class="ea-lots"></div>';
+      const VISIBLE=3, isExp=state.expandedLots.has(product.id);
+      const vis = isExp ? lots : lots.slice(0,VISIBLE);
+      const hidden = Math.max(0,lots.length-VISIBLE);
+      const lines = vis.map(lot=>'<div class="ea-lot-line"><span class="ea-lot-qty">'+escapeHtml(formatNumber(lot.qty))+'</span></div>').join("");
+      const spacer = hidden ? '<div style="min-height:24px;margin-top:4px;"></div>' : "";
+      return '<div class="ea-lots">'+lines+spacer+'</div>';
+    }
+    function renderSelloutCell(product) {
+      if (!product.selloutDate) {
+        return '<div class="sellout-cell"><span class="sellout-none">'+(product.fourMonthSales<=0?'No sales data':'N/A')+'</span></div>';
       }
-
-      const VISIBLE_COUNT = 3;
-      const isExpanded  = state.expandedLots.has(product.id);
-      const visibleLots = isExpanded ? lots : lots.slice(0, VISIBLE_COUNT);
-      const hiddenCount = Math.max(0, lots.length - VISIBLE_COUNT);
-
-      return '<div class="mfd-lots">' +
-        visibleLots.map(renderProductLot).join("") +
-        (hiddenCount
-          ? '<button type="button" class="more-lots-btn" data-toggle-lots="' + escapeHtml(product.id) + '">' +
-              (isExpanded ? "Show less" : "+" + hiddenCount + " more") +
-            '</button>'
-          : "") +
+      const totalQty = product.available + product.reserved;
+      const dailyAvg = (product.fourMonthSales * 12) / 365;
+      const days = Math.round(totalQty / dailyAvg);
+      const msToSellout = product.selloutDate.getTime() - state.today.getTime();
+      const threeYearsMs = 3 * 365.25 * 24 * 60 * 60 * 1000;
+      if (msToSellout > threeYearsMs) {
+        return '<div class="sellout-cell">' +
+          '<span class="sellout-over3y">3Y+</span>' +
+          '<span class="sellout-sub">~' + escapeHtml(String(days)) + ' days</span>' +
+        '</div>';
+      }
+      return '<div class="sellout-cell">' +
+        '<span class="sellout-date">'+escapeHtml(formatDate(product.selloutDate))+'</span>' +
+        '<span class="sellout-sub">~'+escapeHtml(String(days))+' days ('+escapeHtml(formatNumber(Math.round(dailyAvg*10)/10,1))+'/day)</span>' +
       '</div>';
     }
-
+    function renderStockCells(product) {
+      if (state.location === "toronto") {
+        const tor = '<div class="metric-stack">' +
+          metricLine("On Hand",   formatNumber(product.onHandTor)) +
+          metricLine("Available", formatNumber(product.availableTor)) +
+          metricLine("Reserved",  formatNumber(product.reservedTor)) +
+          '</div>';
+        const esna = '<div class="metric-stack">' +
+          metricLine("On Hand",   formatNumber(product.onHandEsna)) +
+          metricLine("Available", formatNumber(product.availableEsna)) +
+          '</div>';
+        return '<td>'+tor+'</td><td>'+esna+'</td>';
+      } else {
+        const van = '<div class="metric-stack">' +
+          metricLine("On Hand",   formatNumber(product.onHandVan)) +
+          metricLine("Available", formatNumber(product.availableVan)) +
+          metricLine("Reserved",  formatNumber(product.reservedVan)) +
+          '</div>';
+        return '<td>'+van+'</td>';
+      }
+    }
     function renderProductRow(product) {
       const metaParts = [];
       if (product.brand)    metaParts.push(escapeHtml(product.brand));
-      if (product.sku)      metaParts.push("SKU " + escapeHtml(product.sku));
       if (product.upc)      metaParts.push(escapeHtml(product.upc));
       if (product.location) metaParts.push(escapeHtml(product.location));
 
+      const skuCell = '<div class="sku-cell">'+escapeHtml(product.sku||'—')+'</div>';
       const productCell =
         '<div class="product-cell">' +
           imageHtml(product) +
           '<div>' +
-          '<div class="product-name" title="' + escapeHtml(product.name) + '">' + escapeHtml(product.name) + '</div>' +
-          (metaParts.length ? '<div class="product-meta">' + metaParts.join(' · ') + '</div>' : '') +
+            '<div class="product-name" title="'+escapeHtml(product.name)+'">'+escapeHtml(product.name)+'</div>' +
+            (metaParts.length ? '<div class="product-meta">'+metaParts.join(' · ')+'</div>' : '') +
           '</div>' +
         '</div>';
+      const priceCell =
+        '<div class="metric-stack">' +
+          metricLine("Cost",      formatCurrency(product.cost)) +
+          metricLine("Wholesale", formatCurrency(product.wholesale)) +
+          metricLine("Retail",    formatCurrency(product.retail)) +
+        '</div>';
+      const salesCell =
+        '<div class="metric-stack">' +
+          metricLine("Last 4M Avg",  formatAverage(product.fourMonthSales)) +
+          metricLine("Last 12M Avg", formatAverage(product.last12Month)) +
+        '</div>';
 
-      const priceCell = metricStack([
-        { label: "Cost",      value: formatCurrency(product.cost) },
-        { label: "Wholesale", value: formatCurrency(product.wholesale) },
-        { label: "Retail",    value: formatCurrency(product.retail) }
-      ]);
-      const stockCell = metricStack([
-        { label: "On hand",   value: formatNumber(product.onHand) },
-        { label: "Available", value: formatNumber(product.available) },
-        { label: "Reserved",  value: formatNumber(product.reserved) }
-      ]);
-      const salesCell = metricStack([
-        { label: "Last 4M Avg",  value: formatAverage(product.fourMonthSales) },
-        { label: "Last 12M Avg", value: formatAverage(product.last12Month) }
-      ]);
-
-      return '<tr class="data-row" data-risk="' + escapeHtml(product.riskLevel) + '">' +
-        '<td>' + productCell + '</td>' +
-        '<td>' + priceCell + '</td>' +
-        '<td>' + stockCell + '</td>' +
-        '<td>' + salesCell + '</td>' +
-        '<td>' + renderMfdLots(product) + '</td>' +
+      return '<tr class="data-row" data-risk="'+escapeHtml(product.riskLevel)+'">' +
+        '<td>'+skuCell+'</td>' +
+        '<td>'+productCell+'</td>' +
+        '<td>'+priceCell+'</td>' +
+        renderStockCells(product) +
+        '<td>'+salesCell+'</td>' +
+        '<td>'+renderMfdDates(product)+'</td>' +
+        '<td style="text-align:right;">'+renderMfdQtys(product)+'</td>' +
+        '<td>'+renderSelloutCell(product)+'</td>' +
       '</tr>';
     }
 
     function renderTable() {
+      const cs = colSpan();
       if (!state.products.length) {
-        elements.tableBody.innerHTML = '<tr><td colspan="5"><div class="empty"><strong>No products found.</strong>Check the Products sheet data.</div></td></tr>';
+        elements.tableBody.innerHTML='<tr><td colspan="'+cs+'"><div class="empty"><strong>No products found.</strong>Check the Products sheet data.</div></td></tr>';
         return;
       }
       if (!state.filtered.length) {
-        elements.tableBody.innerHTML = '<tr><td colspan="5"><div class="empty"><strong>No matching products.</strong>Adjust search, brand, or filter.</div></td></tr>';
+        elements.tableBody.innerHTML='<tr><td colspan="'+cs+'"><div class="empty"><strong>No matching products.</strong>Adjust search, brand, or filter.</div></td></tr>';
         return;
       }
       elements.tableBody.innerHTML = getVisibleProducts().map(renderProductRow).join("");
@@ -1510,127 +1385,147 @@
 
     function updatePaginationControls() {
       const totalPages = getTotalPages();
-      const { start, end } = getVisibleRange();
-      const pageLabel = "Page " + formatNumber(state.currentPage) + " / " + formatNumber(totalPages);
-      elements.pageIndicator.textContent       = pageLabel;
-      elements.pageIndicatorBottom.textContent = pageLabel;
-      elements.paginationSummary.textContent   = state.filtered.length
-        ? "Showing " + formatNumber(start) + "–" + formatNumber(end) + " of " + formatNumber(state.filtered.length) + " products"
+      const {start, end} = getVisibleRange();
+      const pageLabel = "Page "+formatNumber(state.currentPage)+" / "+formatNumber(totalPages);
+      elements.pageIndicator.textContent      = pageLabel;
+      elements.pageIndicatorBottom.textContent= pageLabel;
+      elements.paginationSummary.textContent  = state.filtered.length
+        ? "Showing "+formatNumber(start)+"–"+formatNumber(end)+" of "+formatNumber(state.filtered.length)+" products"
         : "Showing 0 products";
-
-      const disablePrev = state.currentPage <= 1;
-      const disableNext = state.currentPage >= totalPages;
-      elements.prevPageButton.disabled        = disablePrev;
-      elements.prevPageButtonBottom.disabled  = disablePrev;
-      elements.nextPageButton.disabled        = disableNext;
-      elements.nextPageButtonBottom.disabled  = disableNext;
+      const dp = state.currentPage<=1, dn = state.currentPage>=totalPages;
+      elements.prevPageButton.disabled=dp; elements.prevPageButtonBottom.disabled=dp;
+      elements.nextPageButton.disabled=dn; elements.nextPageButtonBottom.disabled=dn;
     }
-
     function updateResultsMeta() {
-      const total    = state.products.length;
-      const matching = state.filtered.length;
-      const { start, end } = getVisibleRange();
-      elements.resultsTitle.textContent = formatNumber(matching) + " matching products";
-      if (!matching) {
-        elements.resultsSubtitle.textContent = "Adjust filters to find MFD lot risk.";
-      } else if (matching === total) {
-        elements.resultsSubtitle.textContent = "Showing " + formatNumber(start) + "–" + formatNumber(end) + " of " + formatNumber(total) + " analyzed products.";
-      } else {
-        elements.resultsSubtitle.textContent = "Showing " + formatNumber(start) + "–" + formatNumber(end) + " of " + formatNumber(matching) + " filtered from " + formatNumber(total) + " total.";
-      }
+      const total=state.products.length, matching=state.filtered.length;
+      const {start,end}=getVisibleRange();
+      elements.resultsTitle.textContent = formatNumber(matching)+" matching products";
+      if (!matching) elements.resultsSubtitle.textContent = "Adjust filters to find MFD lot risk.";
+      else if (matching===total) elements.resultsSubtitle.textContent = "Showing "+formatNumber(start)+"–"+formatNumber(end)+" of "+formatNumber(total)+" analyzed products.";
+      else elements.resultsSubtitle.textContent = "Showing "+formatNumber(start)+"–"+formatNumber(end)+" of "+formatNumber(matching)+" filtered from "+formatNumber(total)+" total.";
     }
-
     function renderAll() {
       filterProducts();
-      state.currentPage = Math.min(Math.max(state.currentPage, 1), getTotalPages());
-      renderStats();
-      renderBrandOptions();
-      elements.pageSizeSelect.value   = String(state.pageSize);
-      elements.stockSortSelect.value  = state.stockSort;
-      elements.mfdSortSelect.value    = state.mfdSort;
-      elements.sortSelect.value       = state.sort;
-      renderTable();
-      updateResultsMeta();
-      updatePaginationControls();
+      state.currentPage = Math.min(Math.max(state.currentPage,1),getTotalPages());
+      renderStats(); renderBrandOptions();
+      elements.pageSizeSelect.value  = String(state.pageSize);
+      elements.stockSortSelect.value = state.stockSort;
+      elements.mfdSortSelect.value   = state.mfdSort;
+      elements.sortSelect.value      = state.sort;
+      renderTable(); updateResultsMeta(); updatePaginationControls();
     }
-
     function resetFilters() {
-      state.search      = "";
-      state.brand       = "all";
-      state.cardFilter  = DEFAULT_CARD;
-      state.stockSort   = "all";
-      state.mfdSort     = "all";
-      state.sort        = DEFAULT_SORT;
-      state.currentPage = 1;
+      state.search=""; state.brand="all"; state.cardFilter=DEFAULT_CARD;
+      state.stockSort="all"; state.mfdSort="all"; state.sort=DEFAULT_SORT; state.currentPage=1;
       state.expandedLots.clear();
-      elements.searchInput.value      = "";
-      elements.brandFilter.value      = "all";
-      elements.stockSortSelect.value  = "all";
-      elements.mfdSortSelect.value    = "all";
-      elements.sortSelect.value       = DEFAULT_SORT;
+      elements.searchInput.value=""; elements.brandFilter.value="all";
+      elements.stockSortSelect.value="all"; elements.mfdSortSelect.value="all";
+      elements.sortSelect.value=DEFAULT_SORT;
       renderAll();
     }
-
-    function changePage(pageNumber) {
-      const nextPage = Math.min(Math.max(pageNumber, 1), getTotalPages());
-      if (nextPage === state.currentPage) return;
-      state.currentPage = nextPage;
-      state.expandedLots.clear();
+    function changePage(n) {
+      const next = Math.min(Math.max(n,1),getTotalPages());
+      if (next===state.currentPage) return;
+      state.currentPage=next; state.expandedLots.clear();
       renderAll();
-      requestAnimationFrame(() => {
-        elements.resultsTitle.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+      requestAnimationFrame(()=>elements.resultsTitle.scrollIntoView({behavior:"smooth",block:"start"}));
     }
 
     function attachEvents() {
-      elements.searchInput.addEventListener("input", (e) => {
-        state.search = e.target.value; state.currentPage = 1; renderAll();
-      });
-      elements.brandFilter.addEventListener("change", (e) => {
-        state.brand = e.target.value; state.currentPage = 1; renderAll();
-      });
-      elements.stockSortSelect.addEventListener("change", (e) => {
-        state.stockSort = e.target.value; state.currentPage = 1; renderAll();
-      });
-      elements.mfdSortSelect.addEventListener("change", (e) => {
-        state.mfdSort = e.target.value; state.currentPage = 1; renderAll();
-      });
-      elements.sortSelect.addEventListener("change", (e) => {
-        state.sort = e.target.value; state.currentPage = 1; renderAll();
-      });
-      elements.pageSizeSelect.addEventListener("change", (e) => {
-        state.pageSize = Number(e.target.value) || 50; state.currentPage = 1; renderAll();
-      });
+      elements.searchInput.addEventListener("input", e=>{ state.search=e.target.value; state.currentPage=1; renderAll(); });
+      elements.brandFilter.addEventListener("change", e=>{ state.brand=e.target.value; state.currentPage=1; renderAll(); });
+      elements.stockSortSelect.addEventListener("change", e=>{ state.stockSort=e.target.value; state.currentPage=1; renderAll(); });
+      elements.mfdSortSelect.addEventListener("change", e=>{ state.mfdSort=e.target.value; state.currentPage=1; renderAll(); });
+      elements.sortSelect.addEventListener("change", e=>{ state.sort=e.target.value; state.currentPage=1; renderAll(); });
+      elements.pageSizeSelect.addEventListener("change", e=>{ state.pageSize=Number(e.target.value)||50; state.currentPage=1; renderAll(); });
       elements.resetButton.addEventListener("click", resetFilters);
-      elements.prevPageButton.addEventListener("click", () => changePage(state.currentPage - 1));
-      elements.nextPageButton.addEventListener("click", () => changePage(state.currentPage + 1));
-      elements.prevPageButtonBottom.addEventListener("click", () => changePage(state.currentPage - 1));
-      elements.nextPageButtonBottom.addEventListener("click", () => changePage(state.currentPage + 1));
+      elements.prevPageButton.addEventListener("click", ()=>changePage(state.currentPage-1));
+      elements.nextPageButton.addEventListener("click", ()=>changePage(state.currentPage+1));
+      elements.prevPageButtonBottom.addEventListener("click", ()=>changePage(state.currentPage-1));
+      elements.nextPageButtonBottom.addEventListener("click", ()=>changePage(state.currentPage+1));
 
-      elements.statsGrid.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-card-filter]");
-        if (!button) return;
-        const filter = button.getAttribute("data-card-filter");
-        if (!filter) return;
-        state.currentPage = 1;
-        state.expandedLots.clear();
-        // Toggle: clicking the active card resets to Total
-        state.cardFilter = (state.cardFilter === filter && filter !== "all") ? "all" : filter;
+      /* Location segmented control */
+      elements.locToronto.addEventListener("click", ()=>{
+        elements.locToronto.classList.add("active");
+        elements.locVancouver.classList.remove("active");
+        switchLocation("toronto");
+      });
+      elements.locVancouver.addEventListener("click", ()=>{
+        elements.locVancouver.classList.add("active");
+        elements.locToronto.classList.remove("active");
+        switchLocation("vancouver");
+      });
+
+      elements.statsGrid.addEventListener("click", e=>{
+        const btn=e.target.closest("[data-card-filter]"); if(!btn) return;
+        const filter=btn.getAttribute("data-card-filter"); if(!filter) return;
+        state.currentPage=1; state.expandedLots.clear();
+        state.cardFilter=(state.cardFilter===filter&&filter!=="all")?"all":filter;
         renderAll();
       });
-
-      elements.tableBody.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-toggle-lots]");
-        if (!button) return;
-        const productId = button.getAttribute("data-toggle-lots");
-        if (!productId) return;
-        if (state.expandedLots.has(productId)) {
-          state.expandedLots.delete(productId);
-        } else {
-          state.expandedLots.add(productId);
-        }
+      elements.tableBody.addEventListener("click", e=>{
+        const btn=e.target.closest("[data-toggle-lots]"); if(!btn) return;
+        const pid=btn.getAttribute("data-toggle-lots"); if(!pid) return;
+        if(state.expandedLots.has(pid)) state.expandedLots.delete(pid);
+        else state.expandedLots.add(pid);
         renderTable();
       });
+
+      /* ── Drag selection: vertical only, locked to starting column ── */
+      (function(){
+        const sel={on:false,r0:-1,r1:-1,c0:-1,hasDragged:false};
+        function getCoords(target) {
+          const td=target.closest("td"); if(!td) return null;
+          const tr=td.parentElement;
+          if(!tr||tr.parentElement.tagName.toLowerCase()!=="tbody") return null;
+          return {r:tr.sectionRowIndex, c:td.cellIndex};
+        }
+        function clearSel() { elements.tableBody.querySelectorAll("td.cell-selected").forEach(td=>td.classList.remove("cell-selected")); }
+        function applySel() {
+          const minR=Math.min(sel.r0,sel.r1), maxR=Math.max(sel.r0,sel.r1);
+          elements.tableBody.querySelectorAll("tr").forEach((tr,ri)=>{
+            tr.querySelectorAll("td").forEach((td,ci)=>{
+              // Select only cells in the STARTING column (c0) within the row range
+              td.classList.toggle("cell-selected", ri>=minR && ri<=maxR && ci===sel.c0);
+            });
+          });
+        }
+        elements.mainTable.addEventListener("mousedown", e=>{
+          if (e.button!==0) return;
+          const coords=getCoords(e.target); if(!coords) return;
+          e.preventDefault();
+          clearSel();
+          sel.on=true; sel.hasDragged=false;
+          sel.r0=sel.r1=coords.r; sel.c0=coords.c;
+          elements.mainTable.classList.add("is-selecting");
+          /* No applySel on click — wait for actual drag */
+        });
+        elements.mainTable.addEventListener("mousemove", e=>{
+          if (!sel.on) return;
+          const coords=getCoords(e.target); if(!coords) return;
+          const ri=coords.r;
+          if (!sel.hasDragged||ri!==sel.r1) {
+            sel.hasDragged=true; sel.r1=ri;
+            clearSel(); applySel();
+          }
+        });
+        document.addEventListener("mouseup", ()=>{
+          if (!sel.on) return;
+          sel.on=false;
+          if (!sel.hasDragged) clearSel(); /* click = no selection */
+          elements.mainTable.classList.remove("is-selecting");
+        });
+        /* Ctrl+C: copy selected rows as TSV */
+        document.addEventListener("keydown", e=>{
+          if(!(e.ctrlKey||e.metaKey)||e.key!=="c") return;
+          const selected=elements.tableBody.querySelectorAll("tr:has(td.cell-selected)");
+          if(!selected.length) return;
+          e.preventDefault();
+          const lines=[];
+          selected.forEach(tr=>{ lines.push(Array.from(tr.querySelectorAll("td")).map(td=>td.textContent.replace(/\s+/g," ").trim()).join("\t")); });
+          navigator.clipboard.writeText(lines.join("\n")).catch(()=>{});
+        });
+      })();
     }
 
     async function loadData() {
@@ -1642,20 +1537,28 @@
         state.averageSalesMap = averageSalesMap;
         state.columns         = deriveColumns(rawRows);
         state.fieldMap        = buildFieldMap(state.columns);
-        state.products        = rawRows
+
+        /* Store raw (pre-location) products for location switching */
+        state.rawProducts = rawRows
           .slice(3)
-          .map((row, index) => buildRecord(row, state.columns, index))
-          .map((record, index) => transformProduct(record, index))
+          .map((row,i)=>buildRecord(row,state.columns,i))
+          .map((rec,i)=>transformProduct(rec,i))
           .map(applyAverageSales)
-          .filter(isDisplayableProduct)
+          .filter(isDisplayableProduct);
+
+        /* Apply default location (toronto) and enrich */
+        state.products = state.rawProducts
+          .map(applyLocation)
           .map(enrichProduct)
-          .filter((product) => product.mfdLots.length > 0);
+          .filter(p=>p.mfdLots.length>0);
+
+        renderTableHeader();
         renderAll();
-      } catch (error) {
+      } catch(error) {
         console.error(error);
         elements.resultsTitle.textContent    = "Could not load live data";
         elements.resultsSubtitle.textContent = "Confirm Products, MFD, MFD-ESNA, and MFD-V tabs are accessible.";
-        elements.tableBody.innerHTML = '<tr><td colspan="5"><div class="empty"><strong>Could not load live risk data.</strong>Confirm Products, MFD, MFD-ESNA, and MFD-V tabs are accessible.</div></td></tr>';
+        elements.tableBody.innerHTML='<tr><td colspan="9"><div class="empty"><strong>Could not load live risk data.</strong>Confirm Products, MFD, MFD-ESNA, and MFD-V tabs are accessible.</div></td></tr>';
       }
     }
 
