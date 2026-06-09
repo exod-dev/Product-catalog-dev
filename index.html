@@ -3558,7 +3558,7 @@
     }
 
     function deriveColumns(rawRows) {
-      const headerRows = rawRows.slice(0, 3);
+      const headerRows = rawRows.slice(0, 1);
       const maxColumns = headerRows.reduce((max, row) => Math.max(max, row.length), 0);
       const columns = [];
 
@@ -4416,7 +4416,7 @@
         state.fieldMap = buildFieldMap(state.columns);
 
         const products = rawRows
-          .slice(3)
+          .slice(1)
           .map((row, index) => buildRecord(row, state.columns, index))
           .map((record, index) => transformProduct(record, index))
           .filter((product) => isDisplayableProduct(product));
