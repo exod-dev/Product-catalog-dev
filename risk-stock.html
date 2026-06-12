@@ -1122,17 +1122,20 @@
       });
       return Array.from(grouped.values()).sort((a,b)=>a.date.getTime()-b.date.getTime()||a.location.localeCompare(b.location));
     }
-    // Risk: compare each MFD lot date against the product's sellout date.
-    // gap = MFD date − Sellout date (months).
-    // gap < 6  → Critical  (expires within 6 months of selling out, or before)
-    // gap 6–12 → High Risk
-    // gap 12–18→ Watch
-    // gap ≥ 18 → Normal
-    // If no sellout date (no sales data), fall back to MFD vs today.
+    // Risk: two-step logic.
+    // Step 1 — If sellout date < MFD date, stock sells out before expiry → Normal.
+    // Step 2 — Otherwise, rate urgency by MFD vs today:
+    //   MFD < 6 months  → Critical
+    //   MFD 6–12 months → High Risk
+    //   MFD 12–18 months→ Watch
+    //   MFD ≥ 18 months → Normal
+    // No sellout date (no sales) → skip Step 1, apply Step 2 directly.
     function calculateLotRisk(lot, selloutDate) {
+      if (selloutDate && selloutDate.getTime() < lot.date.getTime()) {
+        return {...lot, riskLevel: "normal"};
+      }
+      const gap = monthsBetween(state.today, lot.date);
       let level = "normal";
-      const ref = selloutDate || state.today;
-      const gap = monthsBetween(ref, lot.date);
       if (gap !== null) {
         if      (gap < 6)  level = "critical";
         else if (gap < 12) level = "high";
@@ -1198,9 +1201,9 @@
       const noSales  = state.products.filter(p=>p.fourMonthSales<=0).length;
       const cards = [
         {filter:"all",      label:"Total",    value:total,    desc:"All analyzed products.",      dot:"dot-total"},
-        {filter:"critical", label:"Critical", value:critical, desc:"MFD within 6 months.",        dot:"dot-critical"},
-        {filter:"high",     label:"High Risk",value:high,     desc:"MFD within 6–12 months.",     dot:"dot-high"},
-        {filter:"watch",    label:"Watch",    value:watch,    desc:"MFD within 12–18 months.",    dot:"dot-watch"},
+        {filter:"critical", label:"Critical", value:critical, desc:"Won't sell before MFD. Expires within 6 months.",    dot:"dot-critical"},
+        {filter:"high",     label:"High Risk",value:high,     desc:"Won't sell before MFD. Expires in 6–12 months.",   dot:"dot-high"},
+        {filter:"watch",    label:"Watch",    value:watch,    desc:"Won't sell before MFD. Expires in 12–18 months.",  dot:"dot-watch"},
         {filter:"no-sales", label:"No Sales", value:noSales,  desc:"Last 4M Avg is 0.",           dot:"dot-nosales"}
       ];
       elements.statsGrid.innerHTML = cards.map(c =>
