@@ -1122,19 +1122,13 @@
       });
       return Array.from(grouped.values()).sort((a,b)=>a.date.getTime()-b.date.getTime()||a.location.localeCompare(b.location));
     }
-    // Risk: two-step logic.
-    // Step 1 — If sellout date < MFD date, stock sells out before expiry → Normal.
-    // Step 2 — Otherwise, rate urgency by MFD vs today:
-    //   MFD < 6 months  → Critical
-    //   MFD 6–12 months → High Risk
-    //   MFD 12–18 months→ Watch
-    //   MFD ≥ 18 months → Normal
-    // No sellout date (no sales) → skip Step 1, apply Step 2 directly.
+    // Risk: gap = MFD date − Sellout date (months of cushion before expiry).
+    // gap ≥ 18 → Normal  |  12–18 → Watch  |  6–12 → High Risk  |  < 6 → Critical
+    // Negative gap means Sellout is past MFD → always Critical.
+    // No sellout date (no sales) → MFD vs today with same thresholds.
     function calculateLotRisk(lot, selloutDate) {
-      if (selloutDate && selloutDate.getTime() < lot.date.getTime()) {
-        return {...lot, riskLevel: "normal"};
-      }
-      const gap = monthsBetween(state.today, lot.date);
+      const ref = selloutDate || state.today;
+      const gap = monthsBetween(ref, lot.date);
       let level = "normal";
       if (gap !== null) {
         if      (gap < 6)  level = "critical";
@@ -1201,9 +1195,9 @@
       const noSales  = state.products.filter(p=>p.fourMonthSales<=0).length;
       const cards = [
         {filter:"all",      label:"Total",    value:total,    desc:"All analyzed products.",      dot:"dot-total"},
-        {filter:"critical", label:"Critical", value:critical, desc:"Won't sell before MFD. Expires within 6 months.",    dot:"dot-critical"},
-        {filter:"high",     label:"High Risk",value:high,     desc:"Won't sell before MFD. Expires in 6–12 months.",   dot:"dot-high"},
-        {filter:"watch",    label:"Watch",    value:watch,    desc:"Won't sell before MFD. Expires in 12–18 months.",  dot:"dot-watch"},
+        {filter:"critical", label:"Critical", value:critical, desc:"Less than 6 months cushion before MFD.",    dot:"dot-critical"},
+        {filter:"high",     label:"High Risk",value:high,     desc:"6–12 months cushion before MFD.",          dot:"dot-high"},
+        {filter:"watch",    label:"Watch",    value:watch,    desc:"12–18 months cushion before MFD.",         dot:"dot-watch"},
         {filter:"no-sales", label:"No Sales", value:noSales,  desc:"Last 4M Avg is 0.",           dot:"dot-nosales"}
       ];
       elements.statsGrid.innerHTML = cards.map(c =>
@@ -1474,9 +1468,9 @@
         renderTable();
       });
 
-      /* ── Drag selection: vertical only, locked to starting column ── */
+      /* ── Drag cell selection (2D: rows + columns) ── */
       (function(){
-        const sel={on:false,r0:-1,r1:-1,c0:-1,hasDragged:false};
+        const sel={on:false,r0:-1,r1:-1,c0:-1,c1:-1,hasDragged:false};
         function getCoords(target) {
           const td=target.closest("td"); if(!td) return null;
           const tr=td.parentElement;
@@ -1486,10 +1480,10 @@
         function clearSel() { elements.tableBody.querySelectorAll("td.cell-selected").forEach(td=>td.classList.remove("cell-selected")); }
         function applySel() {
           const minR=Math.min(sel.r0,sel.r1), maxR=Math.max(sel.r0,sel.r1);
+          const minC=Math.min(sel.c0,sel.c1), maxC=Math.max(sel.c0,sel.c1);
           elements.tableBody.querySelectorAll("tr").forEach((tr,ri)=>{
             tr.querySelectorAll("td").forEach((td,ci)=>{
-              // Select only cells in the STARTING column (c0) within the row range
-              td.classList.toggle("cell-selected", ri>=minR && ri<=maxR && ci===sel.c0);
+              td.classList.toggle("cell-selected", ri>=minR && ri<=maxR && ci>=minC && ci<=maxC);
             });
           });
         }
@@ -1499,33 +1493,36 @@
           e.preventDefault();
           clearSel();
           sel.on=true; sel.hasDragged=false;
-          sel.r0=sel.r1=coords.r; sel.c0=coords.c;
+          sel.r0=sel.r1=coords.r; sel.c0=sel.c1=coords.c;
           elements.mainTable.classList.add("is-selecting");
-          /* No applySel on click — wait for actual drag */
         });
         elements.mainTable.addEventListener("mousemove", e=>{
           if (!sel.on) return;
           const coords=getCoords(e.target); if(!coords) return;
-          const ri=coords.r;
-          if (!sel.hasDragged||ri!==sel.r1) {
-            sel.hasDragged=true; sel.r1=ri;
+          if (!sel.hasDragged||coords.r!==sel.r1||coords.c!==sel.c1) {
+            sel.hasDragged=true; sel.r1=coords.r; sel.c1=coords.c;
             clearSel(); applySel();
           }
         });
         document.addEventListener("mouseup", ()=>{
           if (!sel.on) return;
           sel.on=false;
-          if (!sel.hasDragged) clearSel(); /* click = no selection */
+          if (!sel.hasDragged) applySel(); /* single click = select that cell */
           elements.mainTable.classList.remove("is-selecting");
         });
-        /* Ctrl+C: copy selected rows as TSV */
+        /* Ctrl+C: copy only selected cells as TSV, grouped by row */
         document.addEventListener("keydown", e=>{
           if(!(e.ctrlKey||e.metaKey)||e.key!=="c") return;
-          const selected=elements.tableBody.querySelectorAll("tr:has(td.cell-selected)");
-          if(!selected.length) return;
+          const selectedCells=elements.tableBody.querySelectorAll("td.cell-selected");
+          if(!selectedCells.length) return;
           e.preventDefault();
-          const lines=[];
-          selected.forEach(tr=>{ lines.push(Array.from(tr.querySelectorAll("td")).map(td=>td.textContent.replace(/\s+/g," ").trim()).join("\t")); });
+          const rowMap=new Map();
+          selectedCells.forEach(td=>{
+            const ri=td.parentElement.sectionRowIndex;
+            if(!rowMap.has(ri)) rowMap.set(ri,[]);
+            rowMap.get(ri).push(td.textContent.replace(/\s+/g," ").trim());
+          });
+          const lines=Array.from(rowMap.values()).map(cells=>cells.join("\t"));
           navigator.clipboard.writeText(lines.join("\n")).catch(()=>{});
         });
       })();
