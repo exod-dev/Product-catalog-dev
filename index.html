@@ -243,7 +243,7 @@
 
     .toolbar-grid {
       display: grid;
-      grid-template-columns: 1.7fr repeat(4, minmax(0, 1fr)) auto;
+      grid-template-columns: minmax(150px, 0.7fr) minmax(265px, 1.42fr) repeat(4, minmax(124px, 0.84fr)) auto;
       gap: 12px;
       align-items: end;
     }
@@ -272,7 +272,8 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.65);
     }
 
-    .field-search label {
+    .field-search label,
+    .field-sku-search label {
       color: #1d4ed8;
       font-weight: 750;
     }
@@ -1612,7 +1613,6 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .field-search,
       .toolbar-actions {
         grid-column: 1 / -1;
       }
@@ -1661,6 +1661,7 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .field-sku-search,
       .field-search,
       .toolbar-actions {
         grid-column: 1 / -1;
@@ -1783,6 +1784,7 @@
         grid-template-columns: 1fr;
       }
 
+      .field-sku-search,
       .field-search,
       .toolbar-actions {
         grid-column: auto;
@@ -2925,6 +2927,19 @@
 
     <section class="toolbar">
       <div class="toolbar-grid">
+        <div class="field field-sku-search">
+          <label for="skuSearchInput">SKU Search</label>
+          <div class="search-control">
+            <div class="search-input-area">
+              <svg class="search-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+              </svg>
+              <input id="skuSearchInput" type="search" placeholder="SKU only" />
+            </div>
+          </div>
+        </div>
+
         <div class="field field-search">
           <label for="searchInput">Search</label>
           <div class="search-control">
@@ -3168,6 +3183,7 @@
       fieldMap: {},
       products: [],
       filtered: [],
+      skuSearch: "",
       search: "",
       category: "all",
       brand: "all",
@@ -3183,6 +3199,7 @@
     };
 
     const elements = {
+      skuSearchInput: document.getElementById("skuSearchInput"),
       searchInput: document.getElementById("searchInput"),
       categoryFilter: document.getElementById("categoryFilter"),
       brandFilter: document.getElementById("brandFilter"),
@@ -3830,14 +3847,18 @@
     }
 
     function filterProducts() {
+      const skuQuery = state.skuSearch.trim().toLowerCase();
+      const skuQueryTokens = skuQuery ? skuQuery.split(/\s+/).filter(Boolean) : [];
       const query = state.search.trim().toLowerCase();
       const queryTokens = query ? query.split(/\s+/).filter(Boolean) : [];
       const filtered = state.products.filter((product) => {
+        const skuValue = String(product.sku || "").toLowerCase();
+        const matchesSkuQuery = !skuQueryTokens.length || skuQueryTokens.every((token) => skuValue.includes(token));
         const matchesQuery = !queryTokens.length || queryTokens.every((token) => product.searchBlob.includes(token));
         const matchesCategory = state.category === "all" || product.category === state.category;
         const matchesBrand = state.brand === "all" || product.brand === state.brand;
         const matchesStatus = state.status === "all" || (product.statuses || [product.status]).includes(state.status);
-        return matchesQuery && matchesCategory && matchesBrand && matchesStatus;
+        return matchesSkuQuery && matchesQuery && matchesCategory && matchesBrand && matchesStatus;
       });
 
       state.filtered = sortProducts(filtered);
@@ -4007,6 +4028,7 @@
       }
 
       const pills = [];
+      if (state.skuSearch) pills.push("SKU: " + state.skuSearch);
       if (state.search) pills.push("Search: " + state.search);
       if (state.category !== "all") pills.push("Category: " + state.category);
       if (state.brand !== "all") pills.push("Brand: " + state.brand);
@@ -4379,10 +4401,12 @@
             }).format(state.lastSync)
           : "Waiting for live data...";
       }
-      elements.searchInput.closest(".search-control")?.classList.toggle(
-        "has-value",
-        elements.searchInput.value.trim() !== ""
-      );
+      [elements.skuSearchInput, elements.searchInput].forEach((input) => {
+        input?.closest(".search-control")?.classList.toggle(
+          "has-value",
+          input.value.trim() !== ""
+        );
+      });
     }
 
     async function fetchSheetText() {
@@ -4456,6 +4480,7 @@
     }
 
     function resetFilters() {
+      state.skuSearch = "";
       state.search = "";
       state.category = "all";
       state.brand = "all";
@@ -4464,6 +4489,7 @@
       state.stockOnly = false;
       state.currentPage = 1;
 
+      elements.skuSearchInput.value = "";
       elements.searchInput.value = "";
       elements.categoryFilter.value = "all";
       elements.brandFilter.value = "all";
@@ -4770,6 +4796,13 @@
 
       window.addEventListener("scroll", hideNameTooltip, true);
       window.addEventListener("resize", hideNameTooltip);
+
+      elements.skuSearchInput.addEventListener("input", (event) => {
+        state.skuSearch = event.target.value;
+        state.currentPage = 1;
+        elements.skuSearchInput.closest(".search-control")?.classList.toggle("has-value", event.target.value.trim() !== "");
+        renderAll();
+      });
 
       elements.searchInput.addEventListener("input", (event) => {
         state.search = event.target.value;
