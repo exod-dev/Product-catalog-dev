@@ -2973,6 +2973,8 @@
             <option value="name-asc" selected>Name A-Z</option>
             <option value="price-asc">Retail price low-high</option>
             <option value="price-desc">Retail price high-low</option>
+            <option value="last4m-desc">Last 4M high-low</option>
+            <option value="last4m-asc">Last 4M low-high</option>
             <option value="stock-desc">Highest stock</option>
           </select>
         </div>
@@ -3810,6 +3812,12 @@
         case "stock-desc":
           list.sort((a, b) => b.totalAvailable - a.totalAvailable || featuredComparator(a, b));
           break;
+        case "last4m-desc":
+          list.sort((a, b) => parseNumber(b.last4MonthRaw) - parseNumber(a.last4MonthRaw) || a.name.localeCompare(b.name));
+          break;
+        case "last4m-asc":
+          list.sort((a, b) => parseNumber(a.last4MonthRaw) - parseNumber(b.last4MonthRaw) || a.name.localeCompare(b.name));
+          break;
         case "name-asc":
         default:
           list.sort((a, b) => a.name.localeCompare(b.name));
@@ -4003,7 +4011,9 @@
           "name-asc": "Name A-Z",
           "price-asc": "Retail low-high",
           "price-desc": "Retail high-low",
-          "stock-desc": "Highest stock"
+          "stock-desc": "Highest stock",
+          "last4m-desc": "Last 4M high-low",
+          "last4m-asc": "Last 4M low-high"
         };
         pills.push("Sort: " + (sortLabelMap[state.sort] || state.sort));
       }
