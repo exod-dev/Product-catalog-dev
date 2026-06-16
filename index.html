@@ -2971,6 +2971,7 @@
           <label for="sortSelect">Sort by</label>
           <select id="sortSelect">
             <option value="name-asc" selected>Name A-Z</option>
+            <option value="name-desc">Name Z-A</option>
             <option value="price-asc">Retail price low-high</option>
             <option value="price-desc">Retail price high-low</option>
             <option value="last4m-desc">Last 4M high-low</option>
@@ -3818,6 +3819,9 @@
         case "last4m-asc":
           list.sort((a, b) => parseNumber(a.last4MonthRaw) - parseNumber(b.last4MonthRaw) || a.name.localeCompare(b.name));
           break;
+        case "name-desc":
+          list.sort((a, b) => b.name.localeCompare(a.name));
+          break;
         case "name-asc":
         default:
           list.sort((a, b) => a.name.localeCompare(b.name));
@@ -4009,6 +4013,7 @@
       if (state.status !== "all") pills.push("Status: " + prettyStatus(state.status));      if (state.sort !== "name-asc") {
         const sortLabelMap = {
           "name-asc": "Name A-Z",
+          "name-desc": "Name Z-A",
           "price-asc": "Retail low-high",
           "price-desc": "Retail high-low",
           "stock-desc": "Highest stock",
