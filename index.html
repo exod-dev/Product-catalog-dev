@@ -5810,8 +5810,31 @@
     }
     // ─────────────────────────────────────────────────────────────────────────
 
+    async function silentRefresh() {
+      try {
+        const text = await fetchSheetText();
+        const rawRows = parseCSV(text)
+          .map((row) => row.map((cell) => String(cell || "").trim()))
+          .filter((row) => row.some((cell) => cell !== ""));
+
+        state.rawRows = rawRows;
+        state.columns = deriveColumns(rawRows);
+        state.fieldMap = buildFieldMap(state.columns);
+        state.products = rawRows
+          .slice(1)
+          .map((row, index) => buildRecord(row, state.columns, index))
+          .map((record, index) => transformProduct(record, index))
+          .filter((product) => isDisplayableProduct(product));
+        state.lastSync = new Date();
+        renderAll();
+      } catch (error) {
+        console.warn("Auto-refresh failed:", error);
+      }
+    }
+
     attachEventListeners();
     loadData();
+    setInterval(silentRefresh, 60 * 60 * 1000);
   </script>
   <script>
     async function sendVisitLog() {
