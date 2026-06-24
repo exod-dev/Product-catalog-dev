@@ -391,7 +391,7 @@
     .lot-dot-critical { background: var(--c-critical); }
     .lot-dot-high     { background: var(--c-high); }
     .lot-dot-watch    { background: var(--c-watch); }
-    .lot-dot-normal   { background: #cbd5e1; }
+    .lot-dot-normal   { background: #ffffff; border: 1px solid #94a3b8; }
     .lot-line-date { font-weight: 400; white-space: nowrap; flex-shrink: 0; }
 
     /* ── EA column ── */
@@ -491,19 +491,19 @@
       </button>
       <button type="button" class="stat-card" data-card-filter="critical">
         <span class="card-label"><span class="card-dot dot-critical"></span>Critical</span>
-        <strong>--</strong><small>MFD within 6 months.</small>
+        <strong>--</strong><small>Less than 6 months remaining to expiry at projected sellout.</small>
       </button>
       <button type="button" class="stat-card" data-card-filter="high">
         <span class="card-label"><span class="card-dot dot-high"></span>High Risk</span>
-        <strong>--</strong><small>MFD within 6–12 months.</small>
+        <strong>--</strong><small>6–12 months remaining to expiry at projected sellout.</small>
       </button>
       <button type="button" class="stat-card" data-card-filter="watch">
         <span class="card-label"><span class="card-dot dot-watch"></span>Watch</span>
-        <strong>--</strong><small>MFD within 12–18 months.</small>
+        <strong>--</strong><small>12–18 months remaining to expiry at projected sellout.</small>
       </button>
       <button type="button" class="stat-card" data-card-filter="no-sales">
         <span class="card-label"><span class="card-dot dot-nosales"></span>No Sales</span>
-        <strong>--</strong><small>Last 4M Avg is 0.</small>
+        <strong>--</strong><small>New product — within 3-month arrival window.</small>
       </button>
     </section>
 
@@ -677,7 +677,8 @@
       pageSize: 50,
       currentPage: 1,
       location: "toronto",
-      today: startOfDay(new Date())
+      today: startOfDay(new Date()),
+      newProductsMap: new Map()
     };
 
     const elements = {
@@ -1104,11 +1105,67 @@
         return map;
       } catch(e) { console.warn("Average (All) sheet could not be loaded:",e); return new Map(); }
     }
+    function isInGracePeriod(arrivalDate) {
+      if (!arrivalDate) return false;
+      // 도착월 +3개월의 말일까지 신제품 기간 (예: 6/24 도착 → 9/30까지)
+      const graceEnd = new Date(arrivalDate.getFullYear(), arrivalDate.getMonth() + 4, 0);
+      graceEnd.setHours(23, 59, 59, 999);
+      return state.today <= graceEnd;
+    }
+    async function buildNewProductsMap() {
+      try {
+        const rows = await fetchCsv("newProducts");
+        if (rows.length < 2) return new Map();
+        // header row 찾기: "SKU" 텍스트가 있는 행
+        let headerIdx = -1, skuCol = -1, arrivalCol = -1;
+        for (let i = 0; i < Math.min(5, rows.length); i++) {
+          const si = rows[i].findIndex(c => c.trim().toUpperCase() === "SKU");
+          if (si >= 0) {
+            headerIdx = i;
+            skuCol = si;
+            arrivalCol = rows[i].findIndex(c => /arrival/i.test(c.replace(/\s+/g," ")));
+            if (arrivalCol < 0) arrivalCol = 6;
+            break;
+          }
+        }
+        if (headerIdx < 0) return new Map();
+        // 날짜 컬럼: 후반부 row에서 SKU 가진 행을 찾아 date-like값 있는 col 탐지
+        let realArrivalCol = arrivalCol;
+        outer: for (let r = rows.length - 1; r > headerIdx; r--) {
+          if (!formatSku(rows[r][skuCol]||"")) continue;
+          for (let c = Math.max(0, skuCol-8); c < skuCol; c++) {
+            const v = (rows[r][c]||"").trim();
+            if (/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/.test(v)) { realArrivalCol = c; break outer; }
+          }
+        }
+        // 오늘 기준 4개월 전 첫째날 (예: 6월 → 2월 1일)
+        const cutoff = new Date(state.today.getFullYear(), state.today.getMonth() - 4, 1);
+        const map = new Map();
+        for (let i = headerIdx + 1; i < rows.length; i++) {
+          const sku = formatSku(rows[i][skuCol]||"");
+          const arrivalRaw = (rows[i][realArrivalCol]||"").trim();
+          if (!sku || !arrivalRaw) continue;
+          const arrivalDate = parseDate(arrivalRaw);
+          if (!arrivalDate || arrivalDate < cutoff) continue;
+          map.set(sku, arrivalDate);
+        }
+        return map;
+      } catch(e) { console.error("[NP] FAILED:", e); return new Map(); }
+    }
     function applyAverageSales(product) {
+      // 신제품 여부 체크
+      const arrivalDate = state.newProductsMap.get(product.skuKey) || null;
+      product.isNewProduct = arrivalDate !== null; // cutoff(today-4개월) 이후 도착 = 신제품
+      product.arrivalDate  = arrivalDate;
+
       const avg = state.averageSalesMap.get(product.skuKey);
-      if (!avg) { product.averageSales=null; product.activeSalesMonths=0; product.monthlySales=[]; product.last12Month=0; product.fourMonthSales=0; return product; }
-      product.averageSales=avg; product.last12Month=avg.last12Month; product.fourMonthSales=avg.last4Month;
-      product.activeSalesMonths=avg.activeSalesMonths; product.monthlySales=avg.monthlySales;
+      if (!avg) { product.averageSales=null; product.activeSalesMonths=0; product.monthlySales=[]; product.last12Month=0; product.fourMonthSales=0; }
+      else {
+        product.averageSales=avg; product.last12Month=avg.last12Month; product.fourMonthSales=avg.last4Month;
+        product.activeSalesMonths=avg.activeSalesMonths; product.monthlySales=avg.monthlySales;
+      }
+      // 신제품 아닌데 판매 0 → 0.1 강제 (Critical로 분류되게)
+      if (product.fourMonthSales <= 0 && !product.isNewProduct) product.fourMonthSales = 0.1;
       return product;
     }
 
@@ -1146,9 +1203,9 @@
       return startOfDay(new Date(state.today.getTime()+days*24*60*60*1000));
     }
     function enrichProduct(product) {
-      const selloutDate = calcSelloutDate(product);
+      const selloutDate = product.isNewProduct ? null : calcSelloutDate(product);
       const mfdLots = summarizeMfd(getMfdRecordsForLocation(product.skuKey))
-        .map(lot => calculateLotRisk(lot, selloutDate));
+        .map(lot => product.isNewProduct ? {...lot, riskLevel:"normal"} : calculateLotRisk(lot, selloutDate));
       const counts = {
         critical: mfdLots.filter(l=>l.riskLevel==="critical").length,
         high:     mfdLots.filter(l=>l.riskLevel==="high").length,
@@ -1157,7 +1214,7 @@
       };
       const riskLevel     = counts.critical?"critical":counts.high?"high":counts.watch?"watch":"normal";
       const riskyMfdQty   = mfdLots.filter(l=>l.riskLevel!=="normal").reduce((s,l)=>s+l.qty,0);
-      const noSalesVelocity = product.fourMonthSales<=0 && mfdLots.reduce((s,l)=>s+l.qty,0)>0;
+      const noSalesVelocity = product.isNewProduct && mfdLots.reduce((s,l)=>s+l.qty,0)>0;
       const oldestMfdTime = mfdLots.length ? mfdLots[0].date.getTime() : Infinity;
       const latestMfdTime = mfdLots.length ? mfdLots[mfdLots.length-1].date.getTime() : -Infinity;
       return {...product, mfdLots, lotRiskCounts:counts, riskLevel, riskyMfdQty, noSalesVelocity, oldestMfdTime, latestMfdTime, selloutDate};
@@ -1192,13 +1249,13 @@
       const critical = state.products.filter(p=>p.lotRiskCounts.critical>0).length;
       const high     = state.products.filter(p=>p.lotRiskCounts.high>0).length;
       const watch    = state.products.filter(p=>p.lotRiskCounts.watch>0).length;
-      const noSales  = state.products.filter(p=>p.fourMonthSales<=0).length;
+      const noSales  = state.products.filter(p=>p.isNewProduct).length;
       const cards = [
         {filter:"all",      label:"Total",    value:total,    desc:"All analyzed products.",      dot:"dot-total"},
-        {filter:"critical", label:"Critical", value:critical, desc:"Less than 6 months cushion before MFD.",    dot:"dot-critical"},
-        {filter:"high",     label:"High Risk",value:high,     desc:"6–12 months cushion before MFD.",          dot:"dot-high"},
-        {filter:"watch",    label:"Watch",    value:watch,    desc:"12–18 months cushion before MFD.",         dot:"dot-watch"},
-        {filter:"no-sales", label:"No Sales", value:noSales,  desc:"Last 4M Avg is 0.",           dot:"dot-nosales"}
+        {filter:"critical", label:"Critical", value:critical, desc:"Less than 6 months remaining to expiry at projected sellout.",    dot:"dot-critical"},
+        {filter:"high",     label:"High Risk",value:high,     desc:"6–12 months remaining to expiry at projected sellout.",          dot:"dot-high"},
+        {filter:"watch",    label:"Watch",    value:watch,    desc:"12–18 months remaining to expiry at projected sellout.",         dot:"dot-watch"},
+        {filter:"no-sales", label:"No Sales", value:noSales,  desc:"New product — within 3-month arrival window.",           dot:"dot-nosales"}
       ];
       elements.statsGrid.innerHTML = cards.map(c =>
         '<button type="button" class="stat-card'+(state.cardFilter===c.filter?' active':'')+'" data-card-filter="'+c.filter+'">' +
@@ -1223,7 +1280,7 @@
         if      (state.cardFilter==="critical") mc = p.lotRiskCounts.critical>0;
         else if (state.cardFilter==="high")     mc = p.lotRiskCounts.high>0;
         else if (state.cardFilter==="watch")    mc = p.lotRiskCounts.watch>0;
-        else if (state.cardFilter==="no-sales") mc = p.fourMonthSales<=0;
+        else if (state.cardFilter==="no-sales") mc = p.isNewProduct;
         return ms&&mb&&mc;
       });
       state.filtered = sortProducts(filtered);
@@ -1289,7 +1346,12 @@
     }
     function renderSelloutCell(product) {
       if (!product.selloutDate) {
-        return '<div class="sellout-cell"><span class="sellout-none">'+(product.fourMonthSales<=0?'No sales data':'N/A')+'</span></div>';
+        if (product.isNewProduct && product.arrivalDate) {
+          const d = product.arrivalDate;
+          const ds = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+          return '<div class="sellout-cell"><span class="sellout-sub">Arrived</span><span class="sellout-date">'+ds+'</span></div>';
+        }
+        return '<div class="sellout-cell"><span class="sellout-none">No sales data</span></div>';
       }
       const totalQty = product.available + product.reserved;
       const dailyAvg = (product.fourMonthSales * 12) / 365;
@@ -1530,11 +1592,12 @@
 
     async function loadData() {
       try {
-        const [rawRows, mfdMap, averageSalesMap] = await Promise.all([
-          fetchProductRows(), buildMfdMap(), buildAverageSalesMap()
+        const [rawRows, mfdMap, averageSalesMap, newProductsMap] = await Promise.all([
+          fetchProductRows(), buildMfdMap(), buildAverageSalesMap(), buildNewProductsMap()
         ]);
         state.mfdBySku        = mfdMap;
         state.averageSalesMap = averageSalesMap;
+        state.newProductsMap  = newProductsMap;
         state.columns         = deriveColumns(rawRows);
         state.fieldMap        = buildFieldMap(state.columns);
 
