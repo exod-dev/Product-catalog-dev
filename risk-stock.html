@@ -481,6 +481,7 @@
       .hero-link { width: 100%; }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 </head>
 <body>
   <div class="page-shell">
@@ -584,6 +585,7 @@
           <button type="button" class="pager-button" id="prevPageButton">Previous</button>
           <span class="page-indicator" id="pageIndicator">Page 1 / 1</span>
           <button type="button" class="pager-button" id="nextPageButton">Next</button>
+          <button type="button" class="pager-button" id="exportButton"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;vertical-align:middle;margin-right:5px" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export</button>
         </div>
       </div>
     </div>
@@ -710,6 +712,7 @@
       nextPageButton:       document.getElementById("nextPageButton"),
       prevPageButtonBottom: document.getElementById("prevPageButtonBottom"),
       nextPageButtonBottom: document.getElementById("nextPageButtonBottom"),
+      exportButton:         document.getElementById("exportButton"),
       locToronto:           document.getElementById("locToronto"),
       locVancouver:         document.getElementById("locVancouver")
     };
@@ -1403,7 +1406,10 @@
     }
     function renderProductRow(product) {
       const skuCell = '<div class="sku-cell">'+escapeHtml(product.sku||'—')+'</div>';
-      const productMeta = product.brand ? '<div class="product-meta">'+escapeHtml(product.brand)+'</div>' : '';
+      const metaParts = [];
+      if (product.brand)    metaParts.push(escapeHtml(product.brand));
+      if (product.category && product.category !== 'Uncategorized') metaParts.push(escapeHtml(product.category));
+      const productMeta = metaParts.length ? '<div class="product-meta">'+metaParts.join(' · ')+'</div>' : '';
       const productCell =
         '<div class="product-cell">' +
           imageHtml(product) +
@@ -1475,6 +1481,141 @@
       else if (matching===total) elements.resultsSubtitle.textContent = "Showing "+formatNumber(start)+"–"+formatNumber(end)+" of "+formatNumber(total)+" analyzed products.";
       else elements.resultsSubtitle.textContent = "Showing "+formatNumber(start)+"–"+formatNumber(end)+" of "+formatNumber(matching)+" filtered from "+formatNumber(total)+" total.";
     }
+    function exportCSV() {
+      if (!state.filtered.length) { alert("No products to export."); return; }
+      const isTor = state.location === "toronto";
+      const products = state.filtered;
+
+      function numVal(v) {
+        if (v === null || v === undefined || v === "") return "";
+        const n = parseFloat(String(v).replace(/[^\d.-]/g, ""));
+        return isNaN(n) ? "" : n;
+      }
+      function fmtDate(d) { return d ? d.toISOString().split("T")[0] : ""; }
+
+      // ── Header rows ──
+      var row0, row1;
+      if (isTor) {
+        row0 = [
+          "SKU","Brand","Product Name","Barcode","Bin",
+          "Price","","",
+          "Toronto","","",
+          "ESNA","",
+          "Sales","",
+          "MFD Date","EA",
+          "Sellable","Risk Level"
+        ];
+        row1 = [
+          "","","","","",
+          "Cost","Wholesale","Retail",
+          "On Hand","Available","Reserved",
+          "On Hand","Available",
+          "Last 4M Avg","Last 12M Avg",
+          "","",
+          "",""
+        ];
+      } else {
+        row0 = [
+          "SKU","Brand","Product Name","Barcode","Bin",
+          "Price","","",
+          "Vancouver","","",
+          "Sales","",
+          "MFD Date","EA",
+          "Sellable","Risk Level"
+        ];
+        row1 = [
+          "","","","","",
+          "Cost","Wholesale","Retail",
+          "On Hand","Available","Reserved",
+          "Last 4M Avg","Last 12M Avg",
+          "","",
+          "",""
+        ];
+      }
+
+      const dataRows = [];
+      products.forEach(function(p) {
+        const lots = p.mfdLots || [];
+        const sellout = p.selloutDate ? fmtDate(p.selloutDate) : "";
+        const baseRow = isTor ? [
+          String(p.sku||""), String(p.brand||""), String(p.name||""), String(p.upc||""), String(p.location||""),
+          numVal(p.cost), numVal(p.wholesale), numVal(p.retail),
+          numVal(p.onHandTor), numVal(p.availableTor), numVal(p.reservedTor),
+          numVal(p.onHandEsna), numVal(p.availableEsna),
+          numVal(p.fourMonthSales), numVal(p.last12Month)
+        ] : [
+          String(p.sku||""), String(p.brand||""), String(p.name||""), String(p.upc||""), String(p.location||""),
+          numVal(p.cost), numVal(p.wholesale), numVal(p.retail),
+          numVal(p.onHandVan), numVal(p.availableVan), numVal(p.reservedVan),
+          numVal(p.fourMonthSales), numVal(p.last12Month)
+        ];
+
+        if (lots.length === 0) {
+          dataRows.push(baseRow.concat(["", "", String(sellout), String(p.riskLevel||"")]));
+        } else {
+          lots.forEach(function(lot) {
+            dataRows.push(baseRow.concat([String(lot.dateLabel||""), numVal(lot.qty), String(sellout), String(p.riskLevel||"")]));
+          });
+        }
+      });
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet([row0, row1].concat(dataRows));
+      const totalCols = row0.length;
+
+      // ── Merges ──
+      var merges = [];
+      // Rowspan cols (single value in both rows): 0-4, MFD Date, EA, last 2
+      [0,1,2,3,4, totalCols-4, totalCols-3, totalCols-2, totalCols-1].forEach(function(c) {
+        merges.push({ s:{r:0,c:c}, e:{r:1,c:c} });
+      });
+      if (isTor) {
+        merges.push({ s:{r:0,c:5},  e:{r:0,c:7}  }); // Price
+        merges.push({ s:{r:0,c:8},  e:{r:0,c:10} }); // Toronto
+        merges.push({ s:{r:0,c:11}, e:{r:0,c:12} }); // ESNA
+        merges.push({ s:{r:0,c:13}, e:{r:0,c:14} }); // Sales
+      } else {
+        merges.push({ s:{r:0,c:5},  e:{r:0,c:7}  }); // Price
+        merges.push({ s:{r:0,c:8},  e:{r:0,c:10} }); // Vancouver
+        merges.push({ s:{r:0,c:11}, e:{r:0,c:12} }); // Sales
+      }
+      ws["!merges"] = merges;
+
+      // ── Styles ──
+      var bdr = { style:"thin", color:{rgb:"B0BFCF"} };
+      var hdrStyle0 = { font:{bold:true}, fill:{fgColor:{rgb:"E2E8F0"}}, alignment:{horizontal:"center",vertical:"center",wrapText:true}, border:{top:bdr,bottom:bdr,left:bdr,right:bdr} };
+      var hdrStyle1 = { font:{bold:true}, fill:{fgColor:{rgb:"EEF2F8"}}, alignment:{horizontal:"center",vertical:"center"}, border:{top:bdr,bottom:bdr,left:bdr,right:bdr} };
+      for (var c0=0; c0<totalCols; c0++) {
+        var a0 = XLSX.utils.encode_cell({r:0,c:c0});
+        if (!ws[a0]) ws[a0] = {v:row0[c0]||"",t:"s"};
+        ws[a0].s = hdrStyle0;
+        var a1 = XLSX.utils.encode_cell({r:1,c:c0});
+        if (!ws[a1]) ws[a1] = {v:row1[c0]||"",t:"s"};
+        ws[a1].s = hdrStyle1;
+      }
+      // Force text type: SKU=0, Brand=1, Name=2, Barcode=3, Bin=4, MFD Date, Sellable, Risk Level
+      var textCols = isTor ? [0,1,2,3,4,15,17,18] : [0,1,2,3,4,13,15,16];
+      dataRows.forEach(function(row, ri) {
+        textCols.forEach(function(ci) {
+          var addr = XLSX.utils.encode_cell({r:ri+2,c:ci});
+          if (ws[addr]) ws[addr].t = "s";
+        });
+      });
+
+      ws["!freeze"] = {xSplit:0, ySplit:2, topLeftCell:"A3", activePane:"bottomLeft", state:"frozen"};
+      ws["!rows"] = [{hpt:20},{hpt:18}];
+      var colWidths = isTor
+        ? [10,18,40,16,12, 10,10,10, 10,10,10, 10,10, 12,12, 14,10, 16,12]
+        : [10,18,40,16,12, 10,10,10, 10,10,10, 12,12, 14,10, 16,12];
+      ws["!cols"] = colWidths.map(function(w){return {wch:w};});
+
+      XLSX.utils.book_append_sheet(wb, ws, "MFD Risk Stock");
+      const loc = isTor ? "Toronto" : "Vancouver";
+      const today = state.today;
+      const dateStr = today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
+      XLSX.writeFile(wb, "MFD-Risk-Stock_"+loc+"_"+dateStr+".xlsx");
+    }
+
     function renderAll() {
       filterProducts();
       state.currentPage = Math.min(Math.max(state.currentPage,1),getTotalPages());
@@ -1514,6 +1655,7 @@
       elements.nextPageButton.addEventListener("click", ()=>changePage(state.currentPage+1));
       elements.prevPageButtonBottom.addEventListener("click", ()=>changePage(state.currentPage-1));
       elements.nextPageButtonBottom.addEventListener("click", ()=>changePage(state.currentPage+1));
+      elements.exportButton.addEventListener("click", exportCSV);
 
       /* Location segmented control */
       elements.locToronto.addEventListener("click", ()=>{
