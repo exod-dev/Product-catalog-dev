@@ -334,6 +334,12 @@
     /* ── Drag row selection ── */
     td.cell-selected { background: rgba(37,99,235,0.11) !important; box-shadow: inset 0 0 0 1px rgba(37,99,235,0.28); }
     table.is-selecting, table.is-selecting * { user-select: none; -webkit-user-select: none; cursor: crosshair; }
+    table.is-selecting td.info-cell, table.is-selecting td.info-cell * { user-select: text !important; cursor: text !important; }
+
+    /* ── Info cell (selectable text column) ── */
+    .info-cell { font-size: 0.78rem; color: var(--text); line-height: 1.7; white-space: nowrap; user-select: text; cursor: text; vertical-align: middle; }
+    .info-cell .ic-barcode { display: block; font-variant-numeric: tabular-nums; }
+    .info-cell .ic-loc { display: block; }
 
     /* ── Product cell ── */
     .product-cell {
@@ -357,14 +363,14 @@
       overflow: hidden; color: var(--text); font-weight: 500; font-size: 0.88rem; line-height: 1.35;
     }
     .product-meta {
-      margin-top: 4px; color: var(--muted-soft); font-size: 0.72rem;
-      font-weight: 400; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      margin-bottom: 3px; color: var(--muted-soft); font-size: 0.72rem;
+      font-weight: 400; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
 
     /* ── SKU cell ── */
     .sku-cell {
       font-size: 0.78rem;
-      color: var(--muted);
+      color: var(--text);
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
@@ -422,8 +428,8 @@
     /* ── Sellout cell ── */
     .sellout-cell { display: grid; gap: 3px; }
     .sellout-date { font-size: 0.82rem; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text); white-space: nowrap; }
-    .sellout-sub { font-size: 0.72rem; color: var(--muted-soft); line-height: 1.4; }
-    .sellout-none { font-size: 0.76rem; color: var(--muted-soft); }
+    .sellout-sub { font-size: 0.72rem; color: var(--text); line-height: 1.4; }
+    .sellout-none { font-size: 0.76rem; color: var(--text); }
     .sellout-over3y { font-size: 13px; font-weight: 500; color: var(--text); }
 
     /* ── Empty state ── */
@@ -450,6 +456,7 @@
     #mainTable .sku-cell                 { font-size: 14px; }
     #mainTable .product-name             { font-size: 14px; }
     #mainTable .product-meta             { font-size: 13px; }
+    #mainTable .info-cell                { font-size: 13px; }
     #mainTable .metric-line              { font-size: 13px; }
     #mainTable .mfd-lot-line             { font-size: 13px; }
     #mainTable .ea-lot-line              { font-size: 13px; }
@@ -724,11 +731,13 @@
           '<col style="width:1px" />' +
           '<col style="width:1px" />' +
           '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
           '<col style="width:1px" />';
         elements.mainThead.innerHTML =
           '<tr>' +
             '<th rowspan="2">SKU</th>' +
             '<th rowspan="2">Product</th>' +
+            '<th rowspan="2">Barcode / Bin</th>' +
             '<th rowspan="2">Price</th>' +
             '<th colspan="2">Stock</th>' +
             '<th rowspan="2">Sales</th>' +
@@ -749,11 +758,13 @@
           '<col style="width:1px" />' +
           '<col style="width:1px" />' +
           '<col style="width:1px" />' +
+          '<col style="width:1px" />' +
           '<col style="width:1px" />';
         elements.mainThead.innerHTML =
           '<tr>' +
             '<th rowspan="2">SKU</th>' +
             '<th rowspan="2">Product</th>' +
+            '<th rowspan="2">Barcode / Bin</th>' +
             '<th rowspan="2">Price</th>' +
             '<th>Stock</th>' +
             '<th rowspan="2">Sales</th>' +
@@ -1391,20 +1402,20 @@
       }
     }
     function renderProductRow(product) {
-      const metaParts = [];
-      if (product.brand)    metaParts.push(escapeHtml(product.brand));
-      if (product.upc)      metaParts.push(escapeHtml(product.upc));
-      if (product.location) metaParts.push(escapeHtml(product.location));
-
       const skuCell = '<div class="sku-cell">'+escapeHtml(product.sku||'—')+'</div>';
+      const productMeta = product.brand ? '<div class="product-meta">'+escapeHtml(product.brand)+'</div>' : '';
       const productCell =
         '<div class="product-cell">' +
           imageHtml(product) +
           '<div>' +
+            productMeta +
             '<div class="product-name" title="'+escapeHtml(product.name)+'">'+escapeHtml(product.name)+'</div>' +
-            (metaParts.length ? '<div class="product-meta">'+metaParts.join(' · ')+'</div>' : '') +
           '</div>' +
         '</div>';
+      const infoParts = [];
+      if (product.upc)      infoParts.push('<span class="ic-barcode">'+escapeHtml(product.upc)+'</span>');
+      if (product.location) infoParts.push('<span class="ic-loc">'+escapeHtml(product.location)+'</span>');
+      const infoCell = infoParts.join('');
       const priceCell =
         '<div class="metric-stack">' +
           metricLine("Cost",      formatCurrency(product.cost)) +
@@ -1420,6 +1431,7 @@
       return '<tr class="data-row" data-risk="'+escapeHtml(product.riskLevel)+'">' +
         '<td>'+skuCell+'</td>' +
         '<td>'+productCell+'</td>' +
+        '<td class="info-cell">'+infoCell+'</td>' +
         '<td>'+priceCell+'</td>' +
         renderStockCells(product) +
         '<td>'+salesCell+'</td>' +
